@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
-import { Menu, X, Moon, Sun } from 'lucide-react';
+import { Menu, X, Moon, Sun, Home, Info, Users } from 'lucide-react';
 import { AnimatePresence, motion, useScroll, useMotionValueEvent } from 'motion/react';
 import { useTheme } from '../context/ThemeContext';
 
@@ -95,14 +95,29 @@ export default function Navbar() {
   const mobileActiveLinkClass = "text-primary font-bold bg-primary/10 liquid-border";
 
   const navLinks = [
-    { name: 'Home', path: '/' },
-    { name: 'About', path: '/about' },
-    { name: 'Committees', path: '/committees' },
+    { name: 'Home', path: '/', icon: Home },
+    { name: 'About', path: '/about', icon: Info },
+    { name: 'Committees', path: '/committees', icon: Users },
   ];
 
   return (
     <>
+      {/* Background Blur Overlay for Mobile Nav */}
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="fixed inset-0 z-40 bg-surface/60 backdrop-blur-md md:hidden"
+            onClick={() => setIsOpen(false)}
+          />
+        )}
+      </AnimatePresence>
+
       <motion.header 
+        layout
         initial={{ y: 0, opacity: 1 }}
         animate={{ 
           y: isHidden ? -100 : 0, 
@@ -112,29 +127,31 @@ export default function Navbar() {
           type: "spring", 
           stiffness: 400, 
           damping: 30,
-          opacity: { duration: 0.3 }
+          opacity: { duration: 0.3 },
+          layout: { type: "spring", bounce: 0, duration: 0.4 }
         }}
-        className={`fixed top-0 left-0 right-0 z-50 flex justify-between items-center px-6 md:px-10 py-4 rounded-full mt-4 md:mt-6 mx-auto w-[95%] md:w-[90%] max-w-6xl transition-colors duration-500 ${isOpen ? 'bg-transparent border-transparent shadow-none' : 'backdrop-blur-2xl'}`}
-        style={!isOpen ? { 
+        className={`fixed top-0 left-0 right-0 z-50 flex flex-col px-6 md:px-10 py-4 mt-4 md:mt-6 mx-auto w-[95%] md:w-[90%] max-w-6xl backdrop-blur-2xl overflow-hidden ${isOpen ? 'rounded-[2rem]' : 'rounded-full'}`}
+        style={{ 
           backgroundColor: 'var(--nav-bg)',
           boxShadow: 'var(--nav-shadow)',
           border: '1px solid var(--nav-border)'
-        } : {}}
+        }}
       >
-        <div className="text-2xl font-black tracking-tighter text-primary font-headline w-1/3 md:w-auto">
-          DHMMUN
-        </div>
-        
-        {/* Mobile Theme Toggle (Middle) */}
-        <div className="md:hidden flex justify-center w-1/3">
-          <ThemeToggle />
-        </div>
+        <div className="flex justify-between items-center w-full">
+          <div className="text-2xl font-black tracking-tighter text-primary font-headline w-1/3 md:w-auto">
+            DHMMUN
+          </div>
+          
+          {/* Mobile Theme Toggle (Middle) */}
+          <div className="md:hidden flex justify-center w-1/3">
+            <ThemeToggle />
+          </div>
 
-        {/* Desktop Navigation */}
-        <nav 
-          className="hidden md:flex items-center gap-2 relative"
-          onMouseLeave={() => setHoveredPath(null)}
-        >
+          {/* Desktop Navigation */}
+          <nav 
+            className="hidden md:flex items-center gap-2 relative"
+            onMouseLeave={() => setHoveredPath(null)}
+          >
           {navLinks.map((link) => {
             const isActive = location.pathname === link.path;
             const isHovered = hoveredPath === link.path;
@@ -176,70 +193,89 @@ export default function Navbar() {
           {/* Mobile Menu Toggle */}
           <button 
             ref={buttonRef}
-            className="md:hidden p-2 text-primary hover:bg-primary/10 rounded-full transition-colors active:scale-95"
+            className="md:hidden p-2 text-primary hover:bg-primary/10 rounded-full transition-colors active:scale-95 relative w-10 h-10 flex items-center justify-center"
             onClick={() => setIsOpen(!isOpen)}
-            aria-label="Toggle Menu"
+            aria-expanded={isOpen}
+            aria-label={isOpen ? "Close menu" : "Open menu"}
           >
-            {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            <AnimatePresence mode="wait">
+              {isOpen ? (
+                <motion.div
+                  key="close"
+                  initial={{ opacity: 0, rotate: -90 }}
+                  animate={{ opacity: 1, rotate: 0 }}
+                  exit={{ opacity: 0, rotate: 90 }}
+                  transition={{ duration: 0.2 }}
+                  className="absolute"
+                >
+                  <X className="w-6 h-6" />
+                </motion.div>
+              ) : (
+                <motion.div
+                  key="menu"
+                  initial={{ opacity: 0, rotate: 90 }}
+                  animate={{ opacity: 1, rotate: 0 }}
+                  exit={{ opacity: 0, rotate: -90 }}
+                  transition={{ duration: 0.2 }}
+                  className="absolute"
+                >
+                  <Menu className="w-6 h-6" />
+                </motion.div>
+              )}
+            </AnimatePresence>
           </button>
         </div>
-      </motion.header>
+        </div>
 
-      {/* Mobile Full-Screen Menu */}
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            initial={{ opacity: 0, backdropFilter: "blur(0px)" }}
-            animate={{ opacity: 1, backdropFilter: "blur(24px)" }}
-            exit={{ opacity: 0, backdropFilter: "blur(0px)" }}
-            transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-            className="fixed inset-0 z-40 flex flex-col justify-center items-center md:hidden bg-surface/80"
-          >
-            {/* Decorative background elements */}
-            <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-primary/20 rounded-full blur-[80px] mix-blend-screen pointer-events-none"></div>
-            <div className="absolute bottom-1/4 right-1/4 w-64 h-64 bg-secondary/20 rounded-full blur-[80px] mix-blend-screen pointer-events-none"></div>
-
-            <div className="flex flex-col items-center gap-8 w-full px-8 relative z-10">
-              {navLinks.map((link, i) => (
-                <motion.div
-                  key={link.name}
-                  initial={{ opacity: 0, y: 40 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: 20 }}
-                  transition={{ duration: 0.5, delay: i * 0.1, ease: [0.22, 1, 0.36, 1] }}
-                  className="w-full"
-                >
-                  <NavLink
-                    to={link.path}
-                    onClick={() => setIsOpen(false)}
-                    className={({ isActive }) => `block w-full text-center py-4 text-4xl font-headline font-black tracking-tighter transition-all duration-300 active:scale-95 ${isActive ? 'text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary scale-110 active:scale-100' : 'text-on-surface-variant hover:text-on-surface'}`}
-                  >
-                    {link.name}
-                  </NavLink>
-                </motion.div>
-              ))}
-              
-              <motion.div
-                initial={{ opacity: 0, y: 40 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: 20 }}
-                transition={{ duration: 0.5, delay: navLinks.length * 0.1, ease: [0.22, 1, 0.36, 1] }}
-                className="w-full mt-8"
-              >
+        {/* Mobile Navigation Links */}
+        <AnimatePresence>
+          {isOpen && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.3 }}
+              className="md:hidden flex flex-col gap-2 w-full overflow-hidden"
+            >
+              <div className="pt-6 pb-2 flex flex-col gap-2">
+                {navLinks.map((link) => {
+                  const isActive = location.pathname === link.path;
+                  const Icon = link.icon;
+                  return (
+                    <NavLink
+                      key={link.name}
+                      to={link.path}
+                      onClick={() => setIsOpen(false)}
+                      className={`flex items-center justify-between px-4 py-3.5 rounded-xl transition-all duration-300 active:scale-95 ${
+                        isActive 
+                          ? 'bg-primary/10 text-on-surface opacity-100' 
+                          : 'text-on-surface-variant opacity-60 hover:opacity-100 hover:bg-surface-container'
+                      }`}
+                    >
+                      <div className="flex items-center gap-4">
+                        <Icon className={`w-5 h-5 ${isActive ? 'text-primary' : ''}`} />
+                        <span className={`font-headline font-semibold text-lg ${isActive ? 'text-primary' : ''}`}>{link.name}</span>
+                      </div>
+                      {isActive && (
+                        <div className="w-2 h-2 rounded-full bg-primary" />
+                      )}
+                    </NavLink>
+                  );
+                })}
                 <button 
                   onClick={() => {
                     setIsOpen(false);
                     navigate('/registration');
                   }}
-                  className="w-full bg-gradient-to-br from-primary to-on-primary-container text-on-primary font-bold px-8 py-5 rounded-full active:scale-95 transition-transform font-headline text-xl shadow-[0_0_40px_rgba(0,218,243,0.3)]"
+                  className="mt-2 w-full bg-gradient-to-br from-primary to-on-primary-container text-on-primary font-bold px-4 py-3.5 rounded-xl active:scale-95 transition-transform font-headline text-lg"
                 >
                   Join Now
                 </button>
-              </motion.div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </motion.header>
     </>
   );
 }
