@@ -69,6 +69,7 @@ const SECRETARIAT_MEMBERS = [
 function SecretariatCard({ member }: { member: any }) {
   const [isHovered, setIsHovered] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const [delayedInView, setDelayedInView] = useState(false);
   const cardRef = useRef<HTMLDivElement>(null);
   
   // margin requires the card to be in the middle 20% of the screen horizontally to trigger
@@ -81,7 +82,16 @@ function SecretariatCard({ member }: { member: any }) {
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
-  const isActive = isMobile ? isInView : isHovered;
+  useEffect(() => {
+    if (isInView) {
+      const timer = setTimeout(() => setDelayedInView(true), 300);
+      return () => clearTimeout(timer);
+    } else {
+      setDelayedInView(false);
+    }
+  }, [isInView]);
+
+  const isActive = isMobile ? delayedInView : isHovered;
 
   const x = useMotionValue(0);
   const y = useMotionValue(0);

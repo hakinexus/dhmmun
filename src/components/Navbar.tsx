@@ -10,17 +10,17 @@ function ThemeToggle({ className = "" }: { className?: string }) {
   return (
     <button
       onClick={toggleTheme}
-      className={`relative flex items-center w-14 h-7 rounded-full bg-surface-container-highest border border-outline-variant/20 overflow-hidden transition-colors duration-300 shrink-0 ${className}`}
+      className={`relative flex items-center w-16 h-8 rounded-full bg-surface-container-highest border border-outline-variant/20 overflow-hidden transition-colors duration-300 shrink-0 ${className}`}
       aria-label="Toggle theme"
     >
       <motion.div
-        className="absolute left-1 top-1 bottom-1 w-5 rounded-full bg-primary shadow-md"
-        animate={{ x: theme === 'dark' ? 28 : 0 }}
+        className="absolute left-1 top-1 bottom-1 w-6 rounded-full bg-primary shadow-md"
+        animate={{ x: theme === 'dark' ? 32 : 0 }}
         transition={{ type: "spring", stiffness: 500, damping: 30 }}
       />
-      <div className="absolute inset-0 flex justify-between items-center px-[6px] pointer-events-none">
-        <Sun className={`w-3.5 h-3.5 z-10 transition-colors duration-300 ${theme === 'light' ? 'text-on-primary' : 'text-on-surface-variant'}`} />
-        <Moon className={`w-3.5 h-3.5 z-10 transition-colors duration-300 ${theme === 'dark' ? 'text-on-primary' : 'text-on-surface-variant'}`} />
+      <div className="absolute inset-0 flex justify-between items-center px-[8px] pointer-events-none">
+        <Sun className={`w-4 h-4 z-10 transition-colors duration-300 ${theme === 'light' ? 'text-on-primary' : 'text-on-surface-variant'}`} />
+        <Moon className={`w-4 h-4 z-10 transition-colors duration-300 ${theme === 'dark' ? 'text-on-primary' : 'text-on-surface-variant'}`} />
       </div>
     </button>
   );
@@ -36,12 +36,32 @@ export default function Navbar() {
   const buttonRef = useRef<HTMLButtonElement>(null);
   const { theme, toggleTheme } = useTheme();
   const { scrollY } = useScroll();
+  const accumulatedScroll = useRef(0);
 
   useMotionValueEvent(scrollY, "change", (latest) => {
     const previous = scrollY.getPrevious() ?? 0;
-    if (latest > previous && latest > 150 && !isOpen) {
+    const diff = latest - previous;
+
+    // Always show at the very top
+    if (latest <= 150) {
+      setIsHidden(false);
+      accumulatedScroll.current = 0;
+      return;
+    }
+
+    if (isOpen) return;
+
+    // Reset accumulator if direction changes
+    if ((diff > 0 && accumulatedScroll.current < 0) || (diff < 0 && accumulatedScroll.current > 0)) {
+      accumulatedScroll.current = 0;
+    }
+
+    accumulatedScroll.current += diff;
+
+    // Require 60px of downward scroll to hide, 30px of upward scroll to show
+    if (accumulatedScroll.current > 60) {
       setIsHidden(true);
-    } else {
+    } else if (accumulatedScroll.current < -30) {
       setIsHidden(false);
     }
   });
