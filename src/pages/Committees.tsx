@@ -95,7 +95,7 @@ export default function Committees() {
               </p>
             </div>
             <div className="mt-8">
-              <button className="text-primary flex items-center gap-2 font-bold hover:gap-4 transition-all duration-300">
+              <button className="text-primary flex items-center gap-2 font-bold hover:gap-4 transition-all duration-300 active:scale-95 origin-left">
                 View Guide <ArrowRight className="w-5 h-5" />
               </button>
             </div>
@@ -152,7 +152,7 @@ export default function Committees() {
               An immersive, fast-paced crisis simulation challenging delegates to respond to a sudden, global environmental shift that alters maritime boundaries overnight.
             </p>
             <div className="flex items-center gap-6">
-              <button className="bg-white text-background px-8 py-3 rounded-full font-bold hover:bg-primary transition-colors">
+              <button className="bg-white text-background px-8 py-3 rounded-full font-bold hover:bg-primary transition-colors active:scale-95">
                 Apply for Position
               </button>
             </div>

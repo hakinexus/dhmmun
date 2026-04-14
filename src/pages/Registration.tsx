@@ -282,7 +282,7 @@ export default function Registration() {
                       </p>
                       <button 
                         onClick={() => setIsSuccess(false)}
-                        className="px-8 py-3 rounded-xl bg-surface-container border border-outline-variant/30 text-on-surface font-bold hover:bg-surface-container-high transition-colors"
+                        className="px-8 py-3 rounded-xl bg-surface-container border border-outline-variant/30 text-on-surface font-bold hover:bg-surface-container-high transition-colors active:scale-95"
                       >
                         Submit Another
                       </button>

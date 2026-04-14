@@ -38,7 +38,7 @@ export default function Home() {
             <Magnetic strength={0.3} className="w-full md:w-auto">
               <Link 
                 to="/registration" 
-                className="group relative flex md:inline-flex items-center justify-center w-full md:w-auto px-10 py-4 md:py-5 rounded-full text-on-primary font-bold text-lg transition-all duration-500 chromatic-btn-hover"
+                className="group relative flex md:inline-flex items-center justify-center w-full md:w-auto px-10 py-4 md:py-5 rounded-full text-on-primary font-bold text-lg transition-all duration-500 chromatic-btn-hover active:scale-95"
               >
                 {/* Base background */}
                 <div className="absolute inset-0 rounded-full bg-gradient-to-br from-primary to-secondary opacity-90 group-hover:opacity-100 transition-opacity duration-500"></div>
@@ -56,7 +56,7 @@ export default function Home() {
             <Magnetic strength={0.2} className="w-full md:w-auto">
               <Link 
                 to="/about" 
-                className="group relative flex md:inline-flex items-center justify-center w-full md:w-auto px-10 py-4 md:py-5 rounded-full text-on-surface font-semibold text-lg transition-all duration-500 chromatic-btn-hover"
+                className="group relative flex md:inline-flex items-center justify-center w-full md:w-auto px-10 py-4 md:py-5 rounded-full text-on-surface font-semibold text-lg transition-all duration-500 chromatic-btn-hover active:scale-95"
               >
                 {/* Glass background */}
                 <div className="absolute inset-0 rounded-full bg-on-surface/5 backdrop-blur-xl border border-outline-variant/20 group-hover:bg-on-surface/10 group-hover:border-outline-variant/40 transition-all duration-500"></div>

@@ -403,7 +403,7 @@ export default function About() {
               </li>
             </ul>
             <Magnetic strength={0.2}>
-              <button className="flex items-center gap-2 text-primary font-bold hover:gap-4 transition-all font-headline chromatic-btn-hover px-6 py-3 rounded-full bg-primary/10 border border-primary/20">
+              <button className="flex items-center gap-2 text-primary font-bold hover:gap-4 transition-all font-headline chromatic-btn-hover px-6 py-3 rounded-full bg-primary/10 border border-primary/20 active:scale-95">
                 Explore the Venue <ArrowRight className="w-5 h-5" />
               </button>
             </Magnetic>

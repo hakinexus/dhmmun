@@ -176,7 +176,7 @@ export default function Navbar() {
           {/* Mobile Menu Toggle */}
           <button 
             ref={buttonRef}
-            className="md:hidden p-2 text-primary hover:bg-primary/10 rounded-full transition-colors"
+            className="md:hidden p-2 text-primary hover:bg-primary/10 rounded-full transition-colors active:scale-95"
             onClick={() => setIsOpen(!isOpen)}
             aria-label="Toggle Menu"
           >
@@ -212,7 +212,7 @@ export default function Navbar() {
                   <NavLink
                     to={link.path}
                     onClick={() => setIsOpen(false)}
-                    className={({ isActive }) => `block w-full text-center py-4 text-4xl font-headline font-black tracking-tighter transition-all duration-300 ${isActive ? 'text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary scale-110' : 'text-on-surface-variant hover:text-on-surface'}`}
+                    className={({ isActive }) => `block w-full text-center py-4 text-4xl font-headline font-black tracking-tighter transition-all duration-300 active:scale-95 ${isActive ? 'text-transparent bg-clip-text bg-gradient-to-r from-primary to-secondary scale-110 active:scale-100' : 'text-on-surface-variant hover:text-on-surface'}`}
                   >
                     {link.name}
                   </NavLink>
