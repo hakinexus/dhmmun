@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { User, GraduationCap, Mail, IdCard, CheckCircle, Sparkles, ArrowRight } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
+import { triggerHaptic, hapticPatterns } from '../lib/haptics';
 
 export default function Registration() {
   const [focusedField, setFocusedField] = useState<string | null>(null);
@@ -14,6 +15,7 @@ export default function Registration() {
     setTimeout(() => {
       setIsSubmitting(false);
       setIsSuccess(true);
+      triggerHaptic(hapticPatterns.success);
     }, 2000);
   };
 

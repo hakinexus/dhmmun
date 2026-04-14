@@ -2,6 +2,7 @@ import { useRef, useState, useEffect } from 'react';
 import { ArrowRight, Eye } from 'lucide-react';
 import { motion, useScroll, useTransform, useMotionValue, useSpring, useMotionTemplate, useInView } from 'motion/react';
 import Magnetic from '../components/Magnetic';
+import { triggerHaptic, hapticPatterns } from '../lib/haptics';
 
 const SECRETARIAT_MEMBERS = [
   {
@@ -182,6 +183,11 @@ function SecretariatCard({ member }: { member: any }) {
                   initial={{ opacity: 0 }}
                   animate={{ opacity: isActive ? 1 : 0 }}
                   transition={{ duration: 0.01, delay: isActive ? i * 0.015 : 0 }}
+                  onAnimationStart={() => {
+                    if (isActive) {
+                      triggerHaptic(hapticPatterns.typewriter);
+                    }
+                  }}
                 >
                   {char}
                 </motion.span>

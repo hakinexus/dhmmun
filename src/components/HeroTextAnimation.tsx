@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import SplitType from 'split-type';
+import { triggerHaptic, hapticPatterns } from '../lib/haptics';
 
 export default function HeroTextAnimation() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -46,6 +47,10 @@ export default function HeroTextAnimation() {
       tl.to(char, {
         opacity: 1,
         duration: 0.01,
+        onStart: () => {
+          // Trigger a very small, cute vibration for each character
+          triggerHaptic(hapticPatterns.typewriter);
+        }
       }, index * 0.075); // Premium pace: 75ms per character
 
       // Move the cursor fluidly to the new character
