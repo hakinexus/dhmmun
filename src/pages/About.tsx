@@ -1,6 +1,6 @@
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { ArrowRight, Eye } from 'lucide-react';
-import { motion, useScroll, useTransform, useMotionValue, useSpring, useMotionTemplate, useVelocity } from 'motion/react';
+import { motion, useScroll, useTransform, useMotionValue, useSpring, useMotionTemplate, useInView } from 'motion/react';
 import Magnetic from '../components/Magnetic';
 
 const SECRETARIAT_MEMBERS = [
@@ -68,6 +68,21 @@ const SECRETARIAT_MEMBERS = [
 
 function SecretariatCard({ member }: { member: any }) {
   const [isHovered, setIsHovered] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+  const cardRef = useRef<HTMLDivElement>(null);
+  
+  // margin requires the card to be in the middle 20% of the screen horizontally to trigger
+  const isInView = useInView(cardRef, { margin: "0px -40% 0px -40%" });
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  const isActive = isMobile ? isInView : isHovered;
+
   const x = useMotionValue(0);
   const y = useMotionValue(0);
   
@@ -78,6 +93,8 @@ function SecretariatCard({ member }: { member: any }) {
   const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-12deg", "12deg"]);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    // Only apply 3D effect on desktop
+    if (isMobile) return;
     const rect = e.currentTarget.getBoundingClientRect();
     const width = rect.width;
     const height = rect.height;
@@ -90,6 +107,7 @@ function SecretariatCard({ member }: { member: any }) {
   };
 
   const handleMouseLeave = () => {
+    if (isMobile) return;
     x.set(0);
     y.set(0);
     setIsHovered(false);
@@ -97,19 +115,20 @@ function SecretariatCard({ member }: { member: any }) {
 
   return (
     <motion.div
+      ref={cardRef}
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-50px" }}
       transition={{ duration: 0.6, delay: member.delay * 0.5 }}
-      className={`relative ${member.mt || ''}`}
+      className={`relative w-[80vw] shrink-0 md:w-auto snap-center ${member.mt || ''}`}
       style={{ perspective: 1000 }}
     >
       <motion.div
         onMouseMove={handleMouseMove}
-        onMouseEnter={() => setIsHovered(true)}
+        onMouseEnter={() => { if (!isMobile) setIsHovered(true); }}
         onMouseLeave={handleMouseLeave}
         style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
-        className="glass-card group p-6 rounded-[2rem] border border-outline-variant/20 hover:border-primary/30 transition-colors duration-500 w-full h-full flex flex-col"
+        className="glass-card group p-6 rounded-[2rem] border border-outline-variant/20 hover:border-primary/30 transition-colors duration-500 w-full h-full flex flex-col cursor-default"
       >
         <div 
           className="relative w-full aspect-[4/5] rounded-xl overflow-hidden mb-6"
@@ -126,7 +145,7 @@ function SecretariatCard({ member }: { member: any }) {
           {/* Liquid Color Reveal */}
           <motion.div
             initial={{ clipPath: "inset(100% 0 0 0)" }}
-            animate={{ clipPath: isHovered ? "inset(0% 0 0 0)" : "inset(100% 0 0 0)" }}
+            animate={{ clipPath: isActive ? "inset(0% 0 0 0)" : "inset(100% 0 0 0)" }}
             transition={{ duration: 0.7, ease: [0.7, 0, 0.3, 1] }}
             className="absolute inset-0 z-10"
           >
@@ -151,8 +170,8 @@ function SecretariatCard({ member }: { member: any }) {
                 <motion.span
                   key={i}
                   initial={{ opacity: 0 }}
-                  animate={{ opacity: isHovered ? 1 : 0 }}
-                  transition={{ duration: 0.01, delay: isHovered ? i * 0.015 : 0 }}
+                  animate={{ opacity: isActive ? 1 : 0 }}
+                  transition={{ duration: 0.01, delay: isActive ? i * 0.015 : 0 }}
                 >
                   {char}
                 </motion.span>
@@ -187,31 +206,22 @@ export default function About() {
   const eyeX = useTransform(smoothX, [0, 800], [-15, 15]);
   const eyeY = useTransform(smoothY, [0, 400], [-15, 15]);
 
-  // Living Aura Logic
-  const { scrollY } = useScroll();
-  const scrollVelocity = useVelocity(scrollY);
-  const smoothVelocity = useSpring(scrollVelocity, { damping: 50, stiffness: 400 });
-  
-  const auraScale = useTransform(smoothVelocity, [-1000, 0, 1000], [1.3, 1, 1.3]);
-  const auraOpacity = useTransform(smoothVelocity, [-1000, 0, 1000], [1, 0.4, 1]);
-  const auraHue = useTransform(smoothVelocity, [-1000, 0, 1000], [30, 0, -30]);
-
   return (
-    <main className="relative pt-32 pb-20">
+    <main className="relative pt-24 md:pt-32 pb-20">
       {/* Abstract Background Orbs */}
       <div className="absolute top-0 right-[-10%] w-[500px] h-[500px] bg-primary/10 rounded-full blur-[120px] -z-10"></div>
       <div className="absolute top-[40%] left-[-5%] w-[400px] h-[400px] bg-secondary/10 rounded-full blur-[100px] -z-10"></div>
 
       {/* Hero Section */}
-      <section className="max-w-7xl mx-auto px-6 mb-32">
-        <div className="flex flex-col md:flex-row items-center gap-16">
+      <section className="max-w-7xl mx-auto px-6 mb-20 md:mb-32">
+        <div className="flex flex-col md:flex-row items-center gap-10 md:gap-16">
           <motion.div 
             initial={{ opacity: 0, x: -30 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
             className="w-full md:w-3/5"
           >
-            <h1 className="text-6xl md:text-8xl font-headline font-bold leading-[0.9] tracking-tighter mb-8 liquid-text-gradient chromatic-hover">
+            <h1 className="text-5xl md:text-8xl font-headline font-bold leading-[0.9] tracking-tighter mb-6 md:mb-8 liquid-text-gradient chromatic-hover">
               The Legacy of <br/>Diplomacy.
             </h1>
             <p className="text-xl md:text-2xl text-on-surface-variant font-body leading-relaxed max-w-2xl opacity-80">
@@ -236,7 +246,7 @@ export default function About() {
       </section>
 
       {/* Vision & Spirit Section (Asymmetric Layout) */}
-      <section className="max-w-7xl mx-auto px-6 mb-32">
+      <section className="max-w-7xl mx-auto px-6 mb-20 md:mb-32">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-12">
           {/* The Vision of DHMMUN */}
           <motion.div 
@@ -271,11 +281,29 @@ export default function About() {
 
               {/* Magnified Lens Overlay */}
               <motion.div 
-                className="absolute inset-0 z-20 pointer-events-none p-12"
+                className="absolute inset-0 z-20 pointer-events-none p-12 hidden md:block"
                 style={{
                   opacity: smoothLensOpacity,
                   WebkitMaskImage: useMotionTemplate`radial-gradient(circle 140px at ${smoothX}px ${smoothY}px, black 0%, transparent 100%)`,
                   maskImage: useMotionTemplate`radial-gradient(circle 140px at ${smoothX}px ${smoothY}px, black 0%, transparent 100%)`,
+                }}
+              >
+                <div className="relative z-10">
+                  <h2 className="text-4xl font-headline font-black mb-6 text-primary text-glow">The Vision of DHMMUN</h2>
+                  <p className="text-lg text-on-surface leading-relaxed font-body font-medium drop-shadow-lg">
+                    Our vision is to empower delegates to transcend traditional debate. In the "Fluidity of Diplomacy," we encourage participants to navigate complex global tapestries with intellectual agility and moral clarity. We aim to foster an environment where consensus is not just reached, but discovered through deep understanding.
+                  </p>
+                </div>
+              </motion.div>
+
+              {/* Mobile Fallback for Lens Effect */}
+              <motion.div 
+                className="absolute inset-0 z-20 pointer-events-none p-12 md:hidden"
+                animate={{ opacity: [0, 1, 0] }}
+                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                style={{
+                  WebkitMaskImage: "radial-gradient(circle 120px at 50% 50%, black 0%, transparent 100%)",
+                  maskImage: "radial-gradient(circle 120px at 50% 50%, black 0%, transparent 100%)",
                 }}
               >
                 <div className="relative z-10">
@@ -298,28 +326,12 @@ export default function About() {
           >
             <div className="bg-surface-container-lowest p-12 rounded-xl border border-outline-variant/10 hover:border-secondary/20 transition-colors duration-500 group relative overflow-hidden liquid-border">
               
-              {/* Living Aura Background */}
-              <motion.div 
-                className="absolute inset-0 z-0 pointer-events-none"
-                style={{
-                  scale: auraScale,
-                  opacity: auraOpacity,
-                  filter: useMotionTemplate`hue-rotate(${auraHue}deg)`
-                }}
-              >
-                <motion.div
-                  animate={{ 
-                    scale: [1, 1.2, 1], 
-                    opacity: [0.5, 0.9, 0.5] 
-                  }}
-                  transition={{ 
-                    duration: 4, 
-                    repeat: Infinity, 
-                    ease: "easeInOut" 
-                  }}
-                  className="absolute -inset-[50%] bg-gradient-to-br from-secondary/40 via-primary/30 to-transparent blur-[80px] rounded-full mix-blend-screen"
+              {/* Static Aura Background */}
+              <div className="absolute inset-0 z-0 pointer-events-none">
+                <div
+                  className="absolute -inset-[50%] bg-gradient-to-br from-secondary/20 via-primary/10 to-transparent blur-[80px] rounded-full mix-blend-screen opacity-50"
                 />
-              </motion.div>
+              </div>
 
               <div className="relative z-10">
                 <h2 className="text-4xl font-headline font-bold mb-6 text-secondary group-hover:font-black transition-all duration-500">The Downe House Spirit</h2>
@@ -337,7 +349,7 @@ export default function About() {
       </section>
 
       {/* The Downe House Difference */}
-      <section className="max-w-7xl mx-auto px-6 mb-40">
+      <section className="max-w-7xl mx-auto px-6 mb-24 md:mb-40">
         <motion.div 
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -401,8 +413,14 @@ export default function About() {
           <h2 className="text-5xl md:text-7xl font-headline font-bold tracking-tighter">The Secretariat</h2>
         </motion.div>
 
+        {/* Swipe Indicator for Mobile */}
+        <div className="md:hidden flex items-center justify-center gap-2 text-on-surface-variant/60 text-sm font-medium mb-8 animate-pulse">
+          <ArrowRight className="w-4 h-4" />
+          <span>Swipe to explore</span>
+        </div>
+
         {/* Profile Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+        <div className="flex md:grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8 overflow-x-auto snap-x snap-mandatory hide-scrollbar pb-8 w-[calc(100vw-3rem)] md:w-full md:pb-0">
           {SECRETARIAT_MEMBERS.map((member, i) => (
             <SecretariatCard key={i} member={member} />
           ))}

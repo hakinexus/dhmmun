@@ -24,7 +24,7 @@ export default function Home() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 3.2, ease: "easeOut" }}
-            className="max-w-3xl mx-auto text-on-surface-variant text-xl md:text-2xl font-body leading-relaxed mb-16 opacity-90 font-light"
+            className="max-w-3xl mx-auto text-on-surface-variant text-lg md:text-2xl font-body leading-relaxed mb-12 md:mb-16 opacity-90 font-light"
           >
             Experience the next generation of global discourse at Downe House Muscat. Where traditional diplomacy meets the transparency of the future.
           </motion.p>
@@ -33,12 +33,12 @@ export default function Home() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 3.4, ease: "easeOut" }}
-            className="flex flex-col md:flex-row items-center justify-center gap-8 mb-32"
+            className="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-8 mb-24 md:mb-32 w-full px-4 md:px-0"
           >
-            <Magnetic strength={0.3}>
+            <Magnetic strength={0.3} className="w-full md:w-auto">
               <Link 
                 to="/registration" 
-                className="group relative inline-flex items-center justify-center px-10 py-5 rounded-full text-on-primary font-bold text-lg transition-all duration-500 chromatic-btn-hover"
+                className="group relative flex md:inline-flex items-center justify-center w-full md:w-auto px-10 py-4 md:py-5 rounded-full text-on-primary font-bold text-lg transition-all duration-500 chromatic-btn-hover"
               >
                 {/* Base background */}
                 <div className="absolute inset-0 rounded-full bg-gradient-to-br from-primary to-secondary opacity-90 group-hover:opacity-100 transition-opacity duration-500"></div>
@@ -53,10 +53,10 @@ export default function Home() {
               </Link>
             </Magnetic>
             
-            <Magnetic strength={0.2}>
+            <Magnetic strength={0.2} className="w-full md:w-auto">
               <Link 
                 to="/about" 
-                className="group relative inline-flex items-center justify-center px-10 py-5 rounded-full text-on-surface font-semibold text-lg transition-all duration-500 chromatic-btn-hover"
+                className="group relative flex md:inline-flex items-center justify-center w-full md:w-auto px-10 py-4 md:py-5 rounded-full text-on-surface font-semibold text-lg transition-all duration-500 chromatic-btn-hover"
               >
                 {/* Glass background */}
                 <div className="absolute inset-0 rounded-full bg-on-surface/5 backdrop-blur-xl border border-outline-variant/20 group-hover:bg-on-surface/10 group-hover:border-outline-variant/40 transition-all duration-500"></div>
@@ -88,15 +88,21 @@ export default function Home() {
       </section>
 
       {/* Bento Grid Feature Section */}
-      <section className="py-32 px-6 container mx-auto overflow-hidden">
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
+      <section className="py-20 md:py-32 px-6 container mx-auto overflow-hidden">
+        {/* Swipe Indicator for Mobile */}
+        <div className="md:hidden flex items-center gap-2 text-on-surface-variant/60 text-sm font-medium mb-4 animate-pulse">
+          <ArrowRight className="w-4 h-4" />
+          <span>Swipe to explore</span>
+        </div>
+
+        <div className="flex md:grid md:grid-cols-12 gap-6 overflow-x-auto snap-x snap-mandatory hide-scrollbar pb-8 w-[calc(100vw-3rem)] md:w-full md:pb-0">
           {/* Large Feature Card - Global Debate */}
           <motion.div 
             initial={{ x: -60, opacity: 0 }}
             whileInView={{ x: 0, opacity: 1 }}
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
-            className="md:col-span-8 group relative overflow-hidden rounded-lg bg-surface-container-low p-12 flex flex-col justify-between h-[500px] border border-outline-variant/20 hover:border-outline-variant/40 transition-colors"
+            className="w-[85vw] shrink-0 md:w-auto md:col-span-8 snap-center group relative overflow-hidden rounded-lg bg-surface-container-low p-8 md:p-12 flex flex-col justify-between h-[500px] border border-outline-variant/20 hover:border-outline-variant/40 transition-colors"
           >
             <div className="absolute inset-0 z-0">
               <img 
@@ -130,7 +136,7 @@ export default function Home() {
             whileInView={{ x: 0, opacity: 1 }}
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
-            className="md:col-span-4 group relative overflow-hidden rounded-lg bg-surface-container-low p-12 flex flex-col h-[500px] border border-outline-variant/20 hover:border-outline-variant/40 transition-colors"
+            className="w-[85vw] shrink-0 md:w-auto md:col-span-4 snap-center group relative overflow-hidden rounded-lg bg-surface-container-low p-8 md:p-12 flex flex-col h-[500px] border border-outline-variant/20 hover:border-outline-variant/40 transition-colors"
           >
             <div className="absolute top-0 right-0 p-8">
               <motion.div
@@ -161,7 +167,7 @@ export default function Home() {
           </motion.div>
 
           {/* Academic Excellence Card */}
-          <div className="md:col-span-12 group relative overflow-hidden rounded-lg bg-surface-container-low p-12 flex flex-col md:flex-row items-center gap-12 border border-outline-variant/20 hover:border-outline-variant/40 transition-colors">
+          <div className="w-[85vw] shrink-0 md:w-auto md:col-span-12 snap-center group relative overflow-hidden rounded-lg bg-surface-container-low p-8 md:p-12 flex flex-col md:flex-row items-center gap-12 border border-outline-variant/20 hover:border-outline-variant/40 transition-colors">
             <div className="w-full md:w-1/2">
               <motion.div
                 animate={{ y: [0, -8, 0], rotate: [0, 5, -5, 0] }}
@@ -205,7 +211,7 @@ export default function Home() {
       </section>
 
       {/* Location Section */}
-      <section className="py-32 bg-surface-container-lowest relative overflow-hidden">
+      <section className="py-20 md:py-32 bg-surface-container-lowest relative overflow-hidden">
         <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-5"></div>
         <div className="container mx-auto px-6 relative z-10 flex flex-col md:flex-row items-center gap-20">
           <motion.div 
