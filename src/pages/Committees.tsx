@@ -3,7 +3,7 @@ import { Landmark, Shield, Users, ShieldAlert, ArrowRight, Banknote, HeartPulse 
 
 export default function Committees() {
   return (
-    <main className="pt-24 md:pt-40 pb-20 px-6 max-w-7xl mx-auto">
+    <main className="pt-24 md:pt-40 pb-20 px-6 max-w-7xl mx-auto overflow-x-hidden w-full">
       {/* Hero Section */}
       <header className="mb-16 md:mb-24 flex flex-col items-start gap-6">
         <motion.div 

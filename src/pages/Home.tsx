@@ -10,7 +10,7 @@ export default function Home() {
   const blobsY = useTransform(scrollY, [0, 500], [0, 200]);
 
   return (
-    <main className="relative">
+    <main className="relative overflow-x-hidden w-full">
       {/* Hero Section */}
       <section className="relative min-h-screen flex items-center justify-center pt-24 overflow-hidden glass-gradient-bg">
         {/* Ethereal Background Elements */}

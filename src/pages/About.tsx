@@ -223,7 +223,7 @@ export default function About() {
   const eyeY = useTransform(smoothY, [0, 400], [-15, 15]);
 
   return (
-    <main className="relative pt-24 md:pt-32 pb-20">
+    <main className="relative pt-24 md:pt-32 pb-20 overflow-x-hidden w-full">
       {/* Abstract Background Orbs */}
       <div className="absolute top-0 right-[-10%] w-[500px] h-[500px] bg-primary/10 rounded-full blur-[120px] -z-10"></div>
       <div className="absolute top-[40%] left-[-5%] w-[400px] h-[400px] bg-secondary/10 rounded-full blur-[100px] -z-10"></div>
