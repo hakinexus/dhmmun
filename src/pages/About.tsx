@@ -436,7 +436,7 @@ export default function About() {
         </div>
 
         {/* Profile Grid */}
-        <div className="flex md:grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8 overflow-x-auto snap-x snap-mandatory hide-scrollbar pb-8 w-[calc(100vw-3rem)] md:w-full md:pb-0">
+        <div className="flex md:grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8 overflow-x-auto snap-x snap-mandatory hide-scrollbar pb-8 w-full md:pb-0">
           {SECRETARIAT_MEMBERS.map((member, i) => (
             <SecretariatCard key={i} member={member} />
           ))}

@@ -40,7 +40,7 @@ export default function Committees() {
       </div>
 
       {/* Committees Grid */}
-      <div className="flex md:grid md:grid-cols-12 gap-6 md:gap-8 overflow-x-auto snap-x snap-mandatory hide-scrollbar pb-8 md:pb-0 w-[calc(100vw-3rem)] md:w-full">
+      <div className="flex md:grid md:grid-cols-12 gap-6 md:gap-8 overflow-x-auto snap-x snap-mandatory hide-scrollbar pb-8 md:pb-0 w-full">
         {/* UNSC: Security Council (The Anchor) */}
         <motion.div 
           initial={{ opacity: 0, y: 30 }}

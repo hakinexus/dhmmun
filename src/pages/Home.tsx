@@ -95,7 +95,7 @@ export default function Home() {
           <span>Swipe to explore</span>
         </div>
 
-        <div className="flex md:grid md:grid-cols-12 gap-6 overflow-x-auto snap-x snap-mandatory hide-scrollbar pb-8 w-[calc(100vw-3rem)] md:w-full md:pb-0">
+        <div className="flex md:grid md:grid-cols-12 gap-6 overflow-x-auto snap-x snap-mandatory hide-scrollbar pb-8 w-full md:pb-0">
           {/* Large Feature Card - Global Debate */}
           <motion.div 
             initial={{ x: -60, opacity: 0 }}
