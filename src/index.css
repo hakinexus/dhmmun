@@ -287,11 +287,22 @@ body {
   animation: none;
   mix-blend-mode: normal;
 }
+
 ::view-transition-old(root) {
   z-index: 1;
 }
+
 ::view-transition-new(root) {
   z-index: 2;
+}
+
+/* Reverse stacking order for shrink animation (Dark -> Light) */
+html.theme-transition-shrink::view-transition-old(root) {
+  z-index: 2;
+}
+
+html.theme-transition-shrink::view-transition-new(root) {
+  z-index: 1;
 }
 
 @keyframes button-sweep {

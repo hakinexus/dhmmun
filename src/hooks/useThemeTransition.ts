@@ -22,12 +22,21 @@ export function useThemeTransition() {
       Math.max(y, window.innerHeight - y)
     );
 
+    // Determine direction of transition animation:
+    // If we're light going to dark -> Expand dark mode outward
+    // If we're dark going to light -> Shrink dark mode inward to the toggle button
+    const isSwitchingToDark = theme === 'light';
+    const isShrink = !isSwitchingToDark;
+    
+    // Set a class to handle precise z-index overrides for the shrinking animation
+    if (isShrink) {
+      document.documentElement.classList.add('theme-transition-shrink');
+    }
+
     // Call the View Transition API safely
-    const transition = (document as any).startViewTransition(async () => {
+    const transition = (document as any).startViewTransition(() => {
       // Synchronously apply the theme change to the DOM
       toggleTheme();
-      // Added a tiny simulated delay as DOM changes can be microscopic, ensuring snapshot completes
-      await new Promise(resolve => setTimeout(resolve, 0));
     });
 
     transition.ready.then(() => {
@@ -38,14 +47,18 @@ export function useThemeTransition() {
 
       document.documentElement.animate(
         {
-          clipPath: clipPath
+          clipPath: isShrink ? [...clipPath].reverse() : clipPath
         },
         {
-          duration: 500,
-          easing: "cubic-bezier(0.25, 1, 0.5, 1)", 
-          pseudoElement: "::view-transition-new(root)"
+          duration: 650, // Cinematic fluid duration
+          easing: isShrink ? "cubic-bezier(0.8, 0, 0.2, 1)" : "cubic-bezier(0.25, 1, 0.5, 1)", 
+          pseudoElement: isShrink ? "::view-transition-old(root)" : "::view-transition-new(root)"
         }
       );
+    });
+
+    transition.finished.finally(() => {
+      document.documentElement.classList.remove('theme-transition-shrink');
     });
   };
 

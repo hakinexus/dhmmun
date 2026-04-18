@@ -46,17 +46,17 @@ export default function Home() {
             transition={{ duration: 0.8, delay: 3.4, ease: "easeOut" }}
             className="flex flex-col md:flex-row items-center justify-center gap-6 md:gap-10 mb-24 md:mb-32 w-full px-4 md:px-0"
           >
-            <Magnetic strength={0.4} className="w-full md:w-auto">
+            <Magnetic strength={0.4} className="w-auto">
               <Link 
                 to="/registration" 
                 onClick={handleJoinClick}
-                className="group relative flex md:inline-flex items-center justify-center w-full md:w-auto rounded-full text-white font-black text-xl transition-all duration-500 hover:scale-[1.03] active:scale-95"
+                className="group relative inline-flex items-center justify-center w-auto rounded-full text-white font-bold transition-all duration-500 hover:scale-[1.03] active:scale-95"
               >
                 {/* Outer Ambient Glow (Scales natively with button) */}
                 <div className="absolute -inset-2 rounded-full bg-gradient-to-r from-primary to-secondary blur-xl opacity-40 group-hover:opacity-80 transition-opacity duration-500 z-0"></div>
 
                 {/* Main Button Container (Clips shimmer exactly to bounds) */}
-                <div className="relative flex items-center justify-center w-full h-full px-12 py-5 md:py-6 rounded-full overflow-hidden bg-gradient-to-r from-primary to-secondary shadow-[inset_0_1px_0_0_rgba(255,255,255,0.2)] z-10">
+                <div className="relative flex items-center justify-center w-full h-full px-8 py-3.5 md:px-10 md:py-4 rounded-full overflow-hidden bg-gradient-to-r from-primary to-secondary shadow-[inset_0_1px_0_0_rgba(255,255,255,0.2)] z-10">
                   
                   {/* Subtle Inner Border */}
                   <div className="absolute inset-0 rounded-full border border-white/20 group-hover:border-white/40 transition-colors duration-500 z-10 pointer-events-none"></div>
@@ -65,17 +65,17 @@ export default function Home() {
                   <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-[150%] skew-x-[-15deg] group-hover:animate-[button-sweep_2s_infinite_ease-in-out] z-10 pointer-events-none"></div>
                   
                   {/* Text Content */}
-                  <span className="relative z-20 flex items-center gap-3 drop-shadow-md tracking-widest uppercase">
-                    Join Now <ArrowRight className="w-6 h-6 group-hover:translate-x-2 transition-transform duration-300" />
+                  <span className="relative z-20 flex items-center gap-2 drop-shadow-md tracking-wider uppercase text-lg whitespace-nowrap">
+                    Register Now <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
                   </span>
                 </div>
               </Link>
             </Magnetic>
             
-            <Magnetic strength={0.2} className="w-full md:w-auto">
+            <Magnetic strength={0.2} className="w-auto">
               <Link 
                 to="/about" 
-                className="group relative flex md:inline-flex items-center justify-center w-full md:w-auto px-10 py-4 md:py-5 rounded-full text-on-surface font-semibold text-lg transition-all duration-500 chromatic-btn-hover active:scale-95"
+                className="group relative inline-flex items-center justify-center w-auto px-8 py-3.5 md:px-10 md:py-4 rounded-full text-on-surface font-semibold text-base md:text-lg transition-all duration-500 chromatic-btn-hover active:scale-95"
               >
                 {/* Glass background */}
                 <div className="absolute inset-0 rounded-full bg-on-surface/5 backdrop-blur-xl border border-outline-variant/20 group-hover:bg-on-surface/10 group-hover:border-outline-variant/40 transition-all duration-500"></div>
