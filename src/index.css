@@ -279,47 +279,28 @@ body {
   font-family: var(--font-body);
   overflow-x: hidden;
   overscroll-behavior-y: none;
-  transition: background-color 0.5s ease, color 0.5s ease;
 }
 
-@keyframes holographic-spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+/* Document View Transitions styles for immersive theme toggle */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+::view-transition-old(root) {
+  z-index: 1;
+}
+::view-transition-new(root) {
+  z-index: 2;
 }
 
-.holographic-border::before {
-  content: "";
-  position: absolute;
-  inset: -2px;
-  border-radius: 9999px;
-  background: conic-gradient(
-    from 0deg,
-    var(--color-primary),
-    var(--color-secondary),
-    #ff007f,
-    #00d4ff,
-    var(--color-primary)
-  );
-  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-  padding: 2px;
-  animation: holographic-spin 4s linear infinite;
-  pointer-events: none;
-  opacity: 0.8;
-  z-index: 10;
-}
-
-.holographic-border:hover::before {
-  animation: holographic-spin 2s linear infinite;
-  opacity: 1;
+@keyframes button-sweep {
+  0% { transform: translateX(-100%) skewX(-15deg); }
+  100% { transform: translateX(200%) skewX(-15deg); }
 }
 
 /* Ensure smooth transitions for all elements when theme changes */
 * {
-  transition-property: background-color, border-color, color, fill, stroke, opacity, box-shadow;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: 300ms;
   -webkit-tap-highlight-color: transparent;
 }
 

@@ -2,29 +2,8 @@ import { useState, useEffect, useRef } from 'react';
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { Menu, X, Moon, Sun, Home, Info, Users } from 'lucide-react';
 import { AnimatePresence, motion, useScroll, useMotionValueEvent } from 'motion/react';
+import ThemeToggle from './ThemeToggle';
 import { useTheme } from '../context/ThemeContext';
-
-function ThemeToggle({ className = "" }: { className?: string }) {
-  const { theme, toggleTheme } = useTheme();
-  
-  return (
-    <button
-      onClick={toggleTheme}
-      className={`relative flex items-center w-16 h-8 rounded-full bg-surface-container-highest border border-outline-variant/20 overflow-hidden transition-colors duration-300 shrink-0 ${className}`}
-      aria-label="Toggle theme"
-    >
-      <motion.div
-        className="absolute left-1 top-1 bottom-1 w-6 rounded-full bg-primary shadow-md"
-        animate={{ x: theme === 'dark' ? 32 : 0 }}
-        transition={{ type: "spring", stiffness: 500, damping: 30 }}
-      />
-      <div className="absolute inset-0 flex justify-between items-center px-[8px] pointer-events-none">
-        <Sun className={`w-4 h-4 z-10 transition-colors duration-300 ${theme === 'light' ? 'text-on-primary' : 'text-on-surface-variant'}`} />
-        <Moon className={`w-4 h-4 z-10 transition-colors duration-300 ${theme === 'dark' ? 'text-on-primary' : 'text-on-surface-variant'}`} />
-      </div>
-    </button>
-  );
-}
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);

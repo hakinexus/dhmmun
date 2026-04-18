@@ -50,16 +50,25 @@ export default function Home() {
               <Link 
                 to="/registration" 
                 onClick={handleJoinClick}
-                className="holographic-border group relative flex md:inline-flex items-center justify-center w-full md:w-auto px-12 py-5 md:py-6 rounded-full text-on-primary font-black text-xl transition-all duration-500 hover:scale-105 active:scale-95"
+                className="group relative flex md:inline-flex items-center justify-center w-full md:w-auto rounded-full text-white font-black text-xl transition-all duration-500 hover:scale-[1.03] active:scale-95"
               >
-                {/* Base background */}
-                <div className="absolute inset-0 rounded-full bg-surface-container-highest opacity-90 group-hover:opacity-100 transition-opacity duration-500 z-0"></div>
-                {/* Inner highlight (top edge) */}
-                <div className="absolute inset-0 rounded-full border border-white/20 z-0"></div>
-                
-                <span className="relative z-10 flex items-center gap-3 drop-shadow-lg tracking-widest uppercase">
-                  Join Now <ArrowRight className="w-6 h-6 group-hover:translate-x-2 transition-transform duration-300" />
-                </span>
+                {/* Outer Ambient Glow (Scales natively with button) */}
+                <div className="absolute -inset-2 rounded-full bg-gradient-to-r from-primary to-secondary blur-xl opacity-40 group-hover:opacity-80 transition-opacity duration-500 z-0"></div>
+
+                {/* Main Button Container (Clips shimmer exactly to bounds) */}
+                <div className="relative flex items-center justify-center w-full h-full px-12 py-5 md:py-6 rounded-full overflow-hidden bg-gradient-to-r from-primary to-secondary shadow-[inset_0_1px_0_0_rgba(255,255,255,0.2)] z-10">
+                  
+                  {/* Subtle Inner Border */}
+                  <div className="absolute inset-0 rounded-full border border-white/20 group-hover:border-white/40 transition-colors duration-500 z-10 pointer-events-none"></div>
+
+                  {/* Elegant Shimmer Sweep Layer */}
+                  <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-[150%] skew-x-[-15deg] group-hover:animate-[button-sweep_2s_infinite_ease-in-out] z-10 pointer-events-none"></div>
+                  
+                  {/* Text Content */}
+                  <span className="relative z-20 flex items-center gap-3 drop-shadow-md tracking-widest uppercase">
+                    Join Now <ArrowRight className="w-6 h-6 group-hover:translate-x-2 transition-transform duration-300" />
+                  </span>
+                </div>
               </Link>
             </Magnetic>
             

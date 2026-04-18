@@ -1,4 +1,5 @@
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import React, { createContext, useContext, useEffect, useState, useLayoutEffect } from 'react';
+import { flushSync } from 'react-dom';
 
 type Theme = 'dark' | 'light';
 
@@ -19,7 +20,9 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     return 'dark';
   });
 
-  useEffect(() => {
+  // useLayoutEffect guarantees synchronous DOM mutation immediately after state change
+  // This is required for View Transitions to instantly see the new state
+  useLayoutEffect(() => {
     const root = window.document.documentElement;
     root.classList.remove('light', 'dark');
     root.classList.add(theme);
@@ -36,7 +39,11 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   }, [theme]);
 
   const toggleTheme = () => {
-    setTheme((prev) => (prev === 'dark' ? 'light' : 'dark'));
+    // flushSync forces React to commit the state & layout effect instantly
+    // preventing the View Transition API from snapping an intermediate state
+    flushSync(() => {
+      setTheme((prev) => (prev === 'dark' ? 'light' : 'dark'));
+    });
   };
 
   return (
