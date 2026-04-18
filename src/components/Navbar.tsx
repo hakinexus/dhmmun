@@ -39,6 +39,12 @@ export default function Navbar() {
   const accumulatedScroll = useRef(0);
 
   useMotionValueEvent(scrollY, "change", (latest) => {
+    // If we're on desktop (md breakpoint is 768px), the header should never hide.
+    if (window.innerWidth >= 768) {
+      if (isHidden) setIsHidden(false);
+      return;
+    }
+
     const previous = scrollY.getPrevious() ?? 0;
     const diff = latest - previous;
 
@@ -65,6 +71,17 @@ export default function Navbar() {
       setIsHidden(false);
     }
   });
+
+  // Handle resize events to guarantee desktop header is always visible
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 768 && isHidden) {
+        setIsHidden(false);
+      }
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, [isHidden]);
 
   // Close menu when route changes
   useEffect(() => {

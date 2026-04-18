@@ -1,5 +1,6 @@
 import { Globe, Users, GraduationCap, MapPin, Building, ArrowRight } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 import { motion, useScroll, useTransform } from 'motion/react';
 import Magnetic from '../components/Magnetic';
 import HeroTextAnimation from '../components/HeroTextAnimation';
@@ -8,9 +9,19 @@ import ScrollTextAnimation from '../components/ScrollTextAnimation';
 export default function Home() {
   const { scrollY } = useScroll();
   const blobsY = useTransform(scrollY, [0, 500], [0, 200]);
+  const navigate = useNavigate();
+  const [isZooming, setIsZooming] = useState(false);
+
+  const handleJoinClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    setIsZooming(true);
+    setTimeout(() => {
+      navigate('/registration');
+    }, 600);
+  };
 
   return (
-    <main className="relative overflow-x-hidden w-full">
+    <main className={`relative overflow-x-hidden w-full transition-transform duration-[600ms] ease-in-out ${isZooming ? 'scale-[1.05] opacity-0 blur-sm' : 'scale-100 opacity-100 blur-0'}`}>
       {/* Hero Section */}
       <section className="relative min-h-screen flex items-center justify-center pt-24 overflow-hidden glass-gradient-bg">
         {/* Ethereal Background Elements */}
@@ -33,22 +44,21 @@ export default function Home() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 3.4, ease: "easeOut" }}
-            className="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-8 mb-24 md:mb-32 w-full px-4 md:px-0"
+            className="flex flex-col md:flex-row items-center justify-center gap-6 md:gap-10 mb-24 md:mb-32 w-full px-4 md:px-0"
           >
-            <Magnetic strength={0.3} className="w-full md:w-auto">
+            <Magnetic strength={0.4} className="w-full md:w-auto">
               <Link 
                 to="/registration" 
-                className="group relative flex md:inline-flex items-center justify-center w-full md:w-auto px-10 py-4 md:py-5 rounded-full text-on-primary font-bold text-lg transition-all duration-500 chromatic-btn-hover active:scale-95"
+                onClick={handleJoinClick}
+                className="holographic-border group relative flex md:inline-flex items-center justify-center w-full md:w-auto px-12 py-5 md:py-6 rounded-full text-on-primary font-black text-xl transition-all duration-500 hover:scale-105 active:scale-95"
               >
                 {/* Base background */}
-                <div className="absolute inset-0 rounded-full bg-gradient-to-br from-primary to-secondary opacity-90 group-hover:opacity-100 transition-opacity duration-500"></div>
+                <div className="absolute inset-0 rounded-full bg-surface-container-highest opacity-90 group-hover:opacity-100 transition-opacity duration-500 z-0"></div>
                 {/* Inner highlight (top edge) */}
-                <div className="absolute inset-0 rounded-full liquid-border opacity-50"></div>
-                {/* Outer glow */}
-                <div className="absolute -inset-2 rounded-full bg-gradient-to-br from-primary to-secondary opacity-30 blur-xl group-hover:opacity-60 group-hover:blur-2xl transition-all duration-500 -z-10"></div>
+                <div className="absolute inset-0 rounded-full border border-white/20 z-0"></div>
                 
-                <span className="relative z-10 flex items-center gap-2 drop-shadow-md tracking-wide">
-                  Register Now <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                <span className="relative z-10 flex items-center gap-3 drop-shadow-lg tracking-widest uppercase">
+                  Join Now <ArrowRight className="w-6 h-6 group-hover:translate-x-2 transition-transform duration-300" />
                 </span>
               </Link>
             </Magnetic>
