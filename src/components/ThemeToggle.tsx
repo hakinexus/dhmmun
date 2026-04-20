@@ -6,13 +6,25 @@ export default function ThemeToggle({ className = "" }: { className?: string }) 
   const { theme, toggleWithTransition } = useThemeTransition();
   const isDark = theme === 'dark';
 
-  const handleToggle = (e: React.MouseEvent | React.KeyboardEvent) => {
+  const handleToggle = (e: React.MouseEvent<HTMLButtonElement> | React.KeyboardEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    const rect = e.currentTarget.getBoundingClientRect();
-    toggleWithTransition({ 
-      clientX: rect.left + rect.width / 2, 
-      clientY: rect.top + rect.height / 2 
-    } as any);
+
+    let x = 0;
+    let y = 0;
+
+    // Prefer exact touch/mouse interaction coordinates natively from the event.
+    // This perfectly bypasses mobile Safari/Chrome visual viewport offsets.
+    if ('clientX' in e && e.clientX > 0 && e.clientY > 0) {
+      x = e.clientX;
+      y = e.clientY;
+    } else {
+      // Fallback for keyboard Enter/Space, or if clientX somehow reports 0
+      const rect = e.currentTarget.getBoundingClientRect();
+      x = rect.left + rect.width / 2;
+      y = rect.top + rect.height / 2;
+    }
+
+    toggleWithTransition({ clientX: x, clientY: y } as any);
   };
 
   return (

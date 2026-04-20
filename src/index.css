@@ -271,6 +271,7 @@
 
 html {
   scroll-behavior: smooth;
+  background-color: var(--color-background);
 }
 
 body {
@@ -291,6 +292,8 @@ body {
   animation: none;
   mix-blend-mode: normal;
   display: block;
+  backface-visibility: hidden;
+  transform: translateZ(0);
 }
 
 ::view-transition-old(root) {
