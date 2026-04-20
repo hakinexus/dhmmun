@@ -1,34 +1,33 @@
+import { useRef } from 'react';
 import { motion } from 'motion/react';
 import { Sun, Moon } from 'lucide-react';
 import { useThemeTransition } from '../hooks/useThemeTransition';
 
 export default function ThemeToggle({ className = "" }: { className?: string }) {
   const { theme, toggleWithTransition } = useThemeTransition();
+  const buttonRef = useRef<HTMLButtonElement>(null);
   const isDark = theme === 'dark';
 
   const handleToggle = (e: React.MouseEvent<HTMLButtonElement> | React.KeyboardEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
-    let x = 0;
-    let y = 0;
+    let x = window.innerWidth / 2;
+    let y = window.innerHeight / 2;
 
-    // Prefer exact touch/mouse interaction coordinates natively from the event.
-    // This perfectly bypasses mobile Safari/Chrome visual viewport offsets.
-    if ('clientX' in e && e.clientX > 0 && e.clientY > 0) {
-      x = e.clientX;
-      y = e.clientY;
-    } else {
-      // Fallback for keyboard Enter/Space, or if clientX somehow reports 0
-      const rect = e.currentTarget.getBoundingClientRect();
-      x = rect.left + rect.width / 2;
-      y = rect.top + rect.height / 2;
+    // By extracting exactly from the DOM element's physical rect, we become 
+    // completely immune to mobile synthetic touch-event mismatches.
+    if (buttonRef.current) {
+      const rect = buttonRef.current.getBoundingClientRect();
+      x = Math.round(rect.left + rect.width / 2);
+      y = Math.round(rect.top + rect.height / 2);
     }
 
-    toggleWithTransition({ clientX: x, clientY: y } as any);
+    toggleWithTransition(x, y);
   };
 
   return (
     <button
+      ref={buttonRef}
       onClick={handleToggle}
       onKeyDown={(e) => {
         if (e.key === 'Enter' || e.key === ' ') {

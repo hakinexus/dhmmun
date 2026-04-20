@@ -3,7 +3,7 @@ import { useTheme } from '../context/ThemeContext';
 export function useThemeTransition() {
   const { theme, toggleTheme } = useTheme();
 
-  const toggleWithTransition = (event: React.MouseEvent | React.KeyboardEvent | { clientX: number, clientY: number }) => {
+  const toggleWithTransition = (x: number, y: number) => {
     const isReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     
     // Fallback if browser doesn't support View Transitions or reduced motion is preferred
@@ -11,10 +11,6 @@ export function useThemeTransition() {
       toggleTheme();
       return;
     }
-
-    // Get click/interaction coordinates. Default to center if triggered by keyboard without explicit mouse coords
-    const x = 'clientX' in event ? (event as React.MouseEvent).clientX : window.innerWidth / 2;
-    const y = 'clientY' in event ? (event as React.MouseEvent).clientY : window.innerHeight / 2;
 
     // Calculate hypotenuse to find the maximum radius needed to cover the entire viewport from the click origin
     const endRadius = Math.hypot(

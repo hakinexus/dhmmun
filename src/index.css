@@ -285,6 +285,7 @@ body {
 /* Document View Transitions styles for immersive theme toggle */
 ::view-transition-group(root) {
   animation: none;
+  z-index: 100;
 }
 
 ::view-transition-old(root),
@@ -292,8 +293,11 @@ body {
   animation: none;
   mix-blend-mode: normal;
   display: block;
-  backface-visibility: hidden;
-  transform: translateZ(0);
+  /* Crucial exact-sizing for mobile to prevent root drifting */
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top left;
 }
 
 ::view-transition-old(root) {
