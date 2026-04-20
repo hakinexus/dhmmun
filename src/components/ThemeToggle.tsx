@@ -11,15 +11,30 @@ export default function ThemeToggle({ className = "" }: { className?: string }) 
   const handleToggle = (e: React.MouseEvent<HTMLButtonElement> | React.KeyboardEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
-    let x = window.innerWidth / 2;
-    let y = window.innerHeight / 2;
+    let x = 0;
+    let y = 0;
 
-    // By extracting exactly from the DOM element's physical rect, we become 
-    // completely immune to mobile synthetic touch-event mismatches.
-    if (buttonRef.current) {
+    // 1. Try to extract the literal touch/mouse interaction coordinates.
+    // This is the absolute source of truth for where the user's finger actually rested.
+    if ('clientX' in e && typeof e.clientX === 'number' && (e.clientX !== 0 || e.clientY !== 0)) {
+      x = e.clientX;
+      y = e.clientY;
+    }
+    
+    // 2. Fallback to extracting exactly from the DOM element's physical rect
+    if ((x === 0 && y === 0) && buttonRef.current) {
       const rect = buttonRef.current.getBoundingClientRect();
       x = Math.round(rect.left + rect.width / 2);
       y = Math.round(rect.top + rect.height / 2);
+    }
+
+    // ✨ CRITICAL SAFARI/CHROME MOBILE OFFSET FIX ✨
+    // When the mobile URL bar is visible, the Visual Viewport is offset from the Layout Viewport.
+    // Since View Transitions natively map to the layout snapshot, we must mathematically
+    // translate the interaction coordinates to account for the browser UI pushing the layout.
+    if (window.visualViewport) {
+      x += window.visualViewport.offsetLeft || 0;
+      y += window.visualViewport.offsetTop || 0;
     }
 
     toggleWithTransition(x, y);
