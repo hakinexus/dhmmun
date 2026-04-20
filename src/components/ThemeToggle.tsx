@@ -6,18 +6,21 @@ export default function ThemeToggle({ className = "" }: { className?: string }) 
   const { theme, toggleWithTransition } = useThemeTransition();
   const isDark = theme === 'dark';
 
+  const handleToggle = (e: React.MouseEvent | React.KeyboardEvent) => {
+    e.preventDefault();
+    const rect = e.currentTarget.getBoundingClientRect();
+    toggleWithTransition({ 
+      clientX: rect.left + rect.width / 2, 
+      clientY: rect.top + rect.height / 2 
+    } as any);
+  };
+
   return (
     <button
-      onClick={toggleWithTransition}
+      onClick={handleToggle}
       onKeyDown={(e) => {
         if (e.key === 'Enter' || e.key === ' ') {
-          e.preventDefault();
-          // Pass center coordinates for keyboard access
-          const rect = e.currentTarget.getBoundingClientRect();
-          toggleWithTransition({ 
-            clientX: rect.left + rect.width / 2, 
-            clientY: rect.top + rect.height / 2 
-          } as any);
+          handleToggle(e);
         }
       }}
       className={`relative flex items-center w-16 h-8 rounded-full bg-surface-container-highest border border-outline-variant/30 overflow-hidden shrink-0 cursor-pointer ${className}`}
