@@ -8,8 +8,8 @@
     <!-- Primary Meta Tags -->
     <meta name="title" content="DHMMUN | Model United Nations" />
     <meta name="description" content="Welcome to the official DHMMUN platform. Register your delegation and secure your assignment in the ultimate Model UN experience." />
-    <meta name="theme-color" content="#0a0a0a" media="(prefers-color-scheme: dark)" />
-    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+    <!-- Dynamic Theme Color synced with the App's state, rather than OS preference -->
+    <meta id="theme-color-meta" name="theme-color" content="#0a0a0a" />
     
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
@@ -32,12 +32,15 @@
       (function() {
         try {
           var savedTheme = localStorage.getItem('theme');
+          var themeColorMeta = document.getElementById('theme-color-meta');
           if (savedTheme === 'light') {
             document.documentElement.classList.remove('dark');
             document.documentElement.classList.add('light');
+            if (themeColorMeta) themeColorMeta.setAttribute('content', '#ffffff');
           } else {
             // Default to dark
             document.documentElement.classList.add('dark');
+            if (themeColorMeta) themeColorMeta.setAttribute('content', '#0a0a0a');
           }
         } catch (e) {}
       })();
