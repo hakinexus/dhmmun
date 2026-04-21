@@ -46,8 +46,8 @@ export function useThemeTransition() {
           clipPath: isShrink ? [...clipPath].reverse() : clipPath
         },
         {
-          duration: 700, // Immersive but native-feeling duration
-          easing: isShrink ? "cubic-bezier(0.85, 0, 0.15, 1)" : "cubic-bezier(0.25, 1, 0.5, 1)",
+          duration: 1100, // Slowed down from 700ms to 1100ms for a more luxurious, cinematic sweep
+          easing: isShrink ? "cubic-bezier(0.8, 0, 0.1, 1)" : "cubic-bezier(0.3, 1, 0.4, 1)", // Refined Bézier curves for smoother slow-motion
           fill: "forwards", // Prevents the clip-path from reverting and causing a black flash at the end
           pseudoElement: isShrink ? "::view-transition-old(root)" : "::view-transition-new(root)"
         }
