@@ -107,7 +107,12 @@ export default function Navbar() {
         }}
       >
         <div className="flex justify-between items-center w-full">
-          <div className="text-2xl font-black tracking-tighter text-primary font-headline w-1/3 md:w-auto">
+          <div 
+            onClick={() => {
+              navigate('/');
+            }}
+            className="text-2xl font-black tracking-tighter text-primary font-headline w-1/3 md:w-auto cursor-pointer hover:opacity-80 active:scale-95 transition-all select-none"
+          >
             DHMMUN
           </div>
           
