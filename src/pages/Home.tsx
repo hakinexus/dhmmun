@@ -5,28 +5,33 @@ import { motion, useScroll, useTransform } from 'motion/react';
 import Magnetic from '../components/Magnetic';
 import HeroTextAnimation from '../components/HeroTextAnimation';
 import ScrollTextAnimation from '../components/ScrollTextAnimation';
+import AmbientGlowRings from '../components/AmbientGlowRings';
+import { triggerHaptic, hapticPatterns } from '../lib/haptics';
 
 export default function Home() {
   const { scrollY } = useScroll();
-  const blobsY = useTransform(scrollY, [0, 500], [0, 200]);
   const navigate = useNavigate();
   const [isZooming, setIsZooming] = useState(false);
 
   const handleJoinClick = (e: React.MouseEvent) => {
     e.preventDefault();
+    triggerHaptic(hapticPatterns.success);
     setIsZooming(true);
     setTimeout(() => {
       navigate('/registration');
     }, 600);
   };
 
+  const handleLearnClick = () => {
+    triggerHaptic(hapticPatterns.tap);
+  };
+
   return (
     <main className={`relative overflow-x-hidden w-full transition-transform duration-[600ms] ease-in-out ${isZooming ? 'scale-[1.05] opacity-0 blur-sm' : 'scale-100 opacity-100 blur-0'}`}>
       {/* Hero Section */}
       <section className="relative min-h-screen flex items-center justify-center pt-24 overflow-hidden glass-gradient-bg">
-        {/* Ethereal Background Elements */}
-        <motion.div style={{ y: blobsY }} className="absolute top-1/4 -left-20 w-96 h-96 bg-primary/10 blur-[120px] rounded-full"></motion.div>
-        <motion.div style={{ y: blobsY }} className="absolute bottom-1/4 -right-20 w-80 h-80 bg-secondary/10 blur-[100px] rounded-full"></motion.div>
+        {/* Magnetized and asynchronous SVG/filtered glow fields */}
+        <AmbientGlowRings />
         
         <div className="container mx-auto px-6 text-center z-10">
           <HeroTextAnimation />
@@ -75,6 +80,7 @@ export default function Home() {
             <Magnetic strength={0.2} className="w-auto">
               <Link 
                 to="/about" 
+                onClick={handleLearnClick}
                 className="group relative inline-flex items-center justify-center w-auto px-8 py-3.5 md:px-10 md:py-4 rounded-full text-on-surface font-semibold text-base md:text-lg transition-all duration-500 chromatic-btn-hover active:scale-95"
               >
                 {/* Glass background */}

@@ -3,9 +3,9 @@ import { ArrowRight, Eye } from 'lucide-react';
 import { motion, useScroll, useTransform, useMotionValue, useSpring, useMotionTemplate, useInView } from 'motion/react';
 import Magnetic from '../components/Magnetic';
 import { triggerHaptic, hapticPatterns } from '../lib/haptics';
-import { SECRETARIAT_MEMBERS } from '../data/secretariat';
+import { SECRETARIAT_MEMBERS, SecretariatMember } from '../data/secretariat';
 
-function SecretariatCard({ member }: { member: any; key?: React.Key }) {
+function SecretariatCard({ member }: { member: SecretariatMember; key?: React.Key }) {
   const [isHovered, setIsHovered] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [delayedInView, setDelayedInView] = useState(false);
