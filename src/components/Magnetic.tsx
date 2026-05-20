@@ -1,16 +1,17 @@
-import { useRef, useState } from 'react';
+import React, { useRef, useState, ReactNode, MouseEvent } from 'react';
 import { motion } from 'motion/react';
 
 interface MagneticProps {
-  children: React.ReactNode;
+  children: ReactNode;
   strength?: number;
+  className?: string;
 }
 
-export default function Magnetic({ children, strength = 0.2 }: MagneticProps) {
+export default function Magnetic({ children, strength = 0.2, className = "" }: MagneticProps) {
   const ref = useRef<HTMLDivElement>(null);
   const [position, setPosition] = useState({ x: 0, y: 0 });
 
-  const handleMouse = (e: React.MouseEvent<HTMLDivElement>) => {
+  const handleMouse = (e: MouseEvent<HTMLDivElement>) => {
     if (!ref.current) return;
     const { clientX, clientY } = e;
     const { height, width, left, top } = ref.current.getBoundingClientRect();
@@ -31,7 +32,7 @@ export default function Magnetic({ children, strength = 0.2 }: MagneticProps) {
       onMouseLeave={reset}
       animate={{ x, y }}
       transition={{ type: "spring", stiffness: 150, damping: 15, mass: 0.1 }}
-      className="inline-block"
+      className={`inline-block ${className}`}
     >
       {children}
     </motion.div>

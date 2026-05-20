@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import React, { useRef } from 'react';
 import { motion } from 'motion/react';
 import { Sun, Moon } from 'lucide-react';
 import { useThemeTransition } from '../hooks/useThemeTransition';

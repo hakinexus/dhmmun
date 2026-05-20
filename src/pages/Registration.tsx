@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { User, GraduationCap, Mail, IdCard, CheckCircle, Sparkles, ArrowRight, ArrowLeft, AlertCircle, Calendar, Users, Globe, Building } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { triggerHaptic, hapticPatterns } from '../lib/haptics';

@@ -15,4 +15,8 @@ export const hapticPatterns = {
   success: [10, 30, 20],
   // Light tap for buttons
   tap: 5,
+  // Light tap for minor interactions
+  light: 5,
+  // Warning/Error vibrations
+  error: [50, 50, 50],
 };

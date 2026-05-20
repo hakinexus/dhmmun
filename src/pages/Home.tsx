@@ -1,6 +1,6 @@
+import React, { useState } from 'react';
 import { Globe, Users, GraduationCap, MapPin, Building, ArrowRight } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useState } from 'react';
 import { motion, useScroll, useTransform } from 'motion/react';
 import Magnetic from '../components/Magnetic';
 import HeroTextAnimation from '../components/HeroTextAnimation';

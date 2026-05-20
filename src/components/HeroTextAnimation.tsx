@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import SplitType from 'split-type';
 import { triggerHaptic, hapticPatterns } from '../lib/haptics';
@@ -12,7 +12,7 @@ export default function HeroTextAnimation() {
 
     // Initialize SplitType to break text into characters
     const split = new SplitType(containerRef.current.querySelectorAll('.split-target'), { 
-      types: 'lines, words, chars',
+      types: 'lines,words,chars',
       tagName: 'span'
     });
     
@@ -74,7 +74,7 @@ export default function HeroTextAnimation() {
 
     // Handle resize to keep cursor positioned correctly at the end
     const handleResize = () => {
-      split.split({ types: 'lines, words, chars' });
+      split.split({ types: 'lines,words,chars' });
       tl.progress(1); // Jump to end of animation
       const lastChar = split.chars![split.chars!.length - 1];
       if (lastChar) {

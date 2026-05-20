@@ -1,9 +1,9 @@
-import { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, ReactNode } from 'react';
 import gsap from 'gsap';
 import SplitType from 'split-type';
 
 interface Props {
-  children: React.ReactNode;
+  children: ReactNode;
   delay?: number;
   className?: string;
 }
@@ -16,7 +16,7 @@ export default function ScrollTextAnimation({ children, delay = 0, className = "
     if (!containerRef.current) return;
 
     const split = new SplitType(containerRef.current.querySelectorAll('.split-target'), { 
-      types: 'lines, words, chars',
+      types: 'lines,words,chars',
       tagName: 'span'
     });
     
