@@ -1,15 +1,16 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { User, GraduationCap, Mail, IdCard, CheckCircle, Sparkles, ArrowRight, ArrowLeft, AlertCircle, Calendar, Users, Globe, Building } from 'lucide-react';
+import { User, Mail, IdCard, CheckCircle, Sparkles, ArrowRight, ArrowLeft, AlertCircle, Calendar, Users, Globe, Building } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { triggerHaptic, hapticPatterns } from '../lib/haptics';
+import { SpotlightInput, SpotlightSelect } from '../components/SpotlightInput';
 
 type Step = 1 | 2 | 3;
 
 export default function Registration() {
   const [currentStep, setCurrentStep] = useState<Step>(1);
-  const [focusedField, setFocusedField] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [showDraftToast, setShowDraftToast] = useState(false);
   
   // Robust State Management for 3 Steps
   const [formData, setFormData] = useState({
@@ -28,6 +29,36 @@ export default function Registration() {
   });
   
   const [errors, setErrors] = useState<Record<string, string>>({});
+
+  // 1. Persistent Micro-Draft Restore Trigger
+  useEffect(() => {
+    const savedDraft = localStorage.getItem('dhmmun_registration_draft');
+    if (savedDraft) {
+      try {
+        const parsed = JSON.parse(savedDraft);
+        // Verify we have non-trivial input answers in our draft
+        const exists = Object.values(parsed).some(val => typeof val === 'string' && val.trim() !== '');
+        if (exists) {
+          setFormData(parsed);
+          setShowDraftToast(true);
+          triggerHaptic(hapticPatterns.success);
+          const t = setTimeout(() => {
+            setShowDraftToast(false);
+          }, 3500);
+          return () => clearTimeout(t);
+        }
+      } catch (e) {
+        console.error("Failed to recover localized form draft state", e);
+      }
+    }
+  }, []);
+
+  // 2. Persistent Auto-Backup Draft Engine Update
+  useEffect(() => {
+    if (!isSuccess) {
+      localStorage.setItem('dhmmun_registration_draft', JSON.stringify(formData));
+    }
+  }, [formData, isSuccess]);
 
   const validateStep = (step: Step) => {
     const newErrors: Record<string, string> = {};
@@ -120,109 +151,10 @@ export default function Registration() {
     setTimeout(() => {
       setIsSubmitting(false);
       setIsSuccess(true);
+      // Clean up backup on completion
+      localStorage.removeItem('dhmmun_registration_draft');
       triggerHaptic(hapticPatterns.success);
     }, 2000);
-  };
-
-  // Input Field Renderer Helper
-  const renderInput = (
-    id: keyof typeof formData, 
-    label: string, 
-    Icon: React.ElementType, 
-    type: string = "text", 
-    autoComplete: string = "off",
-    inputMode: "text" | "numeric" | "email" | "tel" | "search" | "url" = "text",
-    maxLength?: number,
-    mask?: string
-  ) => {
-    const isFloating = formData[id] || focusedField === id || type === "date";
-    const hasMask = !!mask;
-
-    return (
-      <div className="relative group w-full">
-        <input 
-          type={type} 
-          id={id}
-          value={formData[id]}
-          onChange={handleInputChange}
-          autoComplete={autoComplete}
-          inputMode={inputMode}
-          maxLength={maxLength}
-          onFocus={() => { setFocusedField(id); triggerHaptic(hapticPatterns.light); }}
-          onBlur={() => setFocusedField(null)}
-          className={`peer w-full bg-surface-container/30 backdrop-blur-md border ${errors[id] ? 'border-error' : 'border-outline-variant/30'} rounded-2xl px-5 pt-7 pb-3 text-sm md:text-base text-on-surface focus:outline-none focus:bg-surface-container/60 transition-all duration-300 shadow-inner ${hasMask ? 'font-mono tracking-[0.1em] sm:tracking-[0.2em]' : ''}`}
-          placeholder=" "
-          aria-invalid={!!errors[id]}
-        />
-        
-        {hasMask && isFloating && (
-          <div 
-            className="absolute inset-0 pointer-events-none px-5 pt-7 pb-3 border border-transparent text-sm md:text-base font-mono tracking-[0.1em] sm:tracking-[0.2em] text-transparent overflow-hidden whitespace-nowrap z-10 block"
-            aria-hidden="true"
-            style={{ lineHeight: 'normal' }}
-          >
-            <span className="opacity-0">{formData[id]}</span>
-            <span className="text-on-surface-variant/40">{mask.slice(formData[id].length)}</span>
-          </div>
-        )}
-
-        <label 
-          htmlFor={id}
-          className={`absolute left-5 transition-all duration-300 pointer-events-none z-20 ${
-            isFloating ? 'top-2 text-[10px] font-bold text-primary' : 'top-5 text-base text-on-surface-variant/70'
-          } ${errors[id] ? 'text-error' : ''}`}
-        >
-          {label}
-        </label>
-        <Icon className={`absolute right-5 top-1/2 -translate-y-1/2 w-5 h-5 transition-colors duration-300 z-20 ${errors[id] ? 'text-error' : 'text-on-surface-variant/40 peer-focus:text-primary'}`} />
-        <div className={`absolute inset-0 rounded-2xl border-2 pointer-events-none transition-all duration-500 z-20 ${errors[id] ? 'border-error opacity-100 scale-100' : focusedField === id ? 'border-primary opacity-100 scale-100 blur-[1px]' : 'border-primary opacity-0 scale-105'}`}></div>
-        {errors[id] && <span className="absolute -bottom-5 left-2 text-[10px] text-error font-medium">{errors[id]}</span>}
-      </div>
-    );
-  };
-
-  const renderSelect = (
-    id: keyof typeof formData, 
-    label: string, 
-    Icon: React.ElementType, 
-    options: {value: string, label: string}[]
-  ) => {
-    const isFloating = formData[id] || focusedField === id;
-    
-    return (
-      <div className="relative group w-full">
-        <select 
-          id={id}
-          value={formData[id]}
-          onChange={handleInputChange}
-          onFocus={() => { setFocusedField(id); triggerHaptic(hapticPatterns.light); }}
-          onBlur={() => setFocusedField(null)}
-          className={`peer w-full bg-surface-container/30 backdrop-blur-md border ${errors[id] ? 'border-error' : 'border-outline-variant/30'} rounded-2xl px-5 pt-7 pb-3 text-sm md:text-base ${formData[id] ? 'text-on-surface' : 'text-transparent'} focus:text-on-surface focus:outline-none focus:bg-surface-container/60 transition-all duration-300 appearance-none cursor-pointer shadow-inner`}
-          aria-invalid={!!errors[id]}
-        >
-          <option value="" disabled className="bg-surface text-on-surface-variant hidden">Select option</option>
-          {options.map((opt) => (
-            <option key={opt.value} value={opt.value} className="bg-surface text-on-surface">{opt.label}</option>
-          ))}
-        </select>
-        
-        <label 
-          htmlFor={id}
-          className={`absolute left-5 transition-all duration-300 font-medium pointer-events-none ${
-            isFloating ? 'top-2 text-[10px] font-bold text-primary' : 'top-5 text-base text-on-surface-variant/70'
-          } ${errors[id] ? 'text-error' : ''}`}
-        >
-          {label}
-        </label>
-        
-        <Icon className={`absolute right-12 top-1/2 -translate-y-1/2 w-5 h-5 transition-colors duration-300 origin-center ${errors[id] ? 'text-error' : 'text-on-surface-variant/40 peer-focus:text-primary'}`} />
-        <div className="absolute right-5 top-1/2 -translate-y-1/2 pointer-events-none">
-          <svg className={`w-4 h-4 transition-transform duration-300 ${focusedField === id ? 'rotate-180 text-primary' : 'text-on-surface-variant/50'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
-        </div>
-        <div className={`absolute inset-0 rounded-2xl border-2 pointer-events-none transition-all duration-500 ${errors[id] ? 'border-error opacity-100 scale-100' : focusedField === id ? 'border-primary opacity-100 scale-100 blur-[1px]' : 'border-primary opacity-0 scale-105'}`}></div>
-        {errors[id] && <span className="absolute -bottom-5 left-2 text-[10px] text-error font-medium">{errors[id]}</span>}
-      </div>
-    );
   };
 
   return (
@@ -240,6 +172,27 @@ export default function Registration() {
           className="absolute bottom-[-10%] left-[-5%] w-[300px] md:w-[500px] h-[300px] md:h-[500px] bg-secondary/20 blur-[80px] md:blur-[120px] mix-blend-screen dark:mix-blend-normal opacity-70 md:opacity-100"
         />
       </div>
+
+      {/* Persistent Micro-Draft Reassuring toast notification */}
+      <AnimatePresence>
+        {showDraftToast && (
+          <motion.div
+            initial={{ opacity: 0, y: 30, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -20, scale: 0.95 }}
+            transition={{ type: "spring", stiffness: 350, damping: 25 }}
+            className="fixed bottom-6 right-6 md:right-10 z-[100] flex items-center gap-3 px-5 py-4 bg-surface-container/90 backdrop-blur-2xl border border-primary/25 rounded-2xl shadow-[0_12px_40px_rgba(0,0,0,0.3)] ring-1 ring-white/10 text-on-surface"
+          >
+            <div className="w-8 h-8 rounded-full bg-primary/15 flex items-center justify-center animate-pulse">
+              <Sparkles className="w-4 h-4 text-primary" />
+            </div>
+            <div className="flex flex-col text-left">
+              <span className="text-xs font-bold font-headline tracking-wide uppercase text-primary leading-none">Draft Restored</span>
+              <span className="text-[11px] text-on-surface-variant font-body mt-0.5">Your progress has been recovered.</span>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       <div className="container mx-auto px-4 sm:px-6 relative z-10 max-w-6xl w-full">
         <div className="grid lg:grid-cols-12 gap-8 md:gap-12 items-center">
@@ -287,7 +240,12 @@ export default function Registration() {
             <div className="relative rounded-[2rem] md:rounded-[2.5rem] p-[2px] sm:p-1 w-full max-w-[500px] lg:max-w-none mx-auto">
               <div className="absolute inset-0 rounded-[2rem] md:rounded-[2.5rem] bg-gradient-to-br from-primary/40 via-secondary/20 to-primary/40 opacity-50 blur-md transition-all duration-1000"></div>
               
-              <div className="relative bg-surface/40 backdrop-blur-3xl border border-white/10 dark:border-white/5 rounded-[1.9rem] md:rounded-[2.4rem] p-6 sm:p-8 md:p-12 shadow-[0_8px_32px_0_rgba(0,0,0,0.1)] overflow-hidden min-h-[450px] flex items-center">
+              {/* Card Container Morphs dynamically matching the speed of customized transitions */}
+              <motion.div 
+                layout="size"
+                transition={{ type: "spring", stiffness: 180, damping: 24 }}
+                className="relative bg-surface/40 backdrop-blur-3xl border border-white/10 dark:border-white/5 rounded-[1.9rem] md:rounded-[2.4rem] p-6 sm:p-8 md:p-12 shadow-[0_8px_32px_0_rgba(0,0,0,0.1)] overflow-hidden min-h-[450px] flex items-center"
+              >
                 <div className="absolute inset-0 rounded-[1.9rem] md:rounded-[2.4rem] border border-white/20 pointer-events-none mix-blend-overlay"></div>
                 
                 {/* Progress Bar Top Edge */}
@@ -326,21 +284,66 @@ export default function Registration() {
                       {currentStep === 1 && (
                         <div className="space-y-6">
                           <div className="grid sm:grid-cols-2 gap-6">
-                            {renderInput('firstName', 'First Name', User, 'text', 'given-name')}
-                            {renderInput('lastName', 'Last Name', User, 'text', 'family-name')}
+                            <SpotlightInput 
+                              id="firstName" 
+                              label="First Name" 
+                              Icon={User} 
+                              value={formData.firstName}
+                              onChange={handleInputChange}
+                              autoComplete="given-name" 
+                              error={errors.firstName}
+                            />
+                            <SpotlightInput 
+                              id="lastName" 
+                              label="Last Name" 
+                              Icon={User} 
+                              value={formData.lastName}
+                              onChange={handleInputChange}
+                              autoComplete="family-name" 
+                              error={errors.lastName}
+                            />
                           </div>
-                          {renderInput('email', 'Email Address', Mail, 'email', 'email', 'email')}
-                          {renderInput('dob', 'Date of Birth', Calendar, 'text', 'bday', 'numeric', 10, 'DD/MM/YYYY')}
+                          <SpotlightInput 
+                            id="email" 
+                            label="Email Address" 
+                            Icon={Mail} 
+                            type="email"
+                            value={formData.email}
+                            onChange={handleInputChange}
+                            autoComplete="email" 
+                            inputMode="email"
+                            error={errors.email}
+                          />
+                          <SpotlightInput 
+                            id="dob" 
+                            label="Date of Birth" 
+                            Icon={Calendar} 
+                            value={formData.dob}
+                            onChange={handleInputChange}
+                            autoComplete="bday" 
+                            inputMode="numeric"
+                            maxLength={10}
+                            mask="DD/MM/YYYY"
+                            error={errors.dob}
+                          />
                         </div>
                       )}
 
                       {/* STEP 2 FIELDS */}
                       {currentStep === 2 && (
                         <div className="space-y-6">
-                          {renderSelect('participationType', 'Participation Type', Users, [
-                            { value: 'school', label: 'School Delegation' },
-                            { value: 'individual', label: 'Individual Delegate' }
-                          ])}
+                          <SpotlightSelect 
+                            id="participationType" 
+                            label="Participation Type" 
+                            Icon={Users} 
+                            value={formData.participationType}
+                            onChange={handleInputChange}
+                            error={errors.participationType}
+                            options={[
+                              { value: 'school', label: 'School Delegation' },
+                              { value: 'individual', label: 'Individual Delegate' }
+                            ]}
+                          />
                           
                           <AnimatePresence mode="wait">
                             {formData.participationType === 'school' && (
@@ -348,31 +351,63 @@ export default function Registration() {
                                 initial={{ opacity: 0, height: 0, marginTop: 0 }}
                                 animate={{ opacity: 1, height: 'auto', marginTop: 24 }}
                                 exit={{ opacity: 0, height: 0, marginTop: 0 }}
+                                transition={{ type: "spring", stiffness: 200, damping: 22 }}
                                 className="overflow-visible"
                               >
-                                {renderInput('institution', 'School / Institution Name', Building, 'text', 'organization')}
+                                <SpotlightInput 
+                                  id="institution" 
+                                  label="School / Institution Name" 
+                                  Icon={Building} 
+                                  value={formData.institution}
+                                  onChange={handleInputChange}
+                                  autoComplete="organization" 
+                                  error={errors.institution}
+                                />
                               </motion.div>
                             )}
                           </AnimatePresence>
 
-                          {renderSelect('experience', 'MUN Experience Level', IdCard, [
-                            { value: 'beginner', label: 'Beginner (0-1 conferences)' },
-                            { value: 'intermediate', label: 'Intermediate (2-4 conferences)' },
-                            { value: 'advanced', label: 'Advanced (5+ conferences)' }
-                          ])}
+                          <SpotlightSelect 
+                            id="experience" 
+                            label="MUN Experience Level" 
+                            Icon={IdCard} 
+                            value={formData.experience}
+                            onChange={handleInputChange}
+                            error={errors.experience}
+                            options={[
+                              { value: 'beginner', label: 'Beginner (0-1 conferences)' },
+                              { value: 'intermediate', label: 'Intermediate (2-4 conferences)' },
+                              { value: 'advanced', label: 'Advanced (5+ conferences)' }
+                            ]}
+                          />
                         </div>
                       )}
 
                       {/* STEP 3 FIELDS */}
                       {currentStep === 3 && (
                         <div className="space-y-6">
-                          {renderSelect('committee', 'Desired Committee', Globe, [
-                            { value: 'unsc', label: 'United Nations Security Council' },
-                            { value: 'who', label: 'World Health Organization' },
-                            { value: 'crisis', label: 'Joint Crisis Committee' },
-                            { value: 'unicef', label: 'UNICEF' }
-                          ])}
-                          {renderInput('countryPref', 'Country/Position Preference', Globe, 'text')}
+                          <SpotlightSelect 
+                            id="committee" 
+                            label="Desired Committee" 
+                            Icon={Globe} 
+                            value={formData.committee}
+                            onChange={handleInputChange}
+                            error={errors.committee}
+                            options={[
+                              { value: 'unsc', label: 'United Nations Security Council' },
+                              { value: 'who', label: 'World Health Organization' },
+                              { value: 'crisis', label: 'Joint Crisis Committee' },
+                              { value: 'unicef', label: 'UNICEF' }
+                            ]}
+                          />
+                          <SpotlightInput 
+                            id="countryPref" 
+                            label="Country/Position Preference" 
+                            Icon={Globe} 
+                            value={formData.countryPref}
+                            onChange={handleInputChange}
+                            error={errors.countryPref}
+                          />
                         </div>
                       )}
 
@@ -382,7 +417,7 @@ export default function Registration() {
                           <button 
                             type="button" 
                             onClick={handlePrev}
-                            className="h-14 md:h-16 px-6 rounded-2xl bg-surface-container/50 border border-outline-variant/30 text-on-surface font-bold hover:bg-surface-container transition-all active:scale-95 flex items-center justify-center shrink-0"
+                            className="h-14 md:h-16 px-6 rounded-2xl bg-surface-container/50 border border-outline-variant/30 text-on-surface font-bold hover:bg-surface-container transition-all active:scale-95 flex items-center justify-center shrink-0 cursor-pointer"
                           >
                             <ArrowLeft className="w-5 h-5" />
                           </button>
@@ -391,7 +426,7 @@ export default function Registration() {
                         <button 
                           type="submit" 
                           disabled={isSubmitting}
-                          className="relative flex-1 h-14 md:h-16 rounded-2xl bg-gradient-to-r from-primary to-secondary text-on-primary font-bold text-base md:text-lg overflow-hidden group transition-all hover:scale-[1.02] active:scale-[0.98] disabled:opacity-70 disabled:hover:scale-100 shadow-[0_4px_20px_rgba(var(--color-primary),0.3)]"
+                          className="relative flex-1 h-14 md:h-16 rounded-2xl bg-gradient-to-r from-primary to-secondary text-on-primary font-bold text-base md:text-lg overflow-hidden group transition-all hover:scale-[1.02] active:scale-[0.98] disabled:opacity-70 disabled:hover:scale-100 shadow-[0_4px_20px_rgba(var(--color-primary),0.3)] cursor-pointer"
                         >
                           <div className="absolute inset-0 -translate-x-full group-hover:animate-[shimmer_1.5s_infinite] bg-gradient-to-r from-transparent via-white/20 to-transparent skew-x-12"></div>
                           <div className="relative z-10 flex items-center justify-center gap-2">
@@ -399,7 +434,7 @@ export default function Registration() {
                               <motion.div 
                                 animate={{ rotate: 360 }}
                                 transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-                                className="w-5 h-5 md:w-6 md:h-6 border-2 border-on-primary/30 border-t-on-primary rounded-full"
+                                className="w-5 h-5 md:w-6 md:h-6 border-2 border-on-primary/30 border-t-on-primary rounded-full animate-[pulse_1s_infinite]"
                               />
                             ) : (
                               <>
@@ -417,7 +452,7 @@ export default function Registration() {
                           animate={{ opacity: 1, y: 0 }}
                           className="flex items-center justify-center gap-2 text-error text-[11px] md:text-xs font-medium mt-4 bg-error/10 py-2 px-3 rounded-lg border border-error/20"
                         >
-                          <AlertCircle className="w-4 h-4" />
+                          <AlertCircle className="w-4 h-4 text-error" />
                           <span>Please fix the highlighted errors before continuing.</span>
                         </motion.div>
                       )}
@@ -440,7 +475,7 @@ export default function Registration() {
                       </motion.div>
                       <h2 className="text-2xl md:text-3xl font-headline font-bold text-on-surface mb-3 md:mb-4">Application Secured</h2>
                       <p className="text-sm md:text-base text-on-surface-variant font-body mb-6 md:mb-8 max-w-sm px-4">
-                        Welcome to DHMMUN. We've registered your preferences and dispatched a confirmation email to <strong>{formData.email}</strong>.
+                        Welcome to DHMMUN. We’ve registered your preferences and dispatched a confirmation email to <strong>{formData.email}</strong>.
                       </p>
                       <button 
                         onClick={() => {
@@ -448,14 +483,14 @@ export default function Registration() {
                           setCurrentStep(1);
                           setFormData({ firstName: '', lastName: '', email: '', dob: '', participationType: '', institution: '', experience: '', committee: '', countryPref: '' });
                         }}
-                        className="px-6 md:px-8 py-3 text-sm md:text-base rounded-xl bg-surface-container border border-outline-variant/30 text-on-surface font-bold hover:bg-surface-container-high transition-colors active:scale-95"
+                        className="px-6 md:px-8 py-3 text-sm md:text-base rounded-xl bg-surface-container border border-outline-variant/30 text-on-surface font-bold hover:bg-surface-container-high transition-colors active:scale-95 cursor-pointer"
                       >
                         Return Home
                       </button>
                     </motion.div>
                   )}
                 </AnimatePresence>
-              </div>
+              </motion.div>
             </div>
           </motion.div>
         </div>
@@ -463,3 +498,4 @@ export default function Registration() {
     </main>
   );
 }
+
