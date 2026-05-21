@@ -16,9 +16,42 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     if (savedTheme === 'dark' || savedTheme === 'light') {
       return savedTheme;
     }
-    // Default to dark if no preference is saved
-    return 'dark';
+    // Respect OS system preference
+    if (typeof window !== 'undefined' && window.matchMedia) {
+      const isSystemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      return isSystemDark ? 'dark' : 'light';
+    }
+    return 'dark'; // Fallback
   });
+
+  // Listen for changes in OS theme dynamically if the user has not set a preference yet
+  useEffect(() => {
+    if (typeof window === 'undefined' || !window.matchMedia) return;
+    
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+    
+    const handleSystemThemeChange = (e: MediaQueryListEvent) => {
+      const savedTheme = localStorage.getItem('theme');
+      // Only change automatically if user hasn't overridden it via local selection
+      if (!savedTheme) {
+        setTheme(e.matches ? 'dark' : 'light');
+      }
+    };
+
+    if (mediaQuery.addEventListener) {
+      mediaQuery.addEventListener('change', handleSystemThemeChange);
+    } else {
+      mediaQuery.addListener(handleSystemThemeChange);
+    }
+
+    return () => {
+      if (mediaQuery.removeEventListener) {
+        mediaQuery.removeEventListener('change', handleSystemThemeChange);
+      } else {
+        mediaQuery.removeListener(handleSystemThemeChange);
+      }
+    };
+  }, []);
 
   // useLayoutEffect guarantees synchronous DOM mutation immediately after state change
   // This is required for View Transitions to instantly see the new state
@@ -26,7 +59,6 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     const root = window.document.documentElement;
     root.classList.remove('light', 'dark');
     root.classList.add(theme);
-    localStorage.setItem('theme', theme);
 
     // Update meta theme-color for mobile browsers
     let metaThemeColor = document.querySelector('meta[name="theme-color"]');
@@ -42,7 +74,12 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     // flushSync forces React to commit the state & layout effect instantly
     // preventing the View Transition API from snapping an intermediate state
     flushSync(() => {
-      setTheme((prev) => (prev === 'dark' ? 'light' : 'dark'));
+      setTheme((prev) => {
+        const nextTheme = prev === 'dark' ? 'light' : 'dark';
+        // Persist the explicit manual override instantly
+        localStorage.setItem('theme', nextTheme);
+        return nextTheme;
+      });
     });
   };
 
