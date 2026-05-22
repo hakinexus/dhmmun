@@ -4,6 +4,8 @@ import { Menu, X, Moon, Sun, Home, Info, Users } from 'lucide-react';
 import { AnimatePresence, motion, useScroll, useMotionValueEvent } from 'motion/react';
 import ThemeToggle from './ThemeToggle';
 import { useTheme } from '../context/ThemeContext';
+import { triggerHaptic, hapticPatterns } from '../lib/haptics';
+import { feedbackSounds } from '../lib/audio';
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -107,14 +109,17 @@ export default function Navbar() {
         }}
       >
         <div className="flex justify-between items-center w-full">
-          <div 
+          <motion.div 
             onClick={() => {
+              triggerHaptic(hapticPatterns.tap);
+              feedbackSounds.click();
               navigate('/');
             }}
-            className="text-2xl font-black tracking-tighter text-primary font-headline w-1/3 md:w-auto cursor-pointer hover:opacity-80 active:scale-95 transition-all select-none"
+            whileTap={{ scale: 0.96 }}
+            className="text-2xl font-black tracking-tighter text-primary font-headline w-1/3 md:w-auto cursor-pointer hover:opacity-80 transition-all select-none"
           >
             DHMMUN
-          </div>
+          </motion.div>
           
           {/* Mobile Theme Toggle (Middle) */}
           <div className="md:hidden flex justify-center w-1/3">
@@ -135,6 +140,10 @@ export default function Navbar() {
                   key={link.name}
                   to={link.path}
                   onMouseEnter={() => setHoveredPath(link.path)}
+                  onClick={() => {
+                    triggerHaptic(hapticPatterns.light);
+                    feedbackSounds.click();
+                  }}
                   className={`relative px-5 py-2 rounded-full font-medium transition-colors duration-300 font-body text-base tracking-wide ${
                     isActive ? 'text-primary font-bold' : 'text-on-surface-variant hover:text-on-surface'
                   }`}
@@ -165,18 +174,29 @@ export default function Navbar() {
             {/* Desktop Theme Toggle */}
             <ThemeToggle className="hidden md:flex" />
 
-            <button 
-              onClick={() => navigate('/registration')}
-              className="hidden md:block bg-gradient-to-br from-primary to-on-primary-container text-on-primary font-bold px-8 py-2.5 rounded-full scale-105 active:scale-95 transition-transform font-headline cursor-pointer"
+            <motion.button 
+              onClick={() => {
+                triggerHaptic(hapticPatterns.success);
+                feedbackSounds.success();
+                navigate('/registration');
+              }}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.97 }}
+              className="hidden md:block bg-gradient-to-br from-primary to-on-primary-container text-on-primary font-bold px-8 py-2.5 rounded-full font-headline cursor-pointer"
             >
               Join Now
-            </button>
+            </motion.button>
 
             {/* Mobile Menu Toggle */}
-            <button 
+            <motion.button 
               ref={buttonRef}
-              className="md:hidden p-2 text-primary hover:bg-primary/10 rounded-full transition-colors active:scale-95 relative w-10 h-10 flex items-center justify-center cursor-pointer"
-              onClick={() => setIsOpen(!isOpen)}
+              className="md:hidden p-2 text-primary hover:bg-primary/10 rounded-full transition-colors relative w-10 h-10 flex items-center justify-center cursor-pointer"
+              onClick={() => {
+                triggerHaptic(hapticPatterns.tap);
+                feedbackSounds.click();
+                setIsOpen(!isOpen);
+              }}
+              whileTap={{ scale: 0.97 }}
               aria-expanded={isOpen}
               aria-label={isOpen ? "Close menu" : "Open menu"}
             >
@@ -205,7 +225,7 @@ export default function Navbar() {
                   </motion.div>
                 )}
               </AnimatePresence>
-            </button>
+            </motion.button>
           </div>
         </div>
 
@@ -216,43 +236,69 @@ export default function Navbar() {
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.3 }}
-              className="md:hidden flex flex-col gap-2 w-full overflow-hidden"
+              transition={{ type: "spring", stiffness: 380, damping: 26, mass: 0.5 }}
+              drag="y"
+              dragConstraints={{ top: 0, bottom: 0 }}
+              dragElastic={{ top: 0.05, bottom: 0.45 }}
+              onDragEnd={(_, info) => {
+                if (info.offset.y > 75) {
+                  setIsOpen(false);
+                  triggerHaptic(hapticPatterns.tap);
+                  feedbackSounds.click();
+                }
+              }}
+              className="md:hidden flex flex-col gap-2 w-full overflow-hidden cursor-grab active:cursor-grabbing select-none"
             >
               <div className="pt-6 pb-2 flex flex-col gap-2">
+                <div className="text-[10px] font-mono tracking-widest text-on-surface-variant opacity-40 text-center uppercase mb-2">
+                  Swipe Down to Collapse
+                </div>
                 {navLinks.map((link) => {
                   const isActive = location.pathname === link.path;
                   const Icon = link.icon;
                   return (
-                    <NavLink
+                    <motion.div
                       key={link.name}
-                      to={link.path}
-                      onClick={() => setIsOpen(false)}
-                      className={`flex items-center justify-between px-4 py-3.5 rounded-xl transition-all duration-300 active:scale-95 ${
-                        isActive 
-                          ? 'bg-primary/10 text-on-surface opacity-100 font-bold' 
-                          : 'text-on-surface-variant opacity-60 hover:opacity-100 hover:bg-surface-container'
-                      }`}
+                      whileHover={{ x: 4 }}
+                      whileTap={{ scale: 0.97 }}
                     >
-                      <div className="flex items-center gap-4">
-                        <Icon className={`w-5 h-5 ${isActive ? 'text-primary' : ''}`} />
-                        <span className={`font-headline font-semibold text-lg ${isActive ? 'text-primary' : ''}`}>{link.name}</span>
-                      </div>
-                      {isActive && (
-                        <div className="w-2 h-2 rounded-full bg-primary" />
-                      )}
-                    </NavLink>
+                      <NavLink
+                        to={link.path}
+                        onClick={() => {
+                          setIsOpen(false);
+                          triggerHaptic(hapticPatterns.light);
+                          feedbackSounds.click();
+                        }}
+                        className={`flex items-center justify-between px-4 py-3.5 rounded-xl transition-all duration-300 ${
+                          isActive 
+                            ? 'bg-primary/10 text-on-surface opacity-100 font-bold' 
+                            : 'text-on-surface-variant opacity-60 hover:opacity-100 hover:bg-surface-container'
+                        }`}
+                      >
+                        <div className="flex items-center gap-4">
+                          <Icon className={`w-5 h-5 ${isActive ? 'text-primary' : ''}`} />
+                          <span className={`font-headline font-semibold text-lg ${isActive ? 'text-primary' : ''}`}>{link.name}</span>
+                        </div>
+                        {isActive && (
+                          <div className="w-2 h-2 rounded-full bg-primary" />
+                        )}
+                      </NavLink>
+                    </motion.div>
                   );
                 })}
-                <button 
+                <motion.button 
                   onClick={() => {
                     setIsOpen(false);
+                    triggerHaptic(hapticPatterns.success);
+                    feedbackSounds.success();
                     navigate('/registration');
                   }}
-                  className="mt-2 w-full bg-gradient-to-br from-primary to-on-primary-container text-on-primary font-bold px-4 py-3.5 rounded-xl active:scale-95 transition-transform font-headline text-lg cursor-pointer"
+                  whileHover={{ scale: 1.01 }}
+                  whileTap={{ scale: 0.97 }}
+                  className="mt-2 w-full bg-gradient-to-br from-primary to-on-primary-container text-on-primary font-bold px-4 py-3.5 rounded-xl transition-transform font-headline text-lg cursor-pointer"
                 >
                   Join Now
-                </button>
+                </motion.button>
               </div>
             </motion.div>
           )}

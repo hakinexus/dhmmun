@@ -20,6 +20,7 @@ import {
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { triggerHaptic, hapticPatterns } from '../lib/haptics';
+import { feedbackSounds } from '../lib/audio';
 import { SpotlightInput, SpotlightSelect } from '../components/SpotlightInput';
 import { DiplomaticPass } from '../components/DiplomaticPass';
 import { BriefingAdvisor } from '../components/BriefingAdvisor';
@@ -136,14 +137,17 @@ export default function Registration() {
   const handleNext = () => {
     if (validateStep(currentStep)) {
       triggerHaptic(hapticPatterns.light);
+      feedbackSounds.click();
       setCurrentStep(prev => (prev + 1) as Step);
     } else {
       triggerHaptic(hapticPatterns.error);
+      feedbackSounds.error();
     }
   };
 
   const handlePrev = () => {
     triggerHaptic(hapticPatterns.light);
+    feedbackSounds.click();
     setCurrentStep(prev => (prev - 1) as Step);
   };
 
@@ -154,19 +158,24 @@ export default function Registration() {
     if (target === 1) {
       setCurrentStep(1);
       triggerHaptic(hapticPatterns.light);
+      feedbackSounds.click();
     } else if (target === 2) {
       if (validateStep(1)) {
         setCurrentStep(2);
         triggerHaptic(hapticPatterns.light);
+        feedbackSounds.click();
       } else {
         triggerHaptic(hapticPatterns.error);
+        feedbackSounds.error();
       }
     } else if (target === 3) {
       if (validateStep(1) && validateStep(2)) {
         setCurrentStep(3);
         triggerHaptic(hapticPatterns.light);
+        feedbackSounds.click();
       } else {
         triggerHaptic(hapticPatterns.error);
+        feedbackSounds.error();
       }
     }
   };
@@ -196,15 +205,19 @@ export default function Registration() {
     e.preventDefault();
     if (!validateStep(3)) {
       triggerHaptic(hapticPatterns.error);
+      feedbackSounds.error();
       return;
     }
     setIsSubmitting(true);
+    // Subtle physical confirmation sweep
+    feedbackSounds.click();
     setTimeout(() => {
       setIsSubmitting(false);
       setIsSuccess(true);
       // Clean up backup on completion
       localStorage.removeItem('dhmmun_registration_draft');
       triggerHaptic(hapticPatterns.success);
+      feedbackSounds.success();
     }, 2200);
   };
 
@@ -584,19 +597,23 @@ export default function Registration() {
                         {/* Secondary Interactive Controls Row */}
                         <div className="flex gap-4 pt-4">
                           {currentStep > 1 && (
-                            <button 
+                            <motion.button 
                               type="button" 
                               onClick={handlePrev}
-                              className="h-14 md:h-16 px-6 rounded-2xl bg-surface-container/50 border border-outline-variant/30 text-on-surface font-bold hover:bg-surface-container transition-all active:scale-95 flex items-center justify-center shrink-0 cursor-pointer"
+                              whileHover={{ scale: 1.05 }}
+                              whileTap={{ scale: 0.97 }}
+                              className="h-14 md:h-16 px-6 rounded-2xl bg-surface-container/50 border border-outline-variant/30 text-on-surface font-bold hover:bg-surface-container transition-all flex items-center justify-center shrink-0 cursor-pointer"
                             >
                               <ArrowLeft className="w-5 h-5" />
-                            </button>
+                            </motion.button>
                           )}
                           
-                          <button 
+                          <motion.button 
                             type="submit" 
                             disabled={isSubmitting}
-                            className="relative flex-1 h-14 md:h-16 rounded-2xl bg-gradient-to-r from-primary to-secondary text-on-primary font-bold text-base md:text-lg overflow-hidden group transition-all hover:scale-[1.02] active:scale-[0.98] disabled:opacity-70 disabled:hover:scale-100 shadow-[0_4px_25px_rgba(var(--color-primary),0.25)] cursor-pointer"
+                            whileHover={isSubmitting ? {} : { scale: 1.01 }}
+                            whileTap={isSubmitting ? {} : { scale: 0.97 }}
+                            className="relative flex-1 h-14 md:h-16 rounded-2xl bg-gradient-to-r from-primary to-secondary text-on-primary font-bold text-base md:text-lg overflow-hidden group transition-all disabled:opacity-70 disabled:hover:scale-100 shadow-[0_4px_25px_rgba(var(--color-primary),0.25)] cursor-pointer"
                           >
                             <div className="absolute inset-0 -translate-x-full group-hover:animate-[shimmer_1.5s_infinite] bg-gradient-to-r from-transparent via-white/20 to-transparent skew-x-12"></div>
                             <div className="relative z-10 flex items-center justify-center gap-2">
@@ -613,7 +630,7 @@ export default function Registration() {
                                 </>
                               )}
                             </div>
-                          </button>
+                          </motion.button>
                         </div>
 
                         {/* Error Highlight Banner */}

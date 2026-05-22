@@ -107,11 +107,11 @@
   --on-tertiary: #ffffff;
   
   /* Custom gradients for light mode */
-  --glass-card-bg: linear-gradient(135deg, rgba(255, 255, 255, 0.55) 0%, rgba(240, 237, 238, 0.75) 100%);
-  --glass-card-border: rgba(44, 102, 110, 0.12);
+  --glass-card-bg: rgba(255, 255, 255, 0.45);
+  --glass-card-border: rgba(44, 102, 110, 0.08);
   --liquid-border-shadow: inset 0 1px 0 0 rgba(44, 102, 110, 0.25);
-  --liquid-glass-bg: linear-gradient(135deg, rgba(255, 255, 255, 0.7) 0%, rgba(240, 237, 238, 0.85) 100%);
-  --liquid-glass-border: rgba(44, 102, 110, 0.14);
+  --liquid-glass-bg: rgba(255, 255, 255, 0.65);
+  --liquid-glass-border: rgba(44, 102, 110, 0.12);
   --text-glow-shadow: 0 0 30px rgba(44, 102, 110, 0.25);
   --nav-bg: rgba(255, 255, 255, 0.75);
   --nav-shadow: 0 20px 40px rgba(44, 102, 110, 0.06), inset 0 1px 0 0 rgba(255, 255, 255, 0.5);
@@ -122,6 +122,11 @@
   --noise-opacity: 0.02;
   --scrollbar-thumb: linear-gradient(180deg, #1b4d54 0%, #4a7c82 100%);
   --scrollbar-thumb-hover: #1b4d54;
+  
+  /* State of the Art: High-Fidelity Depth & Glassmorphism metrics */
+  --ambient-shadow-primary: 0 12px 40px -10px rgba(44, 102, 110, 0.08);
+  --ambient-shadow-secondary: 0 24px 60px -15px rgba(26, 44, 58, 0.04);
+  --liquid-border-highlight: rgba(255, 255, 255, 0.65);
 }
 
 .dark {
@@ -176,11 +181,11 @@
   --on-tertiary: #2d2f46;
   
   /* Custom gradients for dark mode */
-  --glass-card-bg: linear-gradient(135deg, rgba(13, 20, 29, 0.55) 0%, rgba(21, 28, 38, 0.75) 100%);
-  --glass-card-border: rgba(0, 218, 243, 0.08);
+  --glass-card-bg: rgba(13, 20, 29, 0.45);
+  --glass-card-border: rgba(0, 218, 243, 0.06);
   --liquid-border-shadow: inset 0 1px 0 0 rgba(156, 240, 255, 0.15);
-  --liquid-glass-bg: linear-gradient(135deg, rgba(13, 20, 29, 0.7) 0%, rgba(25, 32, 42, 0.85) 100%);
-  --liquid-glass-border: rgba(0, 218, 243, 0.14);
+  --liquid-glass-bg: rgba(13, 20, 29, 0.65);
+  --liquid-glass-border: rgba(0, 218, 243, 0.12);
   --text-glow-shadow: 0 0 30px rgba(0, 218, 243, 0.35);
   --nav-bg: rgba(13, 20, 29, 0.5);
   --nav-shadow: 0 20px 40px rgba(0, 0, 0, 0.45), inset 0 1px 0 0 rgba(255, 255, 255, 0.08);
@@ -191,6 +196,11 @@
   --noise-opacity: 0.04;
   --scrollbar-thumb: linear-gradient(180deg, #00daf3 0%, #008fa0 100%);
   --scrollbar-thumb-hover: #00daf3;
+  
+  /* State of the Art: High-Fidelity Depth & Glassmorphism metrics */
+  --ambient-shadow-primary: 0 12px 40px -10px rgba(0, 218, 243, 0.12);
+  --ambient-shadow-secondary: 0 24px 60px -15px rgba(5, 10, 18, 0.85);
+  --liquid-border-highlight: rgba(255, 255, 255, 0.08);
 }
 
 @layer utilities {
@@ -212,11 +222,17 @@
     filter: drop-shadow(var(--text-glow-shadow));
   }
   .glass-card {
-    background: var(--glass-card-bg);
-    backdrop-filter: blur(40px);
-    -webkit-backdrop-filter: blur(40px);
+    background: 
+      url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.02'/%3E%3C/svg%3E"),
+      var(--glass-card-bg);
+    backdrop-filter: blur(30px) saturate(145%);
+    -webkit-backdrop-filter: blur(30px) saturate(145%);
     border: 1px solid var(--glass-card-border);
-    transition: backdrop-filter 0.4s ease, background-color 0.4s ease, border-color 0.4s ease;
+    box-shadow: 
+      var(--ambient-shadow-primary),
+      var(--ambient-shadow-secondary),
+      inset 0 1px 0px 0px var(--liquid-border-highlight);
+    transition: backdrop-filter 0.4s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   }
   .liquid-gradient {
     background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-on-primary-container) 100%);
@@ -230,11 +246,17 @@
     box-shadow: var(--liquid-border-shadow);
   }
   .liquid-glass {
-    background: var(--liquid-glass-bg);
-    backdrop-filter: blur(40px);
-    -webkit-backdrop-filter: blur(40px);
+    background: 
+      url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.025'/%3E%3C/svg%3E"),
+      var(--liquid-glass-bg);
+    backdrop-filter: blur(45px) saturate(155%);
+    -webkit-backdrop-filter: blur(45px) saturate(155%);
     border: 1px solid var(--liquid-glass-border);
-    transition: backdrop-filter 0.4s ease, background-color 0.4s ease, border-color 0.4s ease;
+    box-shadow: 
+      var(--ambient-shadow-primary),
+      var(--ambient-shadow-secondary),
+      inset 0 1px 0px 0px var(--liquid-border-highlight);
+    transition: backdrop-filter 0.4s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   }
   .liquid-accent-gradient {
     background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-on-primary-container) 100%);

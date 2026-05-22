@@ -2,6 +2,8 @@ import React, { useRef } from 'react';
 import { motion } from 'motion/react';
 import { Sun, Moon } from 'lucide-react';
 import { useThemeTransition } from '../hooks/useThemeTransition';
+import { triggerHaptic, hapticPatterns } from '../lib/haptics';
+import { feedbackSounds } from '../lib/audio';
 
 export default function ThemeToggle({ className = "" }: { className?: string }) {
   const { theme, toggleWithTransition } = useThemeTransition();
@@ -10,6 +12,10 @@ export default function ThemeToggle({ className = "" }: { className?: string }) 
 
   const handleToggle = (e: React.MouseEvent<HTMLButtonElement> | React.KeyboardEvent<HTMLButtonElement>) => {
     e.preventDefault();
+
+    // Trigger physical haptic & click synth
+    triggerHaptic(hapticPatterns.tap);
+    feedbackSounds.click();
 
     let x = 0;
     let y = 0;
@@ -41,7 +47,7 @@ export default function ThemeToggle({ className = "" }: { className?: string }) 
   };
 
   return (
-    <button
+    <motion.button
       ref={buttonRef}
       onClick={handleToggle}
       onKeyDown={(e) => {
@@ -49,6 +55,8 @@ export default function ThemeToggle({ className = "" }: { className?: string }) 
           handleToggle(e);
         }
       }}
+      whileHover={{ scale: 1.05 }}
+      whileTap={{ scale: 0.97 }}
       className={`relative flex items-center w-16 h-8 rounded-full bg-surface-container-highest border border-outline-variant/30 overflow-hidden shrink-0 cursor-pointer ${className}`}
       aria-label={`Switch to ${isDark ? 'light' : 'dark'} mode`}
       title={`Switch to ${isDark ? 'light' : 'dark'} mode`}
@@ -72,6 +80,6 @@ export default function ThemeToggle({ className = "" }: { className?: string }) 
         animate={{ x: isDark ? 32 : 0 }}
         transition={{ type: "spring", stiffness: 450, damping: 25 }}
       />
-    </button>
+    </motion.button>
   );
 }
