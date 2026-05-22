@@ -65,7 +65,9 @@ export default function Navbar() {
 
   // Dynamically blend glass based on scroll speed
   const isScrollingFast = scrollVelocity > 10;
-  const glassBlurClass = isScrollingFast ? 'backdrop-blur-[45px] transition-all duration-300' : 'backdrop-blur-2xl transition-all duration-300';
+  const glassBlurClass = isScrollingFast 
+    ? 'backdrop-blur-[45px] transition-[backdrop-filter,background-color,border-color] duration-300' 
+    : 'backdrop-blur-2xl transition-[backdrop-filter,background-color,border-color] duration-300';
   const borderOpacityClass = isScrollingFast 
     ? 'border-primary/25 dark:border-primary/20' 
     : 'border-primary/10 dark:border-white/5';
@@ -84,13 +86,13 @@ export default function Navbar() {
   const menuContainerVariants = {
     closed: {
       opacity: 0,
-      y: -20,
+      y: -25,
       pointerEvents: 'none' as const,
       transition: {
         type: "tween",
-        duration: 0.18,
+        duration: 0.12,
         ease: [0.16, 1, 0.3, 1],
-        staggerChildren: 0.015,
+        staggerChildren: 0.01,
         staggerDirection: -1 as const
       }
     },
@@ -100,10 +102,10 @@ export default function Navbar() {
       pointerEvents: 'auto' as const,
       transition: {
         type: "spring",
-        stiffness: 380,
-        damping: 30,
-        staggerChildren: 0.04,
-        delayChildren: 0.04
+        stiffness: 600,
+        damping: 38,
+        staggerChildren: 0.02,
+        delayChildren: 0.01
       }
     }
   };
@@ -114,7 +116,7 @@ export default function Navbar() {
       y: -12,
       scale: 0.95,
       transition: {
-        duration: 0.12,
+        duration: 0.06,
         ease: "easeOut"
       }
     },
@@ -124,8 +126,8 @@ export default function Navbar() {
       scale: 1,
       transition: { 
         type: "spring", 
-        stiffness: 400, 
-        damping: 28 
+        stiffness: 650, 
+        damping: 34 
       } 
     }
   };
@@ -157,9 +159,9 @@ export default function Navbar() {
         }}
         transition={{ 
           type: "spring", 
-          stiffness: 380, 
-          damping: 30,
-          mass: 0.5
+          stiffness: 650, 
+          damping: 42,
+          mass: 0.35
         }}
         className={`fixed top-0 left-0 right-0 z-50 flex flex-col px-6 md:px-10 mt-4 md:mt-6 mx-auto w-[95%] md:w-[90%] max-w-6xl overflow-hidden ${glassBlurClass}`}
         style={{ 
