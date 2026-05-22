@@ -113,21 +113,15 @@ export default function Home() {
       </section>
 
       {/* Bento Grid Feature Section */}
-      <section className="py-20 md:py-32 px-6 container mx-auto overflow-hidden">
-        {/* Swipe Indicator for Mobile */}
-        <div className="md:hidden flex items-center gap-2 text-on-surface-variant/60 text-sm font-medium mb-4 animate-pulse">
-          <ArrowRight className="w-4 h-4" />
-          <span>Swipe to explore</span>
-        </div>
-
-        <div className="flex md:grid md:grid-cols-12 gap-6 overflow-x-auto snap-x snap-mandatory hide-scrollbar pb-8 w-full md:pb-0">
+      <section className="py-20 md:py-32 px-6 container mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-8 w-full">
           {/* Large Feature Card - Global Debate */}
           <motion.div 
-            initial={{ x: -60, opacity: 0 }}
-            whileInView={{ x: 0, opacity: 1 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
-            className="w-[85vw] shrink-0 md:w-auto md:col-span-8 snap-center group relative overflow-hidden rounded-lg bg-surface-container-low p-8 md:p-12 flex flex-col justify-between h-[500px] border border-outline-variant/20 hover:border-outline-variant/40 transition-colors"
+            initial={{ y: 40, opacity: 0 }}
+            whileInView={{ y: 0, opacity: 1 }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            className="w-full md:col-span-8 group relative overflow-hidden rounded-lg bg-surface-container-low p-8 md:p-12 flex flex-col justify-between h-[450px] md:h-[500px] border border-outline-variant/20 hover:border-outline-variant/40 transition-all duration-300 shadow-sm"
           >
             <div className="absolute inset-0 z-0">
               <img 
@@ -157,11 +151,11 @@ export default function Home() {
 
           {/* Small Feature Card 1 - Elite Networking */}
           <motion.div 
-            initial={{ x: 60, opacity: 0 }}
-            whileInView={{ x: 0, opacity: 1 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
-            className="w-[85vw] shrink-0 md:w-auto md:col-span-4 snap-center group relative overflow-hidden rounded-lg bg-surface-container-low p-8 md:p-12 flex flex-col h-[500px] border border-outline-variant/20 hover:border-outline-variant/40 transition-colors"
+            initial={{ y: 40, opacity: 0 }}
+            whileInView={{ y: 0, opacity: 1 }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.15 }}
+            className="w-full md:col-span-4 group relative overflow-hidden rounded-lg bg-surface-container-low p-8 md:p-12 flex flex-col h-[450px] md:h-[500px] border border-outline-variant/20 hover:border-outline-variant/40 transition-all duration-300 shadow-sm"
           >
             <div className="absolute top-0 right-0 p-8">
               <motion.div
@@ -192,7 +186,7 @@ export default function Home() {
           </motion.div>
 
           {/* Academic Excellence Card */}
-          <div className="w-[85vw] shrink-0 md:w-auto md:col-span-12 snap-center group relative overflow-hidden rounded-lg bg-surface-container-low p-8 md:p-12 flex flex-col md:flex-row items-center gap-12 border border-outline-variant/20 hover:border-outline-variant/40 transition-colors">
+          <div className="w-full md:col-span-12 group relative overflow-hidden rounded-lg bg-surface-container-low p-8 md:p-12 flex flex-col md:flex-row items-center gap-8 md:gap-12 border border-outline-variant/20 hover:border-outline-variant/40 transition-colors shadow-sm">
             <div className="w-full md:w-1/2">
               <motion.div
                 animate={{ y: [0, -8, 0], rotate: [0, 5, -5, 0] }}

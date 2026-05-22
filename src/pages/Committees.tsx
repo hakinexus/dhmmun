@@ -44,7 +44,7 @@ export default function Committees() {
             setSelectedCommittee(committee);
             triggerHaptic(hapticPatterns.success);
           }}
-          className={`w-[85vw] shrink-0 md:w-auto ${committee.colSpan} snap-center group cursor-pointer`}
+          className={`w-full md:w-auto ${committee.colSpan} group cursor-pointer`}
         >
           <div className="glass-card liquid-border rounded-xl p-6 md:p-10 h-full flex flex-col justify-between hover:bg-surface-variant/40 transition-colors duration-500 overflow-hidden relative">
             <div className="relative z-10">
@@ -108,7 +108,7 @@ export default function Committees() {
             setSelectedCommittee(committee);
             triggerHaptic(hapticPatterns.success);
           }}
-          className={`w-[85vw] shrink-0 md:w-auto ${committee.colSpan} snap-center group relative overflow-hidden rounded-xl bg-surface-container-low border border-outline-variant/20 cursor-pointer`}
+          className={`w-full md:w-auto ${committee.colSpan} group relative overflow-hidden rounded-xl bg-surface-container-low border border-outline-variant/20 cursor-pointer`}
         >
           <div className="absolute inset-0 bg-gradient-to-r from-background via-background/80 to-transparent z-10"></div>
           {committee.bgImg && (
@@ -162,7 +162,7 @@ export default function Committees() {
           setSelectedCommittee(committee);
           triggerHaptic(hapticPatterns.success);
         }}
-        className={`w-[85vw] shrink-0 md:w-auto ${committee.colSpan} snap-center cursor-pointer`}
+        className={`w-full md:w-auto ${committee.colSpan} cursor-pointer`}
       >
         <div className="glass-card liquid-border rounded-xl p-6 md:p-10 h-full flex flex-col justify-between hover:bg-surface-variant/40 transition-colors duration-500">
           <div>
@@ -252,14 +252,8 @@ export default function Committees() {
         </motion.p>
       </header>
 
-      {/* Swipe Indicator for Mobile */}
-      <div className="md:hidden flex items-center gap-2 text-on-surface-variant/60 text-sm font-medium mb-4 animate-pulse">
-        <ArrowRight className="w-4 h-4" />
-        <span>Swipe to explore</span>
-      </div>
-
       {/* Committees Grid */}
-      <div className="flex md:grid md:grid-cols-12 gap-6 md:gap-8 overflow-x-auto snap-x snap-mandatory hide-scrollbar pb-8 md:pb-0 w-full">
+      <div className="grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-8 w-full">
         {COMMITTEES_DATA.map((committee, index) => renderCommitteeCard(committee, index))}
       </div>
 
