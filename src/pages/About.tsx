@@ -169,23 +169,28 @@ export default function About() {
       {/* Hero Section */}
       <section className="max-w-7xl mx-auto px-6 mb-20 md:mb-32">
         <div className="flex flex-col md:flex-row items-center gap-10 md:gap-16">
-          <motion.div 
-            initial={{ opacity: 0, x: -30 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
-            className="w-full md:w-3/5"
-          >
-            <h1 className="text-5xl md:text-8xl font-headline font-bold leading-[0.9] tracking-tighter mb-6 md:mb-8 liquid-text-gradient chromatic-hover">
+          <div className="w-full md:w-3/5 flex flex-col items-start text-left">
+            <motion.h1 
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, ease: "easeOut" }}
+              className="text-5xl md:text-8xl font-headline font-bold leading-[0.9] tracking-tighter mb-6 md:mb-8 liquid-text-gradient chromatic-hover"
+            >
               The Legacy of <br/>Diplomacy.
-            </h1>
-            <p className="text-xl md:text-2xl text-on-surface-variant font-body leading-relaxed max-w-2xl opacity-80">
+            </motion.h1>
+            <motion.p 
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.05, ease: "easeOut" }}
+              className="text-xl md:text-2xl text-on-surface-variant font-body leading-relaxed max-w-2xl opacity-80"
+            >
               Downe House Model United Nations is more than a conference; it is a synthesis of historical prestige and future-focused problem solving.
-            </p>
-          </motion.div>
+            </motion.p>
+          </div>
           <motion.div 
-            initial={{ opacity: 0, scale: 0.95 }}
+            initial={{ opacity: 0, scale: 0.96 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 1, ease: "easeOut", delay: 0.2 }}
+            transition={{ duration: 0.8, ease: "easeOut", delay: 0.10 }}
             className="w-full md:w-2/5 aspect-square relative rounded-xl overflow-hidden shadow-2xl"
           >
             <img 

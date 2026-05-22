@@ -272,27 +272,42 @@ export default function Registration() {
       <div className="container mx-auto px-4 sm:px-6 relative z-10 max-w-6xl w-full">
         {/* Full-Width Header Section (Elegant, centered on mobile, pristine left-aligned on desktop) */}
         <div className="text-center lg:text-left space-y-4 mb-8 sm:mb-10 md:mb-14">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-surface-container/50 backdrop-blur-md border border-outline-variant/30 shadow-[0_4px_16px_rgba(0,0,0,0.05)]">
+          <motion.div 
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, ease: "easeOut" }}
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-surface-container/50 backdrop-blur-md border border-outline-variant/30 shadow-[0_4px_16px_rgba(0,0,0,0.05)]"
+          >
             <Activity className="w-4 h-4 text-primary animate-pulse" />
             <span className="text-[10px] sm:text-xs font-bold text-on-surface-variant tracking-widest uppercase">
               {isSuccess ? "Dossier Solidified" : `Ingesting Step ${currentStep} metadata`}
             </span>
-          </div>
+          </motion.div>
           
-          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-headline font-black tracking-tight leading-[1.1] text-on-surface">
+          <motion.h1 
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.05, ease: "easeOut" }}
+            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-headline font-black tracking-tight leading-[1.1] text-on-surface"
+          >
             {isSuccess ? (
               <>Security Clearance <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-secondary to-primary bg-[length:200%_auto] animate-gradient">Approved.</span></>
             ) : (
               <>Configure Your <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-secondary to-primary bg-[length:200%_auto] animate-gradient">Summit ID.</span></>
             )}
-          </h1>
+          </motion.h1>
           
-          <p className="text-sm sm:text-base text-on-surface-variant max-w-2xl mx-auto lg:mx-0 leading-relaxed">
+          <motion.p 
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.1, ease: "easeOut" }}
+            className="text-sm sm:text-base text-on-surface-variant max-w-2xl mx-auto lg:mx-0 leading-relaxed"
+          >
             {isSuccess 
               ? "Welcome to the conference floor. Your credentials have been locked into the secure roster database."
               : "Your entries compile in real-time onto the cryptographic digital pass. Verify all details carefully."
             }
-          </p>
+          </motion.p>
         </div>
 
         <div className="grid lg:grid-cols-12 gap-8 lg:gap-12 items-start">
@@ -301,7 +316,7 @@ export default function Registration() {
           <motion.div 
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ duration: 0.8, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
             className="lg:col-span-7 w-full order-1 lg:order-2"
           >
             <div className="relative rounded-[2.2rem] md:rounded-[2.6rem] p-[2px] w-full">
@@ -682,7 +697,12 @@ export default function Registration() {
           </motion.div>
 
           {/* Column 2: Interactive Holographic Diplomatic Pass & AI Briefing - Placed underneath on mobile, left on desktop */}
-          <div className="lg:col-span-5 space-y-6 lg:sticky lg:top-36 text-center lg:text-left order-2 lg:order-1 w-full">
+          <motion.div 
+            initial={{ opacity: 0, y: 35 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.20, ease: [0.22, 1, 0.36, 1] }}
+            className="lg:col-span-5 space-y-6 lg:sticky lg:top-36 text-center lg:text-left order-2 lg:order-1 w-full"
+          >
             {/* Interactive Holographic Diplomatic Pass */}
             <DiplomaticPass 
               formData={formData} 
@@ -697,7 +717,7 @@ export default function Registration() {
                 currentStep={currentStep} 
               />
             )}
-          </div>
+          </motion.div>
         </div>
       </div>
     </main>
