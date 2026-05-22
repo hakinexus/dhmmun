@@ -84,13 +84,13 @@ export default function Navbar() {
   const menuContainerVariants = {
     closed: {
       opacity: 0,
-      y: -10,
+      y: -20,
       pointerEvents: 'none' as const,
       transition: {
-        type: "spring",
-        stiffness: 320,
-        damping: 30,
-        staggerChildren: 0.03,
+        type: "tween",
+        duration: 0.18,
+        ease: [0.16, 1, 0.3, 1],
+        staggerChildren: 0.015,
         staggerDirection: -1 as const
       }
     },
@@ -100,10 +100,10 @@ export default function Navbar() {
       pointerEvents: 'auto' as const,
       transition: {
         type: "spring",
-        stiffness: 320,
-        damping: 28,
-        staggerChildren: 0.05,
-        delayChildren: 0.05
+        stiffness: 380,
+        damping: 30,
+        staggerChildren: 0.04,
+        delayChildren: 0.04
       }
     }
   };
@@ -111,12 +111,11 @@ export default function Navbar() {
   const menuItemVariants = {
     closed: { 
       opacity: 0, 
-      y: -8,
-      scale: 0.98,
+      y: -12,
+      scale: 0.95,
       transition: {
-        type: "spring",
-        stiffness: 350,
-        damping: 30
+        duration: 0.12,
+        ease: "easeOut"
       }
     },
     open: { 
@@ -125,8 +124,8 @@ export default function Navbar() {
       scale: 1,
       transition: { 
         type: "spring", 
-        stiffness: 350, 
-        damping: 26 
+        stiffness: 400, 
+        damping: 28 
       } 
     }
   };
@@ -154,13 +153,13 @@ export default function Navbar() {
           y: 0, 
           opacity: 1,
           height: isMobile && isOpen ? "390px" : "72px",
-          borderRadius: isMobile && isOpen ? "2.25rem" : "9999px"
+          borderRadius: isMobile && isOpen ? "24px" : "36px"
         }}
         transition={{ 
           type: "spring", 
-          stiffness: 280, 
-          damping: 26,
-          mass: 0.55
+          stiffness: 380, 
+          damping: 30,
+          mass: 0.5
         }}
         className={`fixed top-0 left-0 right-0 z-50 flex flex-col px-6 md:px-10 mt-4 md:mt-6 mx-auto w-[95%] md:w-[90%] max-w-6xl overflow-hidden ${glassBlurClass}`}
         style={{ 
