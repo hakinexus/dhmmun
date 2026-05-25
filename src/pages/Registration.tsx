@@ -256,7 +256,7 @@ export default function Registration() {
             animate={{ opacity: 1, x: 0, scale: 1 }}
             exit={{ opacity: 0, x: 120, scale: 0.9, transition: { duration: 0.25 } }}
             transition={{ type: "spring", stiffness: 350, damping: 28 }}
-            className="fixed bottom-6 right-6 md:right-10 z-[100] flex items-center justify-between gap-4 px-5 py-4 bg-surface-container/95 backdrop-blur-3xl border border-primary/25 rounded-2xl shadow-[0_12px_45px_rgba(0,0,0,0.35)] ring-1 ring-white/10 text-on-surface"
+            className="fixed bottom-6 right-6 md:right-10 z-[100] flex items-center justify-between gap-4 px-5 py-4 bg-white/95 dark:bg-zinc-900/95 backdrop-blur-3xl border border-zinc-200/50 dark:border-zinc-800/40 rounded-2xl shadow-[0_12px_45px_rgba(0,0,0,0.1)] dark:shadow-[0_12px_45px_rgba(0,0,0,0.35)] ring-1 ring-white/10 text-on-surface"
           >
             <div className="flex items-center gap-3">
               <div className="w-8 h-8 rounded-full bg-primary/15 flex items-center justify-center animate-pulse">
@@ -289,7 +289,7 @@ export default function Registration() {
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, ease: "easeOut" }}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-surface-container/50 backdrop-blur-md border border-outline-variant/30 shadow-[0_4px_16px_rgba(0,0,0,0.05)]"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/60 dark:bg-zinc-900/40 backdrop-blur-md border border-zinc-200/50 dark:border-zinc-800/40 shadow-[0_4px_16px_rgba(0,0,0,0.02)] dark:shadow-[0_4px_16px_rgba(0,0,0,0.15)]"
           >
             <Activity className="w-4 h-4 text-primary animate-pulse" />
             <span className="text-[10px] sm:text-xs font-bold text-on-surface-variant tracking-widest uppercase">
@@ -340,10 +340,10 @@ export default function Registration() {
               <motion.div 
                 layout="size"
                 transition={{ type: "spring", stiffness: 180, damping: 24 }}
-                className="relative bg-surface-container-lowest/30 dark:bg-[#0c0d12]/40 backdrop-blur-3xl border border-white/10 dark:border-white/5 rounded-[2.1rem] md:rounded-[2.5rem] p-6 sm:p-8 md:p-10 shadow-[0_30px_70px_rgba(0,0,0,0.4)] overflow-hidden flex flex-col"
+                className="relative bg-white/95 dark:bg-[#0c0d12]/70 backdrop-blur-3xl border border-zinc-200/80 dark:border-white/5 rounded-[2.1rem] md:rounded-[2.5rem] p-6 sm:p-8 md:p-10 shadow-[0_30px_70px_rgba(0,0,0,0.06)] dark:shadow-[0_30px_70px_rgba(0,0,0,0.4)] overflow-hidden flex flex-col"
               >
                 {/* Micro Liquid Highlight Bar */}
-                <div className="absolute top-0 left-0 right-0 h-1 bg-surface-container/20 overflow-hidden">
+                <div className="absolute top-0 left-0 right-0 h-1 bg-zinc-100 dark:bg-zinc-800/30 overflow-hidden">
                   <motion.div 
                     className="h-full bg-gradient-to-r from-primary via-secondary to-primary"
                     animate={{ width: `${calculateIntegrityPercent()}%` }}
@@ -356,7 +356,7 @@ export default function Registration() {
                     <div key="form-container" className="space-y-8 w-full block">
                       
                       {/* Interactive Glass Node Stepper Timeline */}
-                      <div className="flex flex-col gap-3 py-2 border-b border-outline-variant/10">
+                      <div className="flex flex-col gap-3 py-2 border-b border-zinc-200/80 dark:border-zinc-800/30">
                         <div className="flex items-center justify-between">
                           <div className="flex flex-col text-left">
                             <span className="text-[10px] font-bold text-primary font-headline uppercase tracking-widest">Dossier Progression</span>
@@ -375,11 +375,11 @@ export default function Registration() {
                             </div>
                           </div>
                         </div>
-
+                        
                         {/* Interactive Steps Nodes Row */}
                         <div className="relative flex items-center justify-between w-full pt-4 pb-2 px-1">
                           {/* Stepper background track line */}
-                          <div className="absolute left-0 right-0 top-[2.1rem] -translate-y-1/2 h-[2px] bg-outline-variant/15 z-0" />
+                          <div className="absolute left-0 right-0 top-[2.1rem] -translate-y-1/2 h-[2px] bg-zinc-200 dark:bg-zinc-800/40 z-0" />
                           
                           {/* Active completed path overlay */}
                           <motion.div 
@@ -405,12 +405,12 @@ export default function Registration() {
                                     scale: isActive ? 1.15 : 1,
                                     boxShadow: isActive ? '0 0 20px rgba(var(--color-primary), 0.4)' : 'none'
                                   }}
-                                  className={`w-10 h-10 sm:w-11 sm:h-11 rounded-full flex items-center justify-center border-2 transition-all duration-350 bg-surface/80 backdrop-blur-xl ${
+                                  className={`w-10 h-10 sm:w-11 sm:h-11 rounded-full flex items-center justify-center border-2 transition-all duration-350 bg-white/80 dark:bg-zinc-900/80 backdrop-blur-xl ${
                                     isCompleted 
-                                      ? 'border-primary bg-primary/10 text-primary' 
+                                      ? 'border-primary bg-primary/15 text-primary' 
                                       : isActive 
-                                        ? 'border-primary bg-surface text-primary shadow-lg ring-4 ring-primary/15' 
-                                        : 'border-outline-variant/30 text-on-surface-variant hover:border-outline-variant/60'
+                                        ? 'border-primary bg-white dark:bg-zinc-900 text-primary shadow-lg ring-4 ring-teal-500/15 dark:ring-cyan-500/15' 
+                                        : 'border-zinc-200/80 dark:border-zinc-800/60 text-on-surface-variant hover:border-zinc-300 dark:hover:border-zinc-700'
                                   }`}
                                 >
                                   {isCompleted ? (
@@ -435,7 +435,7 @@ export default function Registration() {
                       </div>
 
                       {/* Decryption Active Humble Indicator Banner (Architectural Honesty) */}
-                      <div className="flex items-center justify-between text-[9px] font-mono p-3 bg-surface-container/20 border border-outline-variant/10 rounded-xl">
+                      <div className="flex items-center justify-between text-[9px] font-mono p-3 bg-zinc-100/50 dark:bg-zinc-800/20 border border-zinc-200/50 dark:border-zinc-800/20 rounded-xl">
                         <div className="flex items-center gap-1.5 text-on-surface-variant/70">
                           <div className="w-1.5 h-1.5 bg-primary rounded-full animate-ping shrink-0" />
                           <span>Dossier local secure backup state: SYNC_COMPLETE</span>
@@ -602,7 +602,7 @@ export default function Registration() {
                               onClick={handlePrev}
                               whileHover={{ scale: 1.05 }}
                               whileTap={{ scale: 0.97 }}
-                              className="h-14 md:h-16 px-6 rounded-2xl bg-surface-container/50 border border-outline-variant/30 text-on-surface font-bold hover:bg-surface-container transition-all flex items-center justify-center shrink-0 cursor-pointer"
+                              className="h-14 md:h-16 px-6 rounded-2xl bg-zinc-100/50 dark:bg-zinc-900/40 border border-zinc-200/50 dark:border-zinc-800/40 text-on-surface font-bold hover:bg-zinc-250/50 dark:hover:bg-zinc-800/60 transition-all flex items-center justify-center shrink-0 cursor-pointer"
                             >
                               <ArrowLeft className="w-5 h-5" />
                             </motion.button>
@@ -701,7 +701,7 @@ export default function Registration() {
                               countryPref: '' 
                             });
                           }}
-                          className="px-6 py-3.5 text-xs sm:text-sm rounded-xl bg-surface-container border border-outline-variant/30 text-on-surface font-bold hover:bg-surface-container-high transition-colors active:scale-95 cursor-pointer"
+                          className="px-6 py-3.5 text-xs sm:text-sm rounded-xl bg-zinc-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 text-on-surface font-bold hover:bg-zinc-200 dark:hover:bg-zinc-700 transition-colors active:scale-95 cursor-pointer"
                         >
                           Establish New Dossier
                         </button>

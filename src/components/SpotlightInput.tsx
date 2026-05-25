@@ -71,9 +71,9 @@ export const SpotlightInput: React.FC<SpotlightInputProps> = ({
         value={value}
         onFocus={handleFocus}
         onBlur={handleBlur}
-        className={`peer w-full bg-surface-container/30 backdrop-blur-md border ${
-          error ? 'border-error' : 'border-outline-variant/30'
-        } rounded-2xl px-5 pt-7 pb-3 text-sm md:text-base text-on-surface focus:outline-none focus:bg-surface-container/60 transition-all duration-300 shadow-inner ${
+        className={`peer w-full bg-white/70 dark:bg-zinc-900/20 backdrop-blur-md border ${
+          error ? 'border-error' : 'border-zinc-200/80 dark:border-zinc-800/40'
+        } rounded-2xl px-5 pt-7 pb-3 text-sm md:text-base text-on-surface focus:outline-none focus:bg-white dark:focus:bg-zinc-950/40 transition-all duration-300 shadow-sm ${
           hasMask ? 'font-mono tracking-[0.1em] sm:tracking-[0.2em]' : ''
         }`}
         placeholder=" "
@@ -181,17 +181,17 @@ export const SpotlightSelect: React.FC<SpotlightSelectProps> = ({
         value={value}
         onFocus={handleFocus}
         onBlur={handleBlur}
-        className={`peer w-full bg-surface-container/30 backdrop-blur-md border ${
-          error ? 'border-error' : 'border-outline-variant/30'
+        className={`peer w-full bg-white/70 dark:bg-zinc-900/20 backdrop-blur-md border ${
+          error ? 'border-error' : 'border-zinc-200/80 dark:border-zinc-800/40'
         } rounded-2xl px-5 pt-7 pb-3 text-sm md:text-base ${
           value ? 'text-on-surface' : 'text-transparent'
-        } focus:text-on-surface focus:outline-none focus:bg-surface-container/60 transition-all duration-300 appearance-none cursor-pointer shadow-inner`}
+        } focus:text-on-surface focus:outline-none focus:bg-white dark:focus:bg-zinc-950/40 transition-all duration-300 appearance-none cursor-pointer shadow-sm`}
         aria-invalid={!!error}
         {...props}
       >
-        <option value="" disabled className="bg-surface text-on-surface-variant hidden">Select option</option>
+        <option value="" disabled className="bg-white dark:bg-zinc-900 text-on-surface-variant hidden">Select option</option>
         {options.map((opt) => (
-          <option key={opt.value} value={opt.value} className="bg-surface text-on-surface">{opt.label}</option>
+          <option key={opt.value} value={opt.value} className="bg-white dark:bg-zinc-900 text-on-surface">{opt.label}</option>
         ))}
       </select>
       

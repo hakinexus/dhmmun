@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" class="dark">
+<html lang="en" class="light">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
@@ -9,7 +9,7 @@
     <meta name="title" content="DHMMUN | Model United Nations" />
     <meta name="description" content="Welcome to the official DHMMUN platform. Register your delegation and secure your assignment in the ultimate Model UN experience." />
     <!-- Dynamic Theme Color synced with the App's state, rather than OS preference -->
-    <meta id="theme-color-meta" name="theme-color" content="#0a0a0a" />
+    <meta id="theme-color-meta" name="theme-color" content="#ffffff" />
     
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
@@ -34,11 +34,9 @@
           var savedTheme = localStorage.getItem('theme');
           var themeColorMeta = document.getElementById('theme-color-meta');
           
-          var isDark = true;
+          var isDark = false; // Default to false (Light Mode)
           if (savedTheme === 'dark' || savedTheme === 'light') {
             isDark = savedTheme === 'dark';
-          } else if (window.matchMedia) {
-            isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
           }
           
           if (isDark) {

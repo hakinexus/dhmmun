@@ -116,7 +116,7 @@ export const DiplomaticPass: React.FC<DiplomaticPassProps> = ({ formData, curren
         {/* Holographic 3D Tilt Wrapper */}
         <motion.div 
           style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
-          className="relative w-full aspect-[1.58/1] min-h-[195px] xs:min-h-[220px] sm:min-h-[250px] md:min-h-[275px] bg-white/5 dark:bg-[#0c0d12]/60 border border-white/20 dark:border-white/10 rounded-[1.6rem] xs:rounded-[1.8rem] sm:rounded-[2.2rem] p-4 xs:p-5 sm:p-6 flex flex-col justify-between overflow-hidden shadow-[0_25px_60px_-15px_rgba(0,0,0,0.6)] backdrop-blur-2xl ring-1 ring-white/15"
+          className="relative w-full aspect-[1.58/1] min-h-[195px] xs:min-h-[220px] sm:min-h-[250px] md:min-h-[275px] bg-white/80 dark:bg-[#0c0d12]/60 border border-zinc-200/80 dark:border-white/10 rounded-[1.6rem] xs:rounded-[1.8rem] sm:rounded-[2.2rem] p-4 xs:p-5 sm:p-6 flex flex-col justify-between overflow-hidden shadow-[0_20px_45px_rgba(0,0,0,0.05)] dark:shadow-[0_25px_60px_-15px_rgba(0,0,0,0.6)] backdrop-blur-2xl ring-1 ring-white/15 dark:ring-white/5"
         >
           {/* Dynamic Laser-Shine Interactive Overlay */}
           <motion.div 
@@ -156,7 +156,7 @@ export const DiplomaticPass: React.FC<DiplomaticPassProps> = ({ formData, curren
             
             {/* User Real-time ID / Avatar placeholder */}
             <div className="col-span-3 flex justify-center">
-              <div className="relative w-11 h-11 xs:w-14 xs:h-14 sm:w-16 sm:h-16 rounded-xl xs:rounded-2xl bg-surface-container/60 border border-outline-variant/30 flex items-center justify-center overflow-hidden hover:rotate-3 transition-transform duration-300">
+              <div className="relative w-11 h-11 xs:w-14 xs:h-14 sm:w-16 sm:h-16 rounded-xl xs:rounded-2xl bg-zinc-100/80 dark:bg-zinc-900/60 border border-zinc-200/50 dark:border-zinc-800/40 flex items-center justify-center overflow-hidden hover:rotate-3 transition-transform duration-300">
                 {formData.firstName || formData.lastName ? (
                   <div className="flex flex-col items-center justify-center">
                     <span className="text-sm xs:text-base sm:text-xl font-black text-primary font-headline">

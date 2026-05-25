@@ -165,7 +165,7 @@ export default function Navbar() {
         }}
         className={`fixed top-0 left-0 right-0 z-50 flex flex-col px-6 md:px-10 mt-4 md:mt-6 mx-auto w-[95%] md:w-[90%] max-w-6xl overflow-hidden ${glassBlurClass}`}
         style={{ 
-          backgroundColor: isScrollingFast ? 'rgba(var(--color-background-rgb), 0.75)' : 'var(--nav-bg)',
+          backgroundColor: 'var(--nav-bg)',
           boxShadow: 'var(--nav-shadow)',
           border: `1px solid var(--nav-border)`,
           borderColor: isScrollingFast ? 'var(--color-primary)' : 'inherit',

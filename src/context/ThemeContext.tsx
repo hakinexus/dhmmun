@@ -16,42 +16,8 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     if (savedTheme === 'dark' || savedTheme === 'light') {
       return savedTheme;
     }
-    // Respect OS system preference
-    if (typeof window !== 'undefined' && window.matchMedia) {
-      const isSystemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-      return isSystemDark ? 'dark' : 'light';
-    }
-    return 'dark'; // Fallback
+    return 'light'; // Default baseline is pristine Light Mode
   });
-
-  // Listen for changes in OS theme dynamically if the user has not set a preference yet
-  useEffect(() => {
-    if (typeof window === 'undefined' || !window.matchMedia) return;
-    
-    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-    
-    const handleSystemThemeChange = (e: MediaQueryListEvent) => {
-      const savedTheme = localStorage.getItem('theme');
-      // Only change automatically if user hasn't overridden it via local selection
-      if (!savedTheme) {
-        setTheme(e.matches ? 'dark' : 'light');
-      }
-    };
-
-    if (mediaQuery.addEventListener) {
-      mediaQuery.addEventListener('change', handleSystemThemeChange);
-    } else {
-      mediaQuery.addListener(handleSystemThemeChange);
-    }
-
-    return () => {
-      if (mediaQuery.removeEventListener) {
-        mediaQuery.removeEventListener('change', handleSystemThemeChange);
-      } else {
-        mediaQuery.removeListener(handleSystemThemeChange);
-      }
-    };
-  }, []);
 
   // useLayoutEffect guarantees synchronous DOM mutation immediately after state change
   // This is required for View Transitions to instantly see the new state
