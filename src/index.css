@@ -389,8 +389,8 @@ input:-webkit-autofill:active {
   box-shadow: inset 0 0 20px 20px transparent;
 }
 
-/* Hide standard browser scrollbars globally to present a seamless digital presentation, 
-   using the top-anchored Micro-Interactive Scroll Progress Indicator as our primary scroll status anchor. */
+/* Hide standard browser scrollbars globally across all platforms and interactive components 
+   to curate a perfectly seamless, immersive full-screen liquid glass experience. */
 ::-webkit-scrollbar {
   display: none !important;
   width: 0 !important;
