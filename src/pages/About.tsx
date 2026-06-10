@@ -197,7 +197,7 @@ function DossierInspector({ member, bio, index, onClose }: { member: Secretariat
                 <div className="absolute bottom-4 left-4 w-4 h-4 border-b-2 border-l-2 border-[#a88544]/50" />
                 <div className="absolute bottom-4 right-4 w-4 h-4 border-b-2 border-r-2 border-[#a88544]/50" />
 
-                <div className="absolute inset-0 bg-gradient-to-t from-background/95 via-transparent to-transparent z-15" />
+                {/* Fully transparent overlay for sharp photorealistic display of members */}
               </div>
 
               {/* Verified metadata seals */}
@@ -502,8 +502,7 @@ function FeaturedExecutiveCard({ member, bio, index, onInspect }: { member: Secr
             className="absolute -left-[5%] -top-[5%] w-[110%] h-[110%] object-cover group-hover:opacity-100 group-hover:grayscale-0"
             referrerPolicy="no-referrer"
           />
-          <div className="absolute inset-0 bg-gradient-to-t xl:bg-gradient-to-r from-transparent via-background/40 to-background z-10" />
-          <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent xl:hidden z-15" />
+          {/* Unmasked sharp portrait focus without edge-fading artifacts */}
           
           {/* Laser scanning line sweeping across the portrait on in-view state */}
           {isInView && (
@@ -655,7 +654,7 @@ function ExecutiveCard({ member, bio, index, onInspect }: { member: SecretariatM
             className="w-full h-full object-cover group-hover:scale-105"
             referrerPolicy="no-referrer"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-background via-background/30 to-transparent z-10" />
+          {/* Pure transparent boundary for crisp image detailing */}
 
           {/* Laser scanning line sweeping across the portrait on in-view state */}
           {isInView && (
@@ -835,7 +834,7 @@ export default function About() {
               src="https://lh3.googleusercontent.com/aida-public/AB6AXuCy3k_NtYVKSA2rOP2fkIIpBjQktMfwtrBVHC0upsD8ZpsUvV9hnHR-vAAU7BVP8og5tKt5lI3oAGnM7YuOLYxFUFrvh2gz9E17FPKT7m1i2EZmzaTa1WySPAMoQDqTEs3c9-K2yq-twgQ0t0g0ZfRxiQLGd57Jfc2W8wld3GJKAil5sT3rwDsiH2aNbFGE8dDjj21q-vSlXnwZ-2iAhm4fP2QUCiGsqe0SNyBjn3GfjgeuU-efujcBM2GIe4cTeNgfF5gOh1f6SIs" 
               referrerPolicy="no-referrer"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent"></div>
+            {/* Beautiful sharp image borders without washing/cloudy edge-fades */}
           </motion.div>
         </div>
       </section>
@@ -924,7 +923,7 @@ export default function About() {
               {/* Static Aura Background */}
               <div className="absolute inset-0 z-0 pointer-events-none">
                 <div
-                  className="absolute -inset-[50%] bg-gradient-to-br from-secondary/20 via-primary/10 to-transparent blur-[80px] rounded-full mix-blend-screen opacity-50"
+                  className="absolute -inset-[50%] bg-gradient-to-br from-secondary/20 via-primary/10 to-transparent blur-[80px] rounded-full mix-blend-multiply dark:mix-blend-screen opacity-50"
                 />
               </div>
 
@@ -959,32 +958,32 @@ export default function About() {
               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000"
               referrerPolicy="no-referrer"
             />
-            <div className="absolute inset-0 bg-gradient-to-r from-surface via-surface/80 to-transparent"></div>
+            <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/55 to-transparent z-10"></div>
           </div>
           
-          <div className="relative z-10 p-12 md:p-20 md:w-2/3">
-            <h2 className="text-4xl md:text-5xl font-headline font-bold mb-6 group-hover:font-black transition-all duration-500">The Downe House Difference</h2>
-            <p className="text-lg text-on-surface-variant mb-8 leading-relaxed font-body">
+          <div className="relative z-20 p-12 md:p-20 md:w-2/3">
+            <h2 className="text-4xl md:text-5xl font-headline font-bold mb-6 group-hover:font-black transition-all duration-500 text-white">The Downe House Difference</h2>
+            <p className="text-lg text-white/80 mb-8 leading-relaxed font-body">
               Hosted at the prestigious Downe House Muscat, our conference benefits from state-of-the-art facilities and an ethos of academic excellence. We blend traditional British educational values with the dynamic, forward-looking spirit of Oman.
             </p>
             <ul className="space-y-4 mb-10 font-body">
               <li className="flex items-center gap-3">
-                <div className="w-6 h-6 rounded-full bg-primary/20 flex items-center justify-center">
+                <div className="w-6 h-6 rounded-full bg-white/15 flex items-center justify-center">
                   <div className="w-2 h-2 rounded-full bg-primary"></div>
                 </div>
-                <span className="text-on-surface">World-class auditorium and committee rooms</span>
+                <span className="text-white/90">World-class auditorium and committee rooms</span>
               </li>
               <li className="flex items-center gap-3">
-                <div className="w-6 h-6 rounded-full bg-primary/20 flex items-center justify-center">
+                <div className="w-6 h-6 rounded-full bg-white/15 flex items-center justify-center">
                   <div className="w-2 h-2 rounded-full bg-primary"></div>
                 </div>
-                <span className="text-on-surface">Expertly trained chairs and secretariat</span>
+                <span className="text-white/90">Expertly trained chairs and secretariat</span>
               </li>
               <li className="flex items-center gap-3">
-                <div className="w-6 h-6 rounded-full bg-primary/20 flex items-center justify-center">
+                <div className="w-6 h-6 rounded-full bg-white/15 flex items-center justify-center">
                   <div className="w-2 h-2 rounded-full bg-primary"></div>
                 </div>
-                <span className="text-on-surface">Commitment to diverse representation</span>
+                <span className="text-white/90">Commitment to diverse representation</span>
               </li>
             </ul>
             <Magnetic strength={0.2}>

@@ -180,15 +180,10 @@ export default function Navbar() {
               navigate('/');
             }}
             whileTap={{ scale: 0.95 }}
-            className="text-2xl font-black tracking-tighter text-primary font-headline w-1/3 md:w-auto cursor-pointer hover:opacity-80 transition-all select-none"
+            className="text-2xl font-black tracking-tighter text-primary font-headline cursor-pointer hover:opacity-80 transition-all select-none"
           >
             DHMMUN
           </motion.div>
-          
-          {/* Mobile Theme Toggle (Middle) */}
-          <div className="md:hidden flex justify-center w-1/3">
-            <ThemeToggle />
-          </div>
 
           {/* Desktop Navigation */}
           <nav 
@@ -234,9 +229,9 @@ export default function Navbar() {
             })}
           </nav>
         
-          <div className="flex items-center justify-end gap-4 w-1/3 md:w-auto">
-            {/* Desktop Theme Toggle */}
-            <ThemeToggle className="hidden md:flex" />
+          <div className="flex items-center justify-end gap-3 md:gap-4">
+            {/* Theme Toggle - Positioned beautifully on both desktop and mobile */}
+            <ThemeToggle />
 
             <motion.button 
               onClick={() => {

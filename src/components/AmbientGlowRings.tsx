@@ -26,7 +26,7 @@ export default function AmbientGlowRings() {
     <div className="absolute inset-0 pointer-events-none overflow-hidden z-0 select-none">
       {/* Glow Ring 1: Magnetized Cursor Follower (with high-end cyber cyan/teal gradient & radial blur) */}
       <motion.div
-        className="absolute top-1/2 left-1/2 w-[450px] h-[450px] md:w-[650px] md:h-[650px] -translate-x-1/2 -translate-y-1/2 rounded-full opacity-[0.14] dark:opacity-[0.22] blur-[120px] mix-blend-screen pointer-events-none hidden md:block"
+        className="absolute top-1/2 left-1/2 w-[450px] h-[450px] md:w-[650px] md:h-[650px] -translate-x-1/2 -translate-y-1/2 rounded-full opacity-[0.14] dark:opacity-[0.22] blur-[120px] mix-blend-multiply dark:mix-blend-screen pointer-events-none hidden md:block"
         style={{
           x: springX,
           y: springY,
@@ -36,7 +36,7 @@ export default function AmbientGlowRings() {
 
       {/* Glow Ring 2: Asynchronous floating node (providing multi-dimensional organic movement even on mobile) */}
       <motion.div
-        className="absolute top-1/3 left-1/4 w-[300px] h-[300px] md:w-[500px] md:h-[500px] rounded-full opacity-[0.12] dark:opacity-[0.18] blur-[100px] mix-blend-screen"
+        className="absolute top-1/3 left-1/4 w-[300px] h-[300px] md:w-[500px] md:h-[500px] rounded-full opacity-[0.12] dark:opacity-[0.18] blur-[100px] mix-blend-multiply dark:mix-blend-screen"
         animate={{
           x: [0, 80, -50, 0],
           y: [0, -110, 60, 0],
@@ -54,7 +54,7 @@ export default function AmbientGlowRings() {
 
       {/* Glow Ring 3: Deep low-frequency background shadow pulse */}
       <motion.div
-        className="absolute bottom-1/4 right-1/4 w-[250px] h-[250px] md:w-[450px] md:h-[450px] rounded-full opacity-[0.08] dark:opacity-[0.15] blur-[110px] mix-blend-screen"
+        className="absolute bottom-1/4 right-1/4 w-[250px] h-[250px] md:w-[450px] md:h-[450px] rounded-full opacity-[0.08] dark:opacity-[0.15] blur-[110px] mix-blend-multiply dark:mix-blend-screen"
         animate={{
           x: [0, -70, 90, 0],
           y: [0, 80, -90, 0],

@@ -129,7 +129,7 @@ export default function Home() {
                 src="https://lh3.googleusercontent.com/aida-public/AB6AXuAzTicZQfoqIhvyIDG2wbn2V_nWpaVqambiyHlabWvPRbfnQeAgMDHOGxfXJsJ2ALfbzYS7rRu56Y9x-TO9_4nzJDPTcwC-C0j_5BWIzsvJ56Tsyu9OPwU6Xs1BSWbdlKW18CK2bKoUTHhpDW5lg0_isL9e8tFl2NnOPQrOdzsd7SyEUKAEQYDDw_XA0SsokjuI6mvuVCPNrlc7l25Q_bFl3onQx9zkboFsWUrbEv-BKkTtsMle_gqXCk7aASqdoLvTMVJQoV63dFM"
                 alt="Modern geometric conference hall"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-surface-container-low via-surface-container-low/40 to-transparent"></div>
+              <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/35 to-transparent z-10"></div>
             </div>
             <ScrollTextAnimation delay={0.4} className="relative z-10">
               <motion.div 
@@ -140,12 +140,12 @@ export default function Home() {
                 <div className="absolute inset-0 bg-primary/30 blur-2xl rounded-full animate-pulse"></div>
                 <Globe className="relative text-primary w-10 h-10 icon-glow" strokeWidth={1.5} />
               </motion.div>
-              <h3 className="split-target text-4xl font-headline font-bold mb-4 group-hover:font-black transition-all duration-500">The Architecture of Discourse</h3>
-              <p className="split-target max-w-md text-on-surface-variant text-lg">Tackle international crises with sophisticated resolution frameworks in a world-class environment.</p>
+              <h3 className="split-target text-4xl font-headline font-bold mb-4 group-hover:font-black transition-all duration-500 text-white">The Architecture of Discourse</h3>
+              <p className="split-target max-w-md text-white/80 text-lg">Tackle international crises with sophisticated resolution frameworks in a world-class environment.</p>
             </ScrollTextAnimation>
             <div className="relative z-10 flex gap-3">
-              <span className="px-4 py-1 rounded-full bg-primary/10 text-primary text-xs font-bold uppercase tracking-widest border border-primary/20">United Nations</span>
-              <span className="px-4 py-1 rounded-full bg-primary/10 text-primary text-xs font-bold uppercase tracking-widest border border-primary/20">Crisis Cabinet</span>
+              <span className="px-4 py-1.5 rounded-full bg-white/10 text-white text-xs font-bold uppercase tracking-widest border border-white/20 backdrop-blur-sm">United Nations</span>
+              <span className="px-4 py-1.5 rounded-full bg-white/10 text-white text-xs font-bold uppercase tracking-widest border border-white/20 backdrop-blur-sm">Crisis Cabinet</span>
             </div>
           </motion.div>
 

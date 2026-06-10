@@ -110,7 +110,7 @@ export default function Committees() {
           }}
           className={`w-full md:w-auto ${committee.colSpan} group relative overflow-hidden rounded-xl bg-surface-container-low border border-outline-variant/20 cursor-pointer`}
         >
-          <div className="absolute inset-0 bg-gradient-to-r from-background via-background/80 to-transparent z-10"></div>
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent z-10"></div>
           {committee.bgImg && (
             <img
               className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-[2s]"
