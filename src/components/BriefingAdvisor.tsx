@@ -84,6 +84,51 @@ export const BriefingAdvisor: React.FC<BriefingAdvisorProps> = ({ activeField, c
           border: "border-primary/20",
           message: "For example, 'United States' or 'France'. Propose countries that best match your discourse style. Aligning interests with your preferred nations drives success."
         };
+      case 'phone':
+        return {
+          title: "Direct Contact Channel",
+          icon: Compass,
+          color: "text-secondary",
+          bg: "bg-secondary/10",
+          border: "border-secondary/20",
+          message: "Optional but highly recommended. We'll use this to coordinate with you or your delegation leader for timely notifications."
+        };
+      case 'instagram':
+        return {
+          title: "Social Delegate Connect",
+          icon: Lightbulb,
+          color: "text-primary",
+          bg: "bg-primary/10",
+          border: "border-primary/20",
+          message: "Optional handle. Allows peer delegates to coordinate, share intelligence, and build early coalitions before setting foot on the floor."
+        };
+      case 'socials':
+        return {
+          title: "Other Digital Profiles",
+          icon: Terminal,
+          color: "text-secondary",
+          bg: "bg-secondary/10",
+          border: "border-secondary/20",
+          message: "Optional. Add a link (LinkedIn, Twitter, or website) to showcase previous conference roles or academic leadership to the secretariat."
+        };
+      case 'hearAbout':
+        return {
+          title: "Referral Intelligence",
+          icon: Compass,
+          color: "text-primary",
+          bg: "bg-primary/10",
+          border: "border-primary/20",
+          message: "Help our outreach division understand where our delegates are coming from to improve global access."
+        };
+      case 'motivation':
+        return {
+          title: "Expectations & Motivation",
+          icon: Lightbulb,
+          color: "text-secondary",
+          bg: "bg-secondary/10",
+          border: "border-secondary/20",
+          message: "Optional but recommended. Give the chairs a brief peek into what you want to achieve or what hobbies you enjoy so they can support you."
+        };
       default:
         // Default message depending on overall step
         if (currentStep === 1) {
@@ -103,6 +148,15 @@ export const BriefingAdvisor: React.FC<BriefingAdvisorProps> = ({ activeField, c
             bg: "bg-secondary/10",
             border: "border-secondary/20",
             message: "Establishing representational bounds. Your profile helps the administration match debate styles, ensuring an elite experience."
+          };
+        } else if (currentStep === 3) {
+          return {
+            title: "Delegate Profiling",
+            icon: Lightbulb,
+            color: "text-primary",
+            bg: "bg-primary/10",
+            border: "border-primary/20",
+            message: "Let the secretariat get to know you better. All inputs in this step are optional but recommended to create a custom profile."
           };
         } else {
           return {

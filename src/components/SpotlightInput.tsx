@@ -20,6 +20,7 @@ export const SpotlightInput: React.FC<SpotlightInputProps> = ({
   mask,
   value,
   onFocusStateChange,
+  placeholder,
   ...props
 }) => {
   const [isFocused, setIsFocused] = useState(false);
@@ -68,7 +69,7 @@ export const SpotlightInput: React.FC<SpotlightInputProps> = ({
       <input 
         type={type} 
         id={id}
-        value={value}
+        value={value ?? ''}
         onFocus={handleFocus}
         onBlur={handleBlur}
         className={`peer w-full bg-white/70 dark:bg-zinc-900/20 backdrop-blur-md border ${
@@ -76,7 +77,7 @@ export const SpotlightInput: React.FC<SpotlightInputProps> = ({
         } rounded-2xl px-5 pt-7 pb-3 text-sm md:text-base text-on-surface focus:outline-none focus:bg-white dark:focus:bg-zinc-950/40 transition-all duration-300 shadow-sm ${
           hasMask ? 'font-mono tracking-[0.1em] sm:tracking-[0.2em]' : ''
         }`}
-        placeholder=" "
+        placeholder={isFloating ? placeholder : " "}
         aria-invalid={!!error}
         {...props}
       />
@@ -178,7 +179,7 @@ export const SpotlightSelect: React.FC<SpotlightSelectProps> = ({
 
       <select 
         id={id}
-        value={value}
+        value={value ?? ''}
         onFocus={handleFocus}
         onBlur={handleBlur}
         className={`peer w-full bg-white/70 dark:bg-zinc-900/20 backdrop-blur-md border ${

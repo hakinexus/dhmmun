@@ -13,6 +13,11 @@ interface DiplomaticPassProps {
     experience: string;
     committee: string;
     countryPref: string;
+    phone?: string;
+    instagram?: string;
+    socials?: string;
+    hearAbout?: string;
+    motivation?: string;
   };
   currentStep: number;
   isSuccess: boolean;

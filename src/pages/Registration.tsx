@@ -16,7 +16,11 @@ import {
   Lock, 
   Activity, 
   Download,
-  X
+  X,
+  Phone,
+  Instagram,
+  Share2,
+  Compass
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { triggerHaptic, hapticPatterns } from '../lib/haptics';
@@ -25,7 +29,7 @@ import { SpotlightInput, SpotlightSelect } from '../components/SpotlightInput';
 import { DiplomaticPass } from '../components/DiplomaticPass';
 import { BriefingAdvisor } from '../components/BriefingAdvisor';
 
-type Step = 1 | 2 | 3;
+type Step = 1 | 2 | 3 | 4;
 
 export default function Registration() {
   const [currentStep, setCurrentStep] = useState<Step>(1);
@@ -34,7 +38,7 @@ export default function Registration() {
   const [showDraftToast, setShowDraftToast] = useState(false);
   const [focusedField, setFocusedField] = useState<string | null>(null);
   
-  // Robust State Management for 3 Steps
+  // Robust State Management for 4 Steps
   const [formData, setFormData] = useState({
     // Step 1: Identity
     firstName: '',
@@ -45,7 +49,13 @@ export default function Registration() {
     participationType: '',
     institution: '',
     experience: '',
-    // Step 3: Assignment
+    // Step 3: Connect & Know More (Optional but Recommended)
+    phone: '',
+    instagram: '',
+    socials: '',
+    hearAbout: '',
+    motivation: '',
+    // Step 4: Assignment
     committee: '',
     countryPref: ''
   });
@@ -61,7 +71,7 @@ export default function Registration() {
         // Verify we have non-trivial input answers in our draft
         const exists = Object.values(parsed).some(val => typeof val === 'string' && val.trim() !== '');
         if (exists) {
-          setFormData(parsed);
+          setFormData(prev => ({ ...prev, ...parsed }));
           setShowDraftToast(true);
           triggerHaptic(hapticPatterns.success);
         }
@@ -126,6 +136,10 @@ export default function Registration() {
       if (!formData.experience) newErrors.experience = "Required";
     }
     else if (step === 3) {
+      // Step 3 (Social connectivity & Delegate details) is entirely optional & recommended
+      // No validation checks or blocking errors apply to this step
+    }
+    else if (step === 4) {
       if (!formData.committee) newErrors.committee = "Required";
       if (!formData.countryPref.trim()) newErrors.countryPref = "Required";
     }
@@ -177,6 +191,15 @@ export default function Registration() {
         triggerHaptic(hapticPatterns.error);
         feedbackSounds.error();
       }
+    } else if (target === 4) {
+      if (validateStep(1) && validateStep(2) && validateStep(3)) {
+        setCurrentStep(4);
+        triggerHaptic(hapticPatterns.light);
+        feedbackSounds.click();
+      } else {
+        triggerHaptic(hapticPatterns.error);
+        feedbackSounds.error();
+      }
     }
   };
 
@@ -203,7 +226,7 @@ export default function Registration() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!validateStep(3)) {
+    if (!validateStep(4)) {
       triggerHaptic(hapticPatterns.error);
       feedbackSounds.error();
       return;
@@ -221,14 +244,20 @@ export default function Registration() {
     }, 2200);
   };
 
-  // Calculate dynamic Integrity complete index
+  // Calculate dynamic Integrity complete index based on required fields
   const calculateIntegrityPercent = () => {
-    let filled = 0;
-    const total = Object.keys(formData).length;
-    Object.values(formData).forEach(val => {
-      if (typeof val === 'string' && val.trim() !== '') filled++;
+    const requiredKeys = ['firstName', 'lastName', 'email', 'dob', 'participationType', 'experience', 'committee', 'countryPref'];
+    if (formData.participationType === 'school') {
+      requiredKeys.push('institution');
+    }
+    let filledRequired = 0;
+    requiredKeys.forEach(key => {
+      const val = formData[key as keyof typeof formData];
+      if (val && typeof val === 'string' && val.trim() !== '') {
+        filledRequired++;
+      }
     });
-    return Math.round((filled / total) * 100);
+    return Math.round((filledRequired / requiredKeys.length) * 100);
   };
 
   return (
@@ -363,7 +392,8 @@ export default function Registration() {
                             <span className="text-xl sm:text-2xl font-black font-headline tracking-tight text-on-surface">
                               {currentStep === 1 && "Identity Node"}
                               {currentStep === 2 && "Representation Bounds"}
-                              {currentStep === 3 && "Final Endorsement"}
+                              {currentStep === 3 && "Personal & Social Insights"}
+                              {currentStep === 4 && "Final Endorsement"}
                             </span>
                           </div>
                           
@@ -384,14 +414,14 @@ export default function Registration() {
                           {/* Active completed path overlay */}
                           <motion.div 
                             className="absolute left-0 top-[2.1rem] -translate-y-1/2 h-[3px] bg-gradient-to-r from-primary to-secondary z-0 rounded-full"
-                            animate={{ width: `${(currentStep - 1) * 50}%` }}
+                            animate={{ width: `${(currentStep - 1) * 33.333}%` }}
                             transition={{ duration: 0.4 }}
                           />
 
                           {/* Node Step Indicators */}
-                          {([1, 2, 3] as const).map((step) => {
+                          {([1, 2, 3, 4] as const).map((step) => {
                             const isActive = currentStep === step;
-                            const isCompleted = currentStep > step || (step === 3 && calculateIntegrityPercent() === 100);
+                            const isCompleted = currentStep > step || (step === 4 && calculateIntegrityPercent() === 100);
                             
                             return (
                               <button
@@ -415,7 +445,7 @@ export default function Registration() {
                                 >
                                   {isCompleted ? (
                                     <CheckCircle className="w-5 h-5 font-bold" />
-                                  ) : step === 3 && currentStep < 3 ? (
+                                  ) : step > currentStep ? (
                                     <Lock className="w-4 h-4 text-on-surface-variant/40" />
                                   ) : (
                                     <span className="text-xs font-black font-headline">{step}</span>
@@ -426,7 +456,8 @@ export default function Registration() {
                                 }`}>
                                   {step === 1 && "Identity"}
                                   {step === 2 && "Profile"}
-                                  {step === 3 && "Assignment"}
+                                  {step === 3 && "Insights"}
+                                  {step === 4 && "Assignment"}
                                 </span>
                               </button>
                             );
@@ -450,7 +481,7 @@ export default function Registration() {
                         animate={{ opacity: 1, x: 0 }}
                         exit={{ opacity: 0, x: -25 }}
                         transition={{ duration: 0.35 }}
-                        onSubmit={currentStep === 3 ? handleSubmit : (e) => { e.preventDefault(); handleNext(); }}
+                        onSubmit={(e) => { e.preventDefault(); if (currentStep === 4) { handleSubmit(e); } else { handleNext(); } }}
                         className="space-y-6 md:space-y-8"
                         noValidate
                       >
@@ -564,8 +595,85 @@ export default function Registration() {
                           </div>
                         )}
 
-                        {/* STEP 3: Summit Mission Designation */}
+                        {/* STEP 3: To Know the Delegates More */}
                         {currentStep === 3 && (
+                          <div className="space-y-6">
+                            <div className="text-left mb-2">
+                              <h3 className="text-sm font-bold text-primary font-headline uppercase tracking-wider">Social Connectivity & Insights</h3>
+                              <p className="text-xs text-on-surface-variant mt-1 leading-relaxed">
+                                Most of these details are optional, but highly recommended so we can contact you, coordinate with delegation leaders, and help chairs craft your experience.
+                              </p>
+                            </div>
+                            
+                            <div className="grid sm:grid-cols-2 gap-6">
+                              <SpotlightInput 
+                                id="phone" 
+                                label="Phone Number" 
+                                Icon={Phone} 
+                                type="tel"
+                                placeholder="e.g. +1 (555) 0122"
+                                value={formData.phone}
+                                onChange={handleInputChange}
+                                onFocusStateChange={setFocusedField}
+                                error={errors.phone}
+                              />
+                              <SpotlightInput 
+                                id="instagram" 
+                                label="Instagram Handle" 
+                                Icon={Instagram} 
+                                placeholder="e.g. @username"
+                                value={formData.instagram}
+                                onChange={handleInputChange}
+                                onFocusStateChange={setFocusedField}
+                                error={errors.instagram}
+                              />
+                            </div>
+
+                            <SpotlightInput 
+                              id="socials" 
+                              label="Other Socials or Portfolio Link" 
+                              Icon={Share2} 
+                              placeholder="e.g. linkedin.com/in/username"
+                              value={formData.socials}
+                              onChange={handleInputChange}
+                              onFocusStateChange={setFocusedField}
+                              error={errors.socials}
+                            />
+
+                            <SpotlightSelect 
+                              id="hearAbout" 
+                              label="How did you hear about us?" 
+                              Icon={Compass} 
+                              value={formData.hearAbout}
+                              onChange={handleInputChange}
+                              onFocusStateChange={setFocusedField}
+                              error={errors.hearAbout}
+                              options={[
+                                { value: '', label: 'Select an option' },
+                                { value: 'advisor', label: 'School MUN / Academic Advisor' },
+                                { value: 'social', label: 'Social Media Platform / Ads' },
+                                { value: 'friend', label: 'Word of Mouth / Friend' },
+                                { value: 'search', label: 'Web Search Engine' },
+                                { value: 'past', label: 'Past Attendee Recommendation' },
+                                { value: 'other', label: 'Other Referral Source' }
+                              ]}
+                            />
+
+                            <SpotlightInput 
+                              id="motivation" 
+                              label="Special Skills & Expectations" 
+                              Icon={Sparkles} 
+                              placeholder="e.g. What are you most excited for?"
+                              value={formData.motivation}
+                              onChange={handleInputChange}
+                              onFocusStateChange={setFocusedField}
+                              error={errors.motivation}
+                            />
+                          </div>
+                        )}
+
+                        {/* STEP 4: Summit Mission Designation */}
+                        {currentStep === 4 && (
                           <div className="space-y-6">
                             <SpotlightSelect 
                               id="committee" 
@@ -625,7 +733,7 @@ export default function Registration() {
                                 />
                               ) : (
                                 <>
-                                  <span>{currentStep === 3 ? "Lock Credential & Submit" : "Next Milestone"}</span>
+                                  <span>{currentStep === 4 ? "Lock Credential & Submit" : "Next Milestone"}</span>
                                   <ArrowRight className="w-4 h-4 md:w-5 md:h-5 group-hover:translate-x-1 transition-transform" />
                                 </>
                               )}
@@ -697,6 +805,11 @@ export default function Registration() {
                               participationType: '', 
                               institution: '', 
                               experience: '', 
+                              phone: '',
+                              instagram: '',
+                              socials: '',
+                              hearAbout: '',
+                              motivation: '',
                               committee: '', 
                               countryPref: '' 
                             });
