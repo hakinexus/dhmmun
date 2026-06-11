@@ -465,14 +465,7 @@ export default function Registration() {
                         </div>
                       </div>
 
-                      {/* Decryption Active Humble Indicator Banner (Architectural Honesty) */}
-                      <div className="flex items-center justify-between text-[9px] font-mono p-3 bg-zinc-100/50 dark:bg-zinc-800/20 border border-zinc-200/50 dark:border-zinc-800/20 rounded-xl">
-                        <div className="flex items-center gap-1.5 text-on-surface-variant/70">
-                          <div className="w-1.5 h-1.5 bg-primary rounded-full animate-ping shrink-0" />
-                          <span>Dossier local secure backup state: SYNC_COMPLETE</span>
-                        </div>
-                        <span className="text-primary font-bold">SESSION_ID // active</span>
-                      </div>
+
 
                       {/* Main Dynamic Step Form Fields */}
                       <motion.form 
