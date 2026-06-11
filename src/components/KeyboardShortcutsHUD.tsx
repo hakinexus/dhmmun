@@ -153,33 +153,6 @@ export default function KeyboardShortcutsHUD() {
 
   return (
     <>
-      {/* Floating Action Trigger Hub */}
-      <div className="fixed bottom-6 left-6 md:left-10 z-50 group">
-        <motion.button
-          onClick={() => {
-            triggerHaptic(hapticPatterns.light);
-            feedbackSounds.click();
-            setIsOpen(true);
-          }}
-          whileHover={{ scale: 1.1, rotate: 6 }}
-          whileTap={{ scale: 0.95 }}
-          className="relative w-12 h-12 rounded-full flex items-center justify-center bg-white/80 dark:bg-[#0c0d12]/80 backdrop-blur-3xl border border-zinc-200/50 dark:border-zinc-800/40 text-primary shadow-[0_12px_40px_rgba(0,0,0,0.08)] dark:shadow-[0_12px_40px_rgba(0,0,0,0.35)] cursor-pointer"
-          aria-label="Open Command Deck Shortcuts"
-          id="shortcuts_fab_button"
-        >
-          <Keyboard className="w-5 h-5 text-primary" />
-          <span className="absolute -top-1 -right-1 flex h-3 w-3">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-3 w-3 bg-primary"></span>
-          </span>
-        </motion.button>
-        
-        {/* Tooltip on right-hover */}
-        <span className="absolute left-14 top-1/2 -translate-y-1/2 ml-2 px-3 py-1.5 bg-black/85 text-white text-[10px] sm:text-xs font-bold rounded-lg opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap shadow-md">
-          Press <kbd className="font-mono text-[9px] bg-white/20 px-1 py-0.5 rounded border border-white/20">?</kbd> for Shortcuts
-        </span>
-      </div>
-
       {/* Floating Active Shortcut Indicator (Pure God-Level Polish) */}
       <AnimatePresence>
         {lastShortcut && (
@@ -187,7 +160,7 @@ export default function KeyboardShortcutsHUD() {
             initial={{ opacity: 0, y: 50, scale: 0.9 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, scale: 0.8 }}
-            className="fixed bottom-24 left-6 md:left-10 z-[101] bg-primary text-on-primary border border-primary/20 backdrop-blur-xl px-4 py-2.5 rounded-xl shadow-[0_10px_30px_rgba(var(--color-primary),0.3)] flex items-center gap-2"
+            className="fixed bottom-10 left-6 md:left-10 z-[101] bg-primary text-on-primary border border-primary/20 backdrop-blur-xl px-4 py-2.5 rounded-xl shadow-[0_10px_30px_rgba(var(--color-primary),0.3)] flex items-center gap-2"
           >
             <Zap className="w-4 h-4 animate-bounce text-on-primary" />
             <span className="text-xs font-mono font-medium tracking-wide">{lastShortcut}</span>
@@ -307,7 +280,7 @@ export default function KeyboardShortcutsHUD() {
                           <span className="text-xs font-semibold text-on-surface">Previous Step</span>
                           <span className="text-[10px] text-on-surface-variant/70 font-body">Retreat one node back</span>
                         </div>
-                        <kbd className="px-2 py-1 bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 shadow-sm rounded-lg text-xs font-mono font-bold text-on-surface">Alt + P</kbd>
+                        <kbd className="px-2 py-1 bg-white dark:bg-zinc-800 border border-zinc-200/70 shadow-sm rounded-lg text-xs font-mono font-bold text-on-surface">Alt + P</kbd>
                       </div>
                       
                       <div className="flex justify-between items-center p-3 bg-zinc-50 dark:bg-zinc-900/30 border border-zinc-200/50 dark:border-zinc-800/20 rounded-xl">
@@ -369,7 +342,7 @@ export default function KeyboardShortcutsHUD() {
               {/* Console Footprint Indicator (Pure architectural honesty) */}
               <div className="mt-8 pt-4 border-t border-zinc-200/80 dark:border-zinc-800/30 flex items-center justify-between text-[10px] font-mono text-on-surface-variant/60">
                 <span>COMMAND_HUB: RESOLVED</span>
-                <span>BUILD: v0.9.10</span>
+                <span>BUILD: v0.9.101</span>
               </div>
             </motion.div>
           </div>
