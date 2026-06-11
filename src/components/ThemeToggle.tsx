@@ -87,7 +87,6 @@ export default function ThemeToggle({ className = "" }: { className?: string }) 
 
       {/* Elastic, Glowing Minimalist Sliding Thumb */}
       <motion.div
-        layout
         className={`w-[24px] h-[24px] rounded-full z-10 flex items-center justify-center border transition-all duration-300 pointer-events-none overflow-hidden ${
           isDark 
             ? "border-zinc-700/60 bg-gradient-to-br from-zinc-800 to-zinc-900 shadow-[0_2px_8px_rgba(0,0,0,0.5)]" 
