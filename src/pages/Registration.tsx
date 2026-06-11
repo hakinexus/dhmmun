@@ -260,6 +260,128 @@ export default function Registration() {
     return Math.round((filledRequired / requiredKeys.length) * 100);
   };
 
+  // 3. Command Deck Custom Keyboard Event Integration (God Mode)
+  useEffect(() => {
+    const handleNextStepEvent = () => {
+      if (currentStep === 4) {
+        const virtualEvent = { preventDefault: () => {} } as React.FormEvent;
+        handleSubmit(virtualEvent);
+      } else {
+        handleNext();
+      }
+    };
+
+    const handlePrevStepEvent = () => {
+      if (currentStep > 1) {
+        handlePrev();
+      }
+    };
+
+    const handleGoStepEvent = (e: Event) => {
+      const customEvent = e as CustomEvent<{ step: Step }>;
+      if (customEvent.detail && customEvent.detail.step) {
+        handleStepJump(customEvent.detail.step);
+      }
+    };
+
+    const handleAutofillEvent = () => {
+      const sampleProfiles = [
+        {
+          firstName: "Jean-Luc",
+          lastName: "Picard",
+          email: "picard.starfleet@un.org",
+          dob: "13/07/2002",
+          participationType: "individual",
+          institution: "",
+          experience: "advanced",
+          phone: "+44 7911 123456",
+          instagram: "@jl_picard_mun",
+          socials: "linkedin.com/in/jl-picard",
+          hearAbout: "past",
+          motivation: "Eager to draft resolution paradigms for galactic governance and humanitarian security corridors.",
+          committee: "unsc",
+          countryPref: "France"
+        },
+        {
+          firstName: "Suhana",
+          lastName: "Devi",
+          email: "suhana.devi@oxford.edu",
+          dob: "24/09/2004",
+          participationType: "school",
+          institution: "Oxford Diplomatic Society",
+          experience: "advanced",
+          phone: "+44 1865 270000",
+          instagram: "@suhana_mun",
+          socials: "github.com/suhana-devi",
+          hearAbout: "friend",
+          motivation: "Aiming to represent developing nations in WHO health systems funding models.",
+          committee: "who",
+          countryPref: "India"
+        },
+        {
+          firstName: "Marcus",
+          lastName: "Vance",
+          email: "marcus.vance@yale.edu",
+          dob: "15/12/2003",
+          participationType: "school",
+          institution: "Yale Association for UN",
+          experience: "intermediate",
+          phone: "+1 (203) 432-4771",
+          instagram: "@marcusv_yale",
+          socials: "linkedin.com/in/marcus-vance",
+          hearAbout: "advisor",
+          motivation: "Keen on crisis communication simulators and high-vulnerability national strategy drafting.",
+          committee: "crisis",
+          countryPref: "United States"
+        }
+      ];
+
+      const randomProfile = sampleProfiles[Math.floor(Math.random() * sampleProfiles.length)];
+      setFormData(randomProfile);
+      setErrors({});
+      triggerHaptic(hapticPatterns.success);
+      feedbackSounds.success();
+    };
+
+    const handleClearEvent = () => {
+      localStorage.removeItem('dhmmun_registration_draft');
+      setFormData({
+        firstName: '',
+        lastName: '',
+        email: '',
+        dob: '',
+        participationType: '',
+        institution: '',
+        experience: '',
+        phone: '',
+        instagram: '',
+        socials: '',
+        hearAbout: '',
+        motivation: '',
+        committee: '',
+        countryPref: ''
+      });
+      setErrors({});
+      setCurrentStep(1);
+      triggerHaptic(hapticPatterns.error);
+      feedbackSounds.error();
+    };
+
+    window.addEventListener('dhmmun-next-step', handleNextStepEvent);
+    window.addEventListener('dhmmun-prev-step', handlePrevStepEvent);
+    window.addEventListener('dhmmun-go-step', handleGoStepEvent);
+    window.addEventListener('dhmmun-autofill-demo', handleAutofillEvent);
+    window.addEventListener('dhmmun-clear-draft', handleClearEvent);
+
+    return () => {
+      window.removeEventListener('dhmmun-next-step', handleNextStepEvent);
+      window.removeEventListener('dhmmun-prev-step', handlePrevStepEvent);
+      window.removeEventListener('dhmmun-go-step', handleGoStepEvent);
+      window.removeEventListener('dhmmun-autofill-demo', handleAutofillEvent);
+      window.removeEventListener('dhmmun-clear-draft', handleClearEvent);
+    };
+  }, [currentStep, formData]);
+
   return (
     <main className="relative min-h-screen flex items-center justify-center pt-32 sm:pt-36 md:pt-40 pb-16 md:pb-24 overflow-x-hidden selection:bg-primary/30">
       
