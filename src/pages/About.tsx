@@ -953,7 +953,7 @@ export default function About() {
         >
           <div className="absolute inset-0">
             <img 
-              src="https://lh3.googleusercontent.com/aida-public/AB6AXuAzTicZQfoqIhvyIDG2wbn2V_nWpaVqambiyHlabWvPRbfnQeAgMDHOGxfXJsJ2ALfbzYS7rRu56Y9x-TO9_4nzJDPTcwC-C0j_5BWIzsvJ56Tsyu9OPwU6Xs1BSWbdlKW18CK2bKoUTHhpDW5lg0_isL9e8tFl2NnOPQrOdzsd7SyEUKAEQYDDw_XA0SsokjuI6mvuVCPNrlc7l25Q_bFl3onQx9zkboFsWUrbEv-BKkTtsMle_gqXCk7aASqdoLvTMVJQoV63dFM" 
+              src="/venue.png" 
               alt="Downe House Muscat Campus" 
               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-1000"
               referrerPolicy="no-referrer"

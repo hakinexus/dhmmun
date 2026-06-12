@@ -126,8 +126,9 @@ export default function Home() {
             <div className="absolute inset-0 z-0">
               <img 
                 className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" 
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuAzTicZQfoqIhvyIDG2wbn2V_nWpaVqambiyHlabWvPRbfnQeAgMDHOGxfXJsJ2ALfbzYS7rRu56Y9x-TO9_4nzJDPTcwC-C0j_5BWIzsvJ56Tsyu9OPwU6Xs1BSWbdlKW18CK2bKoUTHhpDW5lg0_isL9e8tFl2NnOPQrOdzsd7SyEUKAEQYDDw_XA0SsokjuI6mvuVCPNrlc7l25Q_bFl3onQx9zkboFsWUrbEv-BKkTtsMle_gqXCk7aASqdoLvTMVJQoV63dFM"
-                alt="Modern geometric conference hall"
+                src="/venue.png"
+                alt="Modern geometric conference hall at Downe House Muscat"
+                referrerPolicy="no-referrer"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/35 to-transparent z-10"></div>
             </div>
@@ -263,7 +264,12 @@ export default function Home() {
             className="w-full md:w-1/2 aspect-video rounded-lg overflow-hidden border border-outline-variant/20"
             style={{ boxShadow: 'var(--image-shadow)' }}
           >
-            <img className="w-full h-full object-cover hover:scale-105 transition-transform duration-1000" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAMxn6LYxHpdxETolh1oUHgd5xYzGaGRXCut0uPgHw7MciOsbw_1Exf2PNMga8f_HvE2DU02eXABQfwFiSsjh0RZJGeK0HOcIxhjtY5Bxvc51iURZVf6ibQbiEMvHhHYn2-bSX2RevN5apNJVghUZ4mRxQtumqyWpGCsBihIB6ygOkb-E24BcDxhwsGm7KpiYoly7hx63vV5mDto7p0_CnDZt1UDEGNdW_ZTAOEymPN_QLItX0JHwR3y86OJ9xLzQyWl4qs8EI6bsY" alt="Muscat" />
+            <img 
+              className="w-full h-full object-cover hover:scale-105 transition-transform duration-1000" 
+              src="/venue.png" 
+              alt="Downe House Muscat Venue" 
+              referrerPolicy="no-referrer"
+            />
           </motion.div>
         </div>
       </section>

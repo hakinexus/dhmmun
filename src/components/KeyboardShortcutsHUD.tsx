@@ -342,7 +342,7 @@ export default function KeyboardShortcutsHUD() {
               {/* Console Footprint Indicator (Pure architectural honesty) */}
               <div className="mt-8 pt-4 border-t border-zinc-200/80 dark:border-zinc-800/30 flex items-center justify-between text-[10px] font-mono text-on-surface-variant/60">
                 <span>COMMAND_HUB: RESOLVED</span>
-                <span>BUILD: v0.9.101</span>
+                <span>BUILD: v0.9.11</span>
               </div>
             </motion.div>
           </div>
