@@ -64,7 +64,7 @@ export default function Registration() {
 
   // 1. Persistent Micro-Draft Restore Trigger
   useEffect(() => {
-    const savedDraft = localStorage.getItem('dhmmun_registration_draft');
+    const savedDraft = localStorage.getItem('mun_registration_draft');
     if (savedDraft) {
       try {
         const parsed = JSON.parse(savedDraft);
@@ -94,7 +94,7 @@ export default function Registration() {
   // 2. Persistent Auto-Backup Draft Engine Update
   useEffect(() => {
     if (!isSuccess) {
-      localStorage.setItem('dhmmun_registration_draft', JSON.stringify(formData));
+      localStorage.setItem('mun_registration_draft', JSON.stringify(formData));
     }
   }, [formData, isSuccess]);
 
@@ -238,7 +238,7 @@ export default function Registration() {
       setIsSubmitting(false);
       setIsSuccess(true);
       // Clean up backup on completion
-      localStorage.removeItem('dhmmun_registration_draft');
+      localStorage.removeItem('mun_registration_draft');
       triggerHaptic(hapticPatterns.success);
       feedbackSounds.success();
     }, 2200);
@@ -344,7 +344,7 @@ export default function Registration() {
     };
 
     const handleClearEvent = () => {
-      localStorage.removeItem('dhmmun_registration_draft');
+      localStorage.removeItem('mun_registration_draft');
       setFormData({
         firstName: '',
         lastName: '',
@@ -367,18 +367,18 @@ export default function Registration() {
       feedbackSounds.error();
     };
 
-    window.addEventListener('dhmmun-next-step', handleNextStepEvent);
-    window.addEventListener('dhmmun-prev-step', handlePrevStepEvent);
-    window.addEventListener('dhmmun-go-step', handleGoStepEvent);
-    window.addEventListener('dhmmun-autofill-demo', handleAutofillEvent);
-    window.addEventListener('dhmmun-clear-draft', handleClearEvent);
+    window.addEventListener('mun-next-step', handleNextStepEvent);
+    window.addEventListener('mun-prev-step', handlePrevStepEvent);
+    window.addEventListener('mun-go-step', handleGoStepEvent);
+    window.addEventListener('mun-autofill-demo', handleAutofillEvent);
+    window.addEventListener('mun-clear-draft', handleClearEvent);
 
     return () => {
-      window.removeEventListener('dhmmun-next-step', handleNextStepEvent);
-      window.removeEventListener('dhmmun-prev-step', handlePrevStepEvent);
-      window.removeEventListener('dhmmun-go-step', handleGoStepEvent);
-      window.removeEventListener('dhmmun-autofill-demo', handleAutofillEvent);
-      window.removeEventListener('dhmmun-clear-draft', handleClearEvent);
+      window.removeEventListener('mun-next-step', handleNextStepEvent);
+      window.removeEventListener('mun-prev-step', handlePrevStepEvent);
+      window.removeEventListener('mun-go-step', handleGoStepEvent);
+      window.removeEventListener('mun-autofill-demo', handleAutofillEvent);
+      window.removeEventListener('mun-clear-draft', handleClearEvent);
     };
   }, [currentStep, formData]);
 
@@ -892,7 +892,7 @@ export default function Registration() {
                       </h2>
                       
                       <p className="text-sm text-on-surface-variant font-body mb-8 max-w-sm px-4 leading-relaxed">
-                        Verification clearance completed. Welcome to DHMMUN 2026. Credentials assigned safely for <strong>{formData.email}</strong>.
+                        Verification clearance completed. Welcome to SummitMUN 2026. Credentials assigned safely for <strong>{formData.email}</strong>.
                       </p>
 
                       <div className="flex flex-col sm:flex-row gap-4 w-full justify-center max-w-md pt-2">

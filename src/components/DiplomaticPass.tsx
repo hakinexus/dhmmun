@@ -65,11 +65,11 @@ export const DiplomaticPass: React.FC<DiplomaticPassProps> = ({ formData, curren
 
   // Generate a dynamic luxury biometric credential hash based on user details
   const getSerialNumber = () => {
-    if (!formData.firstName && !formData.lastName) return "DHMMUN-2026-PENDING";
-    const initials = `${formData.firstName?.[0] || 'D'}${formData.lastName?.[0] || 'H'}`.toUpperCase();
+    if (!formData.firstName && !formData.lastName) return "MUN-2026-PENDING";
+    const initials = `${formData.firstName?.[0] || 'D'}${formData.lastName?.[0] || 'G'}`.toUpperCase();
     const length = formData.email ? formData.email.length : 12;
     const hexCode = (length * 7919).toString(16).toUpperCase();
-    return `DH-26-${initials}-${hexCode}`;
+    return `SM-26-${initials}-${hexCode}`;
   };
 
   const getClearanceLevel = () => {
@@ -144,7 +144,7 @@ export const DiplomaticPass: React.FC<DiplomaticPassProps> = ({ formData, curren
                 <Shield className="w-4 h-4 xs:w-5 xs:h-5 text-primary animate-pulse" />
               </div>
               <div className="flex flex-col text-left">
-                <span className="text-[10px] xs:text-xs font-bold tracking-widest text-primary font-headline uppercase leading-none">DHMMUN 2026</span>
+                <span className="text-[10px] xs:text-xs font-bold tracking-widest text-primary font-headline uppercase leading-none">SummitMUN 2026</span>
                 <span className="text-[7px] xs:text-[9px] text-on-surface-variant/70 font-mono tracking-wider font-bold mt-1">DIPLOMATIC CREDENTIAL</span>
               </div>
             </div>
@@ -183,7 +183,7 @@ export const DiplomaticPass: React.FC<DiplomaticPassProps> = ({ formData, curren
                 {formData.firstName || formData.lastName ? `${formData.firstName} ${formData.lastName}` : "UNASSIGNED APPLICANT"}
               </div>
               <div className="text-[8px] xs:text-[10px] text-on-surface-variant/80 truncate font-mono max-w-[120px] xs:max-w-[170px]">
-                {formData.email || "email.authentication@dhmmun.org"}
+                {formData.email || "delegate@conference.org"}
               </div>
               <div className="flex items-center gap-1 text-[8px] xs:text-[9px] text-on-surface-variant/60">
                 <Building className="w-2.5 h-2.5 xs:w-3 xs:h-3 text-secondary" />

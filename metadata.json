@@ -1,5 +1,6 @@
 {
-  "name": "DHMMUN",
-  "description": "DHMMUN (Model United Nations) official platform featuring a cinematic delegate registration wizard, immersive UI/UX, and robust application engine.",
-  "requestFramePermissions": []
+  "name": "SummitMUN - Model United Nations Conference & Summit Template",
+  "description": "A high-performance, open-source Model United Nations (MUN) and diplomatic conference web template featuring an interactive holographic pass, live delegate registration wizard, dynamic committee bento grids, and ambient audio.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }

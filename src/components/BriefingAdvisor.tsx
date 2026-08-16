@@ -138,7 +138,7 @@ export const BriefingAdvisor: React.FC<BriefingAdvisorProps> = ({ activeField, c
             color: "text-primary",
             bg: "bg-primary/10",
             border: "border-primary/20",
-            message: "Identify yourself to initiate secure entry to DHMMUN. All inputs are local-saved in high-performance background sandbox micro-drafts."
+            message: "Identify yourself to initiate secure entry to the conference. All inputs are saved in high-performance local micro-drafts."
           };
         } else if (currentStep === 2) {
           return {

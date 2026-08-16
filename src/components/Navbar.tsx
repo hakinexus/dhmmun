@@ -180,9 +180,9 @@ export default function Navbar() {
               navigate('/');
             }}
             whileTap={{ scale: 0.95 }}
-            className="text-2xl font-black tracking-tighter text-primary font-headline cursor-pointer hover:opacity-80 transition-all select-none"
+            className="flex items-center gap-2 text-2xl font-black tracking-tighter text-primary font-headline cursor-pointer hover:opacity-80 transition-all select-none"
           >
-            DHMMUN
+            <span>SummitMUN</span>
           </motion.div>
 
           {/* Desktop Navigation */}

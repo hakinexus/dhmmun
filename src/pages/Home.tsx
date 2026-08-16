@@ -42,7 +42,7 @@ export default function Home() {
             transition={{ duration: 0.8, delay: 3.2, ease: "easeOut" }}
             className="max-w-3xl mx-auto text-on-surface-variant text-lg md:text-2xl font-body leading-relaxed mb-12 md:mb-16 opacity-90 font-light"
           >
-            Experience the next generation of global discourse at Downe House Muscat. Where traditional diplomacy meets the transparency of the future.
+            Experience the next generation of global discourse at our premier summit. Where traditional diplomacy meets the transparency of the future.
           </motion.p>
           
           <motion.div 
@@ -127,7 +127,7 @@ export default function Home() {
               <img 
                 className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" 
                 src="/venue.png"
-                alt="Modern geometric conference hall at Downe House Muscat"
+                alt="Modern geometric conference assembly hall"
                 referrerPolicy="no-referrer"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/35 to-transparent z-10"></div>
@@ -199,7 +199,7 @@ export default function Home() {
               <ScrollTextAnimation delay={0.2}>
                 <h3 className="split-target text-4xl font-headline font-bold mb-4 group-hover:font-black transition-all duration-500">The Pinnacle of Diplomacy</h3>
                 <p className="split-target text-on-surface-variant text-lg leading-relaxed mb-8">
-                  Hosted at Downe House Muscat, our conference maintains the highest standards of research and debate, supported by expert chairs and prestigious keynote speakers.
+                  Hosted at our international diplomatic venue, our conference maintains the highest standards of research and debate, supported by expert chairs and prestigious keynote speakers.
                 </p>
               </ScrollTextAnimation>
               <div className="grid grid-cols-2 gap-8">
@@ -243,12 +243,12 @@ export default function Home() {
           >
             <h2 className="text-5xl font-headline font-bold tracking-tight group-hover:font-black transition-all duration-500">The Venue</h2>
             <p className="text-xl text-on-surface-variant leading-relaxed">
-              Downe House Muscat offers an architectural masterpiece as the backdrop for our delegates. A fusion of Omani heritage and modern educational excellence.
+              Our state-of-the-art summit center offers an architectural masterpiece as the backdrop for our delegates. A fusion of world-class facilities and modern educational excellence.
             </p>
             <ul className="space-y-4">
               <li className="flex items-center gap-4 text-on-surface">
                 <MapPin className="text-primary w-6 h-6" />
-                <span>Muscat, Oman</span>
+                <span>Grand Convention Center</span>
               </li>
               <li className="flex items-center gap-4 text-on-surface">
                 <Building className="text-primary w-6 h-6" />
@@ -267,7 +267,7 @@ export default function Home() {
             <img 
               className="w-full h-full object-cover hover:scale-105 transition-transform duration-1000" 
               src="/venue.png" 
-              alt="Downe House Muscat Venue" 
+              alt="Conference Venue Hall" 
               referrerPolicy="no-referrer"
             />
           </motion.div>

@@ -85,14 +85,14 @@ export default function KeyboardShortcutsHUD() {
         // Enter Advance/Submit (Ctrl + Enter / Cmd + Enter), even when typing
         if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
           e.preventDefault();
-          window.dispatchEvent(new CustomEvent('dhmmun-next-step'));
+          window.dispatchEvent(new CustomEvent('mun-next-step'));
           triggerShortcutFeedback('Ctrl+Enter: Advance Page');
         }
 
         // Fill Demo / Sample simulation dataset (Alt + D or Ctrl + Alt + D)
         if ((e.altKey || e.ctrlKey) && e.key.toLowerCase() === 'd') {
           e.preventDefault();
-          window.dispatchEvent(new CustomEvent('dhmmun-autofill-demo'));
+          window.dispatchEvent(new CustomEvent('mun-autofill-demo'));
           triggerShortcutFeedback('Alt + D: Simulated Geopolitical Credential Loader');
         }
 
@@ -100,35 +100,35 @@ export default function KeyboardShortcutsHUD() {
         if (e.altKey && (e.key === '1' || e.key === '2' || e.key === '3' || e.key === '4')) {
           e.preventDefault();
           const targetStep = parseInt(e.key, 10);
-          window.dispatchEvent(new CustomEvent('dhmmun-go-step', { detail: { step: targetStep } }));
+          window.dispatchEvent(new CustomEvent('mun-go-step', { detail: { step: targetStep } }));
           triggerShortcutFeedback(`Alt + ${e.key}: Force-Jump to Dossier Step ${e.key}`);
         }
 
         // Clear Draft (Ctrl + Alt + X)
         if (e.altKey && e.key.toLowerCase() === 'x') {
           e.preventDefault();
-          window.dispatchEvent(new CustomEvent('dhmmun-clear-draft'));
+          window.dispatchEvent(new CustomEvent('mun-clear-draft'));
           triggerShortcutFeedback('Alt + X: Purge Draft Cache');
         }
 
         // Previous Step (Alt + P or Alt + B or Backspace/LeftArrow when not typing)
         if (e.altKey && (e.key.toLowerCase() === 'p' || e.key.toLowerCase() === 'b')) {
           e.preventDefault();
-          window.dispatchEvent(new CustomEvent('dhmmun-prev-step'));
+          window.dispatchEvent(new CustomEvent('mun-prev-step'));
           triggerShortcutFeedback('Alt + P: Previous Page');
         }
 
         // Left Arrow navigation when NOT typing
         if (!isTyping && e.key === 'ArrowLeft') {
           e.preventDefault();
-          window.dispatchEvent(new CustomEvent('dhmmun-prev-step'));
+          window.dispatchEvent(new CustomEvent('mun-prev-step'));
           triggerShortcutFeedback('← Arrow: Previous Page');
         }
 
         // Right Arrow navigation when NOT typing
         if (!isTyping && e.key === 'ArrowRight') {
           e.preventDefault();
-          window.dispatchEvent(new CustomEvent('dhmmun-next-step'));
+          window.dispatchEvent(new CustomEvent('mun-next-step'));
           triggerShortcutFeedback('→ Arrow: Next Page');
         }
       }
@@ -341,8 +341,8 @@ export default function KeyboardShortcutsHUD() {
 
               {/* Console Footprint Indicator (Pure architectural honesty) */}
               <div className="mt-8 pt-4 border-t border-zinc-200/80 dark:border-zinc-800/30 flex items-center justify-between text-[10px] font-mono text-on-surface-variant/60">
-                <span>COMMAND_HUB: RESOLVED</span>
-                <span>BUILD: v0.9.11</span>
+                <span>COMMAND_HUB: ACTIVE</span>
+                <span>TEMPLATE: v1.0.0</span>
               </div>
             </motion.div>
           </div>

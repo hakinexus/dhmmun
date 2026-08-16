@@ -171,7 +171,7 @@ export default function HeroTextAnimation() {
   return (
     <div className="relative w-full group select-none" ref={containerRef}>
       <h1 className="font-headline text-7xl md:text-[10rem] tracking-tighter text-on-surface mb-6 leading-[0.9] chromatic-hover">
-        <div className="split-target font-black text-glow drop-shadow-2xl pb-2 md:pb-4">DHMMUN</div>
+        <div className="split-target font-black text-glow drop-shadow-2xl pb-2 md:pb-4">SummitMUN</div>
         <div className="split-target font-medium hover:font-black transition-all duration-700 text-transparent bg-clip-text bg-gradient-to-r from-primary via-on-primary-container to-secondary text-5xl md:text-8xl tracking-tight">
           The Fluidity of Diplomacy
         </div>
